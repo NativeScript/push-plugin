@@ -1,0 +1,11 @@
+{ 
+  "name" : "push-plugin",
+  "version": "0.0.1",
+  "main" : "push-plugin.js",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.0.0",
+      "android": "1.0.0"
+    }
+  }
+}
