@@ -12,7 +12,7 @@ The code for the Push Plugin for NativeScript.
 
 - Add the Push Plugin. This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
 
-		tns add plugin C:\nativescript-push\push-plugin
+		tns plugin add C:\nativescript-push\push-plugin
 
 ### Android
 
