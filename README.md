@@ -148,7 +148,7 @@ In case the application doesn't work as expected. Here are some things you can v
 
 
 - OnMessageReceived - subscribe to be called via a listener
-> OnMessageReceivedCallback(callback)
+> onMessageReceived(callback)
 
 
 - OnTokenRefresh - subscribe for the token refresh event
