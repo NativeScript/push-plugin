@@ -3,10 +3,102 @@
 The code for the Push Plugin for NativeScript.
 
 - [API Reference](#api)
-- [Setup](#setup)
+	- [Android](#android-api-reference)
+	- [iOS](#ios-api-reference)
+- [Getting started](#getting-started)
 - [Troubleshooting](#troubleshooting)
 
-## Setup
+## API
+### Android API Reference
+```javascript
+
+	var pushPlugin = require('push-plugin');
+
+```
+
+- Register - use to subscribe the device for Push Notifications (settings.senderID the projectID is mandatory)
+> register(settings, successCallback, errorCallback)
+
+```javascript
+	
+	var settings = {
+		senderID: GOOGLE_PROJECT_ID
+	};
+
+	
+	pushPlugin.register(settings,
+		//Success callback
+		function(){
+			alert('Device registered successfully');
+		},
+		//Error Callback
+		function(error){
+			alert(error.message);
+		}
+	);
+
+```
+
+
+- Unregister - use to unsubscribe from Push Notifications (settings.senderID is the Google ProjectID and it is required so the service knows from which project to unsubscribe)
+> unregister(successCallback, errorCallback, settings)
+```javascript
+	
+	var settings = {
+		senderID: GOOGLE_PROJECT_ID
+	};
+
+	
+	pushPlugin.unregister(
+		//Success callback
+		function(){
+			alert('Device unregistered successfully');
+		},
+		//Error Callback
+		function(error){
+			alert(error.message);
+		},
+		settings
+	);
+
+```
+
+- OnMessageReceived - subscribe to be called via a listener
+> onMessageReceived(callback)
+
+```javascript
+	
+	pushPlugin.onMessageReceived(function(message){
+			alert(message);
+		});
+
+```
+
+
+- OnTokenRefresh - subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
+> onTokenRefresh(callback)
+
+```javascript
+	
+	pushPlugin.onTokenRefresh(function(token){
+			alert(token);
+		});
+
+```
+
+- Are notifications enabled - currently this cannot be checked in meaningful way and will always return true
+> areNotificationsEnabled()
+```javascript
+
+	//Always returns true. this method is kept for legacy purposes.
+	var areNotificationsEnabled = pushPlugin.areNotificationsEnabled();
+
+```
+
+### iOS API Reference
+
+
+## Getting started
 
 - Create a new NativeScript application
 
@@ -136,24 +228,3 @@ In case the application doesn't work as expected. Here are some things you can v
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 ```
-
-## API
-
-- Register - use to subscribe the device for Push Notifications (settings.senderID the projectID is mandatory)
-> register(settings, successCallback, errorCallback)
-
-
-- Unregister - use to unsubscribe from Push Notifications
-> unregister(successCallback, errorCallback)
-
-
-- OnMessageReceived - subscribe to be called via a listener
-> onMessageReceived(callback)
-
-
-- OnTokenRefresh - subscribe for the token refresh event
-> onTokenRefresh(callback)
-
-
-- Are notifications enabled - currently this cannot be checked in meaningful way and will always return true
-> areNotificationsEnabled()
