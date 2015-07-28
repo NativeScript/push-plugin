@@ -16,7 +16,7 @@ The code for the Push Plugin for NativeScript.
 
 ```
 
-- Register - use to subscribe the device for Push Notifications (settings.senderID the projectID is mandatory)
+- ***register*** - use to subscribe the device for Push Notifications (settings.senderID the projectID is mandatory)
 > register(settings, successCallback, errorCallback)
 
 ```javascript
@@ -40,8 +40,9 @@ The code for the Push Plugin for NativeScript.
 ```
 
 
-- Unregister - use to unsubscribe from Push Notifications (settings.senderID is the Google ProjectID and it is required so the service knows from which project to unsubscribe)
+- ***unregister*** - use to unsubscribe from Push Notifications (settings.senderID is the Google ProjectID and it is required so the service knows from which project to unsubscribe)
 > unregister(successCallback, errorCallback, settings)
+
 ```javascript
 	
 	var settings = {
@@ -63,7 +64,7 @@ The code for the Push Plugin for NativeScript.
 
 ```
 
-- OnMessageReceived - subscribe to be called via a listener
+- ***onMessageReceived*** - subscribe to be called via a listener
 > onMessageReceived(callback)
 
 ```javascript
@@ -75,7 +76,7 @@ The code for the Push Plugin for NativeScript.
 ```
 
 
-- OnTokenRefresh - subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
+- ***onTokenRefresh*** - subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
 > onTokenRefresh(callback)
 
 ```javascript
@@ -86,8 +87,9 @@ The code for the Push Plugin for NativeScript.
 
 ```
 
-- Are notifications enabled - currently this cannot be checked in meaningful way and will always return true
+- ***areNotificationsEnabled*** - currently this cannot be checked in meaningful way and will always return true
 > areNotificationsEnabled()
+
 ```javascript
 
 	//Always returns true. this method is kept for legacy purposes.
