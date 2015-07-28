@@ -2,9 +2,9 @@
 
 The code for the Push Plugin for NativeScript.
 
-- [API Reference](#API)
-- [Setup](#Setup)
-- [Troubleshooting](#Troubleshooting)
+- [API Reference](#api)
+- [Setup](#setup)
+- [Troubleshooting](#troubleshooting)
 
 ## Setup
 
