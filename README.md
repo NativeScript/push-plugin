@@ -8,13 +8,12 @@ The code for the Push Plugin for NativeScript.
 
 ## API
 ```javascript
-
 	// Get reference to the push plugin module.
-
 	var pushPlugin = require('nativescript-push-notifications');
 ```
 
 - ***register*** - use to subscribe device for push notifications
+
 > register(settings, successCallback, errorCallback)
 
 ```javascript
@@ -41,7 +40,7 @@ The code for the Push Plugin for NativeScript.
 	pushPlugin.register(settings,
 		// Success callback
 		function(token) {
-            // if we're on android device we have the onMessageReceived function to subscribe
+                        // if we're on android device we have the onMessageReceived function to subscribe
 			// for push notifications
 			if(pushPlugin.onMessageReceived) {
 				pushPlugin.onMessageReceived(settings.notificationCallbackAndroid);
@@ -59,6 +58,7 @@ The code for the Push Plugin for NativeScript.
 
 
 - ***unregister*** - use to unsubscribe from Push Notifications
+
 > unregister(successCallback, errorCallback, settings)
 
 ```javascript
@@ -80,6 +80,7 @@ The code for the Push Plugin for NativeScript.
 ```
 
 - **Register for interactive push notifications (iOS >= 8.0)** - in order to handle interacitve notifications, you have to pass additional settings while registering your device. The message object in the **notificationCallbackIOS** will contain a property with the value of the identifier.
+
 > register(settings, successCallback, errorCallback)
 
 ```javascript
@@ -122,7 +123,8 @@ The code for the Push Plugin for NativeScript.
 			if(pushPlugin.onMessageReceived) {
 				pushPlugin.onMessageReceived(settings.notificationCallbackAndroid);
 			}
-		
+		   
+		        // Register the interactive settings
 			if(settings.interactiveSettings) {
 				pushPlugin.registerUserNotificationSettings(function() {
 					alert('Successfully registered for interactive push.');
@@ -140,6 +142,7 @@ The code for the Push Plugin for NativeScript.
 ```
 
 - ***areNotificationsEnabled*** - check if the notifications for the device are enabled. Returns true/false. Applicable only for iOS, for Android always returns true.
+
 > areNotificationsEnabled(callback)
 
 ```javascript
@@ -151,6 +154,7 @@ The code for the Push Plugin for NativeScript.
 ```
 
 - ***onTokenRefresh*** - Android only, subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
+
 > onTokenRefresh(callback)
 
 ```javascript
@@ -204,6 +208,9 @@ The code for the Push Plugin for NativeScript.
 
 ### iOS
 
+- Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
+        "id": "com.telerik.PushNotificationApp"
+
 - Go to the application folder and add the iOS platform to the application
 
         tns platform add ios
@@ -211,7 +218,7 @@ The code for the Push Plugin for NativeScript.
 - Add sample code in main-view-model.js like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
 
 ```javascript
-	var pushPlugin = require("push-plugin");
+	var pushPlugin = require("nativescript-push-notifications");
 	var self = this;
 	var iosSettings = {
 		iOS: {
@@ -248,13 +255,6 @@ The code for the Push Plugin for NativeScript.
 		self.set("message", "" + JSON.stringify(data));
 	}, function() { });
 ```
- 
-- Open the yourApp.xcodeproj file which has been generated for you by NativeScript in platforms/ios, set the correct bundle identifier and configure your push certificates (i.e. select a Team)
-- Edit the package.json file in the root of application, by changing the bundle identifier to match the one set in the xcodeproject. For example:
-        "id": "com.telerik.PushNotificationApp"
-
-NOTE: If you encounter error like this: "Error registering: no valid 'aps-environment' entitlement string found for application" - this means that the certificates are not correctly set in the xcodeproject. Fix them and try again. The bundle identifier in xcode should be the same as the "id" in the package.json file in the root of the project.
-
 
 ## Troubleshooting
 
@@ -291,3 +291,7 @@ In case the application doesn't work as expected. Here are some things you can v
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 ```
+
+### iOS
+
+- Error "Error registering: no valid 'aps-environment' entitlement string found for application" - this means that the certificates are not correctly set in the xcodeproject. Open the xcodeproject, fix them and you can even run the application from xcode to verify it's setup correctly. The bundle identifier in xcode should be the same as the "id" in the package.json file in the root of the project.
