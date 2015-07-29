@@ -1,7 +1,12 @@
 { 
   "name" : "nativescript-push-notifications",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main" : "push-plugin.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NativeScript/push-plugin.git"
+  },
+  "license": "MIT",
   "nativescript": {
     "platforms": {
       "ios": "1.0.0",

@@ -2,9 +2,116 @@
 
 The code for the Push Plugin for NativeScript.
 
-- [API Reference](#api)
 - [Getting started](#getting-started)
+- [API Reference](#api)
 - [Troubleshooting](#troubleshooting)
+
+
+## Getting started
+
+- Create a new NativeScript application
+
+		tns create MyApp
+
+	or use an existing one.
+
+- Add the Push Plugin (from NPM). This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
+
+		tns plugin add nativescript-push-notifications 
+
+### Android
+
+- Go to the application folder and add the Android platform to the application
+
+		tns platform add android
+
+- Add google play services, as GCM is part of it. It's present in the android-sdk. Add it like this:
+
+		tns library add android C:\Users\your_user_name\AppData\Local\Android\android-sdk\extras\google\google_play_services\libproject\google-play-services_lib\libs
+
+
+- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
+
+```javascript
+	var pushPlugin = require("nativescript-push-notifications");
+	var self = this;
+	pushPlugin.register({ senderID: 'your-google-project-id' }, function (data){
+		self.set("message", "" + JSON.stringify(data));
+	}, function() { });
+	
+	pushPlugin.onMessageReceived(function callback(data) {	
+		self.set("message", "" + JSON.stringify(data));
+	});
+```
+
+- Attach your phone to the PC, ensure "adb devices" command lists it and run the app on the phone:
+
+		tns run android
+
+- The access token is written in the console and in the message area, after subscribing (Look for ObtainTokenThread log record). When sending a notification, the message below the TAP button should be changed with the message received. 
+
+### iOS
+
+- Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
+        "id": "com.telerik.PushNotificationApp"
+
+- Go to the application folder and add the iOS platform to the application
+
+        tns platform add ios
+
+- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
+
+```javascript
+	var pushPlugin = require("nativescript-push-notifications");
+        var self = this;
+        var iosSettings = {
+            badge: true,
+            sound: true,
+            alert: true,
+            interactiveSettings: {
+                actions: [{
+                    identifier: 'READ_IDENTIFIER',
+                    title: 'Read',
+                    activationMode: "foreground",
+                    destructive: false,
+                    authenticationRequired: true
+                }, {
+                    identifier: 'CANCEL_IDENTIFIER',
+                    title: 'Cancel',
+                    activationMode: "foreground",
+                    destructive: true,
+                    authenticationRequired: true
+                }],
+                categories: [{
+                    identifier: 'READ_CATEGORY',
+                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+                }]
+            },
+            notificationCallbackIOS: function (data) {
+                self.set("message", "" + JSON.stringify(data));
+            }
+        };
+
+        pushPlugin.register(iosSettings, function (data) {
+            self.set("message", "" + JSON.stringify(data));
+
+            // Register the interactive settings
+                if(iosSettings.interactiveSettings) {
+                    pushPlugin.registerUserNotificationSettings(function() {
+                        alert('Successfully registered for interactive push.');
+                    }, function(err) {
+                        alert('Error registering for interactive push: ' + JSON.stringify(err));
+                    });
+                }
+        }, function() { });
+```
+
+- Run the code
+
+	tns run ios
+
+- Send notifications
 
 ## API
 ```javascript
@@ -164,112 +271,6 @@ The code for the Push Plugin for NativeScript.
 		});
 
 ```
-
-## Getting started
-
-- Create a new NativeScript application
-
-		tns create MyApp
-
-	or use an existing one.
-
-- Add the Push Plugin (from NPM). This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
-
-		tns plugin add nativescript-push-notifications 
-
-### Android
-
-- Go to the application folder and add the Android platform to the application
-
-		tns platform add android
-
-- Add google play services, as GCM is part of it. It's present in the android-sdk. Add it like this:
-
-		tns library add android C:\Users\your_user_name\AppData\Local\Android\android-sdk\extras\google\google_play_services\libproject\google-play-services_lib\libs
-
-
-- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
-
-```javascript
-	var pushPlugin = require("nativescript-push-notifications");
-	var self = this;
-	pushPlugin.register({ senderID: 'your-google-project-id' }, function (data){
-		self.set("message", "" + JSON.stringify(data));
-	}, function() { });
-	
-	pushPlugin.onMessageReceived(function callback(data) {	
-		self.set("message", "" + JSON.stringify(data));
-	});
-```
-
-- Attach your phone to the PC, ensure "adb devices" command lists it and run the app on the phone:
-
-		tns run android
-
-- The access token is written in the console and in the message area, after subscribing (Look for ObtainTokenThread log record). When sending a notification, the message below the TAP button should be changed with the message received. 
-
-### iOS
-
-- Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
-        "id": "com.telerik.PushNotificationApp"
-
-- Go to the application folder and add the iOS platform to the application
-
-        tns platform add ios
-
-- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
-
-```javascript
-	var pushPlugin = require("nativescript-push-notifications");
-        var self = this;
-        var iosSettings = {
-            badge: true,
-            sound: true,
-            alert: true,
-            interactiveSettings: {
-                actions: [{
-                    identifier: 'READ_IDENTIFIER',
-                    title: 'Read',
-                    activationMode: "foreground",
-                    destructive: false,
-                    authenticationRequired: true
-                }, {
-                    identifier: 'CANCEL_IDENTIFIER',
-                    title: 'Cancel',
-                    activationMode: "foreground",
-                    destructive: true,
-                    authenticationRequired: true
-                }],
-                categories: [{
-                    identifier: 'READ_CATEGORY',
-                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-                }]
-            },
-            notificationCallbackIOS: function (data) {
-                self.set("message", "" + JSON.stringify(data));
-            }
-        };
-
-        pushPlugin.register(iosSettings, function (data) {
-            self.set("message", "" + JSON.stringify(data));
-
-            // Register the interactive settings
-                if(iosSettings.interactiveSettings) {
-                    pushPlugin.registerUserNotificationSettings(function() {
-                        alert('Successfully registered for interactive push.');
-                    }, function(err) {
-                        alert('Error registering for interactive push: ' + JSON.stringify(err));
-                    });
-                }
-        }, function() { });
-```
-
-- Run the code
-
-	tns run ios
-
-- Send notifications
 
 ## Troubleshooting
 
