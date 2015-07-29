@@ -3,35 +3,53 @@
 The code for the Push Plugin for NativeScript.
 
 - [API Reference](#api)
-	- [Android](#android-api-reference)
-	- [iOS](#ios-api-reference)
 - [Getting started](#getting-started)
 - [Troubleshooting](#troubleshooting)
 
 ## API
-### Android API Reference
 ```javascript
 
-	var pushPlugin = require('push-plugin');
+	// Get reference to the push plugin module.
 
+	var pushPlugin = require('nativescript-push-notifications');
 ```
 
-- ***register*** - use to subscribe the device for Push Notifications (settings.senderID the projectID is mandatory)
+- ***register*** - use to subscribe device for push notifications
 > register(settings, successCallback, errorCallback)
 
 ```javascript
 	
 	var settings = {
-		senderID: GOOGLE_PROJECT_ID
+		// Android settings
+		senderID: GOOGLE_PROJECT_ID, // Android: Required setting with the sender/project id
+		notificationCallbackAndroid: function(message) { // Android: Callback to invoke when a new push is received.
+        	alert(JSON.stringify(message));
+        },
+
+		// iOS settings
+        badge: true, // Enable setting badge through Push Notification
+        sound: true, // Enable playing a sound
+        alert: true, // Enable creating a alert
+
+        // Callback to invoke, when a push is received on iOS
+        notificationCallbackIOS: function(message) {
+        	alert(JSON.stringify(message));
+        }
 	};
 
 	
 	pushPlugin.register(settings,
-		//Success callback
-		function(){
+		// Success callback
+		function(token) {
+            // if we're on android device we have the onMessageReceived function to subscribe
+			// for push notifications
+			if(pushPlugin.onMessageReceived) {
+				pushPlugin.onMessageReceived(settings.notificationCallbackAndroid);
+			}
+
 			alert('Device registered successfully');
 		},
-		//Error Callback
+		// Error Callback
 		function(error){
 			alert(error.message);
 		}
@@ -40,43 +58,99 @@ The code for the Push Plugin for NativeScript.
 ```
 
 
-- ***unregister*** - use to unsubscribe from Push Notifications (settings.senderID is the Google ProjectID and it is required so the service knows from which project to unsubscribe)
+- ***unregister*** - use to unsubscribe from Push Notifications
 > unregister(successCallback, errorCallback, settings)
 
 ```javascript
-	
-	var settings = {
-		senderID: GOOGLE_PROJECT_ID
-	};
 
-	
 	pushPlugin.unregister(
-		//Success callback
+		// Success callback
 		function(){
 			alert('Device unregistered successfully');
 		},
-		//Error Callback
+		// Error Callback
 		function(error){
 			alert(error.message);
 		},
+
+		// The settings from the registration phase
 		settings
 	);
 
 ```
 
-- ***onMessageReceived*** - subscribe to be called via a listener
-> onMessageReceived(callback)
+- **Register for interactive push notifications (iOS >= 8.0)** - in order to handle interacitve notifications, you have to pass additional settings while registering your device. The message object in the **notificationCallbackIOS** will contain a property with the value of the identifier.
+> register(settings, successCallback, errorCallback)
 
 ```javascript
+
+	var settings = {
+		badge: true,
+		sound: true,
+        alert: true,
+        interactiveSettings: {
+        	actions: [{
+            	identifier: 'READ_IDENTIFIER',
+                title: 'Read',
+                activationMode: "foreground",
+                destructive: false,
+                authenticationRequired: true
+            }, {
+            identifier: 'CANCEL_IDENTIFIER',
+            	title: 'Cancel',
+                activationMode: "foreground",
+                destructive: true,
+                authenticationRequired: true
+            }],
+            categories: [{
+            	identifier: 'READ_CATEGORY',
+                actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+            }]
+        },
+        notificationCallbackIOS: function(message) {
+        	alert(JSON.stringify(message));
+        }
+	};
+
 	
-	pushPlugin.onMessageReceived(function(message){
-			alert(message);
-		});
+	pushPlugin.register(settings,
+		// Success callback
+		function(token){
+			// if we're on android device we have the onMessageReceived function to subscribe
+			// for push notifications
+			if(pushPlugin.onMessageReceived) {
+				pushPlugin.onMessageReceived(settings.notificationCallbackAndroid);
+			}
+		
+			if(settings.interactiveSettings) {
+				pushPlugin.registerUserNotificationSettings(function() {
+					alert('Successfully registered for interactive push.');
+				}, function(err) {
+					alert('Error registering for interactive push: ' + JSON.stringify(err));
+				});
+			}
+		},
+		// Error Callback
+		function(error){
+			alert(error.message);
+		}
+	);
 
 ```
 
+- ***areNotificationsEnabled*** - check if the notifications for the device are enabled. Returns true/false. Applicable only for iOS, for Android always returns true.
+> areNotificationsEnabled(callback)
 
-- ***onTokenRefresh*** - subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
+```javascript
+
+	pushPlugin.areNotificationsEnabled(function(areEnabled) {
+		alert('Are Notifications enabled: ' + areEnabled);
+    });
+
+```
+
+- ***onTokenRefresh*** - Android only, subscribe for the token refresh event (Used to obtain the new token in cases where google revoke the old one)
 > onTokenRefresh(callback)
 
 ```javascript
@@ -84,129 +158,6 @@ The code for the Push Plugin for NativeScript.
 	pushPlugin.onTokenRefresh(function(token){
 			alert(token);
 		});
-
-```
-
-- ***areNotificationsEnabled*** - currently this cannot be checked in meaningful way and will always return true
-> areNotificationsEnabled()
-
-```javascript
-
-	//Always returns true. this method is kept for legacy purposes.
-	var areNotificationsEnabled = pushPlugin.areNotificationsEnabled();
-
-```
-
-### iOS API Reference
-
-```javascript
-
-	var pushPlugin = require('push-plugin');
-
-```
-
-- ***register*** - use to subscribe the device for Push Notifications
-> register(settings, successCallback, errorCallback)
-
-```javascript
-	
-	var settings = {
-		badge: "true",
-                sound: "true",
-                alert: "true",
-                notificationCallbackIOS: function(message) {
-                	alert(message);
-            	}
-	};
-
-	
-	pushPlugin.register(settings,
-		//Success callback
-		function(token){
-			alert('Device registered successfully');
-		},
-		//Error Callback
-		function(error){
-			alert(error.message);
-		}
-	);
-
-```
-
-
-- ***unregister*** - use to unsubscribe from Push Notifications 
-> unregister(successCallback, errorCallback)
-
-```javascript
-	pushPlugin.unregister(
-		//Success callback
-		function(){
-			alert('Device unregistered successfully');
-		},
-		//Error Callback
-		function(error){
-			alert(error.message);
-		}
-	);
-
-```
-
-- ***notificationCallbackIOS*** - this is the function that is called when a new notification is received
-
-- ***areNotificationsEnabled*** - check if the notifications for the iOS device are enabled. Returns true/false
-
-```javascript
-
-	pushPlugin.areNotificationsEnabled(function(areEnabled) {
-            alert('are Notifications enabled: ' + areEnabled);
-        });
-
-```
-
-- Register for interactive push notifications - in order to handle interacitve notifications, you have to pass additional settings while registering your device. The message object in the **notificationCallbackIOS** will contain a property with the value of the identifier.
-
-```javascript
-
-	var settings = {
-		badge: "true",
-                sound: "true",
-                alert: "true",
-                interactiveSettings: {
-                    actions: [{
-                        identifier: 'READ_IDENTIFIER',
-                        title: 'Read',
-                        activationMode: "foreground",
-                        destructive: false,
-                        authenticationRequired: true
-                    }, {
-                        identifier: 'CANCEL_IDENTIFIER',
-                        title: 'Cancel',
-                        activationMode: "foreground",
-                        destructive: true,
-                        authenticationRequired: true
-                    }],
-                    categories: [{
-                        identifier: 'READ_CATEGORY',
-                        actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-                        actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-                    }]
-                },
-                notificationCallbackIOS: function(message) {
-                	alert(message);
-            	}
-	};
-
-	
-	pushPlugin.register(settings,
-		//Success callback
-		function(token){
-			alert('Device registered successfully');
-		},
-		//Error Callback
-		function(error){
-			alert(error.message);
-		}
-	);
 
 ```
 

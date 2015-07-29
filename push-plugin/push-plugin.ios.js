@@ -92,7 +92,7 @@ module.exports = (function() {
                     categories: self._mapCategories(interactiveSettings)
                 });
             } else {
-                done();
+                success();
             }
         },
 
