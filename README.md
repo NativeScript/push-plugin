@@ -173,9 +173,9 @@ The code for the Push Plugin for NativeScript.
 
 	or use an existing one.
 
-- Add the Push Plugin. This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
+- Add the Push Plugin (from NPM). This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
 
-		tns plugin add C:\nativescript-push\push-plugin
+		tns plugin add nativescript-push-notifications 
 
 ### Android
 
@@ -188,10 +188,10 @@ The code for the Push Plugin for NativeScript.
 		tns library add android C:\Users\your_user_name\AppData\Local\Android\android-sdk\extras\google\google_play_services\libproject\google-play-services_lib\libs
 
 
-- Add sample code in main-view-model.js like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
+- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
 
 ```javascript
-	var pushPlugin = require("push-plugin");
+	var pushPlugin = require("nativescript-push-notifications");
 	var self = this;
 	pushPlugin.register({ senderID: 'your-google-project-id' }, function (data){
 		self.set("message", "" + JSON.stringify(data));
@@ -206,6 +206,8 @@ The code for the Push Plugin for NativeScript.
 
 		tns run android
 
+- The access token is written in the console and in the message area, after subscribing (Look for ObtainTokenThread log record). When sending a notification, the message below the TAP button should be changed with the message received. 
+
 ### iOS
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
@@ -215,36 +217,34 @@ The code for the Push Plugin for NativeScript.
 
         tns platform add ios
 
-- Add sample code in main-view-model.js like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
+- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
 
 ```javascript
 	var pushPlugin = require("nativescript-push-notifications");
 	var self = this;
 	var iosSettings = {
-		iOS: {
-	    	badge: true,
-	        sound: true,
-	        alert: true,
-	        interactiveSettings: {
-	        	actions: [{
-	            	identifier: 'READ_IDENTIFIER',
-	                title: 'Read',
-	                activationMode: "foreground",
-	                destructive: false,
-	                authenticationRequired: true
-	           	}, {
-	            	identifier: 'CANCEL_IDENTIFIER',
-	                title: 'Cancel',
-	                activationMode: "foreground",
-	                destructive: true,
-	                authenticationRequired: true
-	            }],
-	            categories: [{
-					identifier: 'READ_CATEGORY',
-	                actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-	                actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-				}]
-			}
+		badge: true,
+	    sound: true,
+	    alert: true,
+	    interactiveSettings: {
+	    	actions: [{
+	        	identifier: 'READ_IDENTIFIER',
+	            title: 'Read',
+	            activationMode: "foreground",
+	            destructive: false,
+	            authenticationRequired: true
+			}, {
+		        identifier: 'CANCEL_IDENTIFIER',
+		        title: 'Cancel',
+		        activationMode: "foreground",
+		        destructive: true,
+		        authenticationRequired: true
+	       	}],
+	        categories: [{
+				identifier: 'READ_CATEGORY',
+	            actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+	            actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+			}]
 		},
 	    notificationCallbackIOS: function (data) {
 	    	self.set("message", "" + JSON.stringify(data));
@@ -253,8 +253,22 @@ The code for the Push Plugin for NativeScript.
 	
 	pushPlugin.register(iosSettings, function (data) {
 		self.set("message", "" + JSON.stringify(data));
+
+        // Register the interactive settings
+			if(settings.interactiveSettings) {
+				pushPlugin.registerUserNotificationSettings(function() {
+					alert('Successfully registered for interactive push.');
+				}, function(err) {
+					alert('Error registering for interactive push: ' + JSON.stringify(err));
+				});
 	}, function() { });
 ```
+
+- Run the code
+
+	tns run ios
+
+- Send notifications
 
 ## Troubleshooting
 
