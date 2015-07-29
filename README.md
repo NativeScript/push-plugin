@@ -221,47 +221,48 @@ The code for the Push Plugin for NativeScript.
 
 ```javascript
 	var pushPlugin = require("nativescript-push-notifications");
-	var self = this;
-	var iosSettings = {
-		badge: true,
-	    sound: true,
-	    alert: true,
-	    interactiveSettings: {
-	    	actions: [{
-	        	identifier: 'READ_IDENTIFIER',
-	            title: 'Read',
-	            activationMode: "foreground",
-	            destructive: false,
-	            authenticationRequired: true
-			}, {
-		        identifier: 'CANCEL_IDENTIFIER',
-		        title: 'Cancel',
-		        activationMode: "foreground",
-		        destructive: true,
-		        authenticationRequired: true
-	       	}],
-	        categories: [{
-				identifier: 'READ_CATEGORY',
-	            actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-	            actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-			}]
-		},
-	    notificationCallbackIOS: function (data) {
-	    	self.set("message", "" + JSON.stringify(data));
-	    }
-	};
-	
-	pushPlugin.register(iosSettings, function (data) {
-		self.set("message", "" + JSON.stringify(data));
+        var self = this;
+        var iosSettings = {
+            badge: true,
+            sound: true,
+            alert: true,
+            interactiveSettings: {
+                actions: [{
+                    identifier: 'READ_IDENTIFIER',
+                    title: 'Read',
+                    activationMode: "foreground",
+                    destructive: false,
+                    authenticationRequired: true
+                }, {
+                    identifier: 'CANCEL_IDENTIFIER',
+                    title: 'Cancel',
+                    activationMode: "foreground",
+                    destructive: true,
+                    authenticationRequired: true
+                }],
+                categories: [{
+                    identifier: 'READ_CATEGORY',
+                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+                }]
+            },
+            notificationCallbackIOS: function (data) {
+                self.set("message", "" + JSON.stringify(data));
+            }
+        };
 
-        // Register the interactive settings
-			if(settings.interactiveSettings) {
-				pushPlugin.registerUserNotificationSettings(function() {
-					alert('Successfully registered for interactive push.');
-				}, function(err) {
-					alert('Error registering for interactive push: ' + JSON.stringify(err));
-				});
-	}, function() { });
+        pushPlugin.register(iosSettings, function (data) {
+            self.set("message", "" + JSON.stringify(data));
+
+            // Register the interactive settings
+                if(iosSettings.interactiveSettings) {
+                    pushPlugin.registerUserNotificationSettings(function() {
+                        alert('Successfully registered for interactive push.');
+                    }, function(err) {
+                        alert('Error registering for interactive push: ' + JSON.stringify(err));
+                    });
+                }
+        }, function() { });
 ```
 
 - Run the code
