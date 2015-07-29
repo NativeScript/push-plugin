@@ -1,5 +1,5 @@
 { 
-  "name" : "push-plugin",
+  "name" : "nativescript-push-notifications",
   "version": "0.0.1",
   "main" : "push-plugin.js",
   "nativescript": {
