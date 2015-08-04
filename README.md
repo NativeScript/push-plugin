@@ -5,6 +5,7 @@ The code for the Push Plugin for NativeScript.
 - [Getting started](#getting-started)
 - [API Reference](#api)
 - [Troubleshooting](#troubleshooting)
+- [Using with Telerik Backend Services](#using-with-telerik-backend-services)
 
 
 ## Getting started
@@ -15,7 +16,7 @@ The code for the Push Plugin for NativeScript.
 
 	or use an existing one.
 
-- Add the Push Plugin (from NPM). This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well.
+- Add the Push Plugin (from NPM). This will install the push plugin in node_module, in the root of the project. When adding a new platform (or using an existing one) the plugin will be added there as well. Go to the application folder and add the push plugin:
 
 		tns plugin add nativescript-push-notifications 
 
@@ -30,12 +31,12 @@ The code for the Push Plugin for NativeScript.
 		tns library add android C:\Users\your_user_name\AppData\Local\Android\android-sdk\extras\google\google_play_services\libproject\google-play-services_lib\libs
 
 
-- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project id in the options of the register method):
+- Add sample code in app/main-view-model.js in the function HelloWorldModel() like this one to subscribe and receive messages (Enter your google project number in the options of the register method):
 
 ```javascript
 	var pushPlugin = require("nativescript-push-notifications");
 	var self = this;
-	pushPlugin.register({ senderID: 'your-google-project-id' }, function (data){
+	pushPlugin.register({ senderID: '<ENTER_YOUR_PROJECT_NUMBER>' }, function (data){
 		self.set("message", "" + JSON.stringify(data));
 	}, function() { });
 	
@@ -127,7 +128,7 @@ The code for the Push Plugin for NativeScript.
 	
 	var settings = {
 		// Android settings
-		senderID: GOOGLE_PROJECT_ID, // Android: Required setting with the sender/project id
+		senderID: '<ENTER_YOUR_PROJECT_NUMBER>', // Android: Required setting with the sender/project number
 		notificationCallbackAndroid: function(message) { // Android: Callback to invoke when a new push is received.
         	alert(JSON.stringify(message));
         },
@@ -311,3 +312,9 @@ In case the application doesn't work as expected. Here are some things you can v
 ### iOS
 
 - Error "Error registering: no valid 'aps-environment' entitlement string found for application" - this means that the certificates are not correctly set in the xcodeproject. Open the xcodeproject, fix them and you can even run the application from xcode to verify it's setup correctly. The bundle identifier in xcode should be the same as the "id" in the package.json file in the root of the project.
+
+## Using with Telerik Backend Services
+
+In order to use the plugin with Telerik Backend Services take a look at the official sample:
+
+[Telerik Backend Services NativeScript Push Sample](https://github.com/NativeScript/sample-push-plugin)
