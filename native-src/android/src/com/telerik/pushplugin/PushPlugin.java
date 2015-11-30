@@ -79,7 +79,7 @@ public class PushPlugin extends GcmListenerService {
     public static void executeOnMessageReceivedCallback(Bundle data) {
         if (onMessageReceivedCallback != null) {
             Log.d(TAG, "Sending message to client: " + data.getString("message"));
-            onMessageReceivedCallback.success(data.getString("message"));
+            onMessageReceivedCallback.success(data.getString("message"), data);
         } else {
             Log.d(TAG, "No callback function - caching the data for later retrieval.");
             cachedData = data;
