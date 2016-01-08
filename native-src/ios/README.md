@@ -1,6 +1,6 @@
 # Push Plugin for iOS
 
-This is the native java code for push notifications for the iOS platform, which is designed to be easily used in NativeScript.
+This is the native Objective-C code for push notifications for the iOS platform, which is designed to be easily used in NativeScript.
 
 # Build
 
