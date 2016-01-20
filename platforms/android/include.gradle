@@ -1,0 +1,11 @@
+android { 
+    productFlavors {
+        "push-plugin" {
+            dimension "push-plugin"
+        }
+    }
+}
+
+dependencies {
+	compile 'com.google.android.gms:play-services:8.4.0'
+}
