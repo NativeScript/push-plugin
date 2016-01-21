@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.Set;
 
 /**
  * Push plugin extends the GCM Listener Service and has to be registered in the AndroidManifest
@@ -79,7 +82,17 @@ public class PushPlugin extends GcmListenerService {
     public static void executeOnMessageReceivedCallback(Bundle data) {
         if (onMessageReceivedCallback != null) {
             Log.d(TAG, "Sending message to client: " + data.getString("message"));
-            onMessageReceivedCallback.success(data.getString("message"));
+            JSONObject dataAsJson = new JSONObject();
+            Set<String> keys = data.keySet();
+            for (String key : keys) {
+                try {
+                    dataAsJson.put(key, JSONObject.wrap(data.get(key)));
+                } catch(JSONException e) {
+                    Log.d(TAG, "Error thrown while parsing push notification data bundle to json: " + e.getMessage());
+                    //Handle exception here
+                }
+            }
+            onMessageReceivedCallback.success(data.getString("message"), dataAsJson.toString());
         } else {
             Log.d(TAG, "No callback function - caching the data for later retrieval.");
             cachedData = data;
