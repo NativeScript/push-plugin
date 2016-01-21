@@ -6,7 +6,6 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Set;
 
 /**
@@ -87,10 +86,9 @@ public class PushPlugin extends GcmListenerService {
             Set<String> keys = data.keySet();
             for (String key : keys) {
                 try {
-                    // json.put(key, bundle.get(key)); see edit below
                     dataAsJson.put(key, JSONObject.wrap(data.get(key)));
                 } catch(JSONException e) {
-//                    Log.d(TAG, "Error thrown: ", e.toStringu());
+                    Log.d(TAG, "Error thrown while parsing push notification data bundle to json: " + e.getMessage());
                     //Handle exception here
                 }
             }
