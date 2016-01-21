@@ -124,7 +124,7 @@ The code for the Push Plugin for NativeScript.
 	var settings = {
 		// Android settings
 		senderID: '<ENTER_YOUR_PROJECT_NUMBER>', // Android: Required setting with the sender/project number
-		notificationCallbackAndroid: function(message) { // Android: Callback to invoke when a new push is received.
+		notificationCallbackAndroid: function(message, pushNotificationObject) { // Android: Callback to invoke when a new push is received.
         	alert(JSON.stringify(message));
         },
 
