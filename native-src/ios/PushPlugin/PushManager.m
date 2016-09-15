@@ -119,8 +119,8 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 
 - (void)my_applicationDidBecomeActive:(UIApplication *)application
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if ([Push sharedInstance].launchNotification) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [Push sharedInstance].notificationMessage  = [Push sharedInstance].launchNotification;
         [Push sharedInstance].launchNotification = nil;
         [[Push sharedInstance] performSelectorOnMainThread:@selector(notificationReceived) withObject:[Push sharedInstance]  waitUntilDone:NO];
