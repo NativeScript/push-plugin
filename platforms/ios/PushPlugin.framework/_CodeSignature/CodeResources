@@ -18,7 +18,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		dcLbL0n4gOIi2N7BOeR4Ott9FvM=
+		KUYYX6c0fxbWE2o9MWh9QaorTa8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -28,21 +28,49 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/Push.h</key>
-		<data>
-		jvS3k3DIaqEsomyLBVgeFR07gYc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			jvS3k3DIaqEsomyLBVgeFR07gYc=
+			</data>
+			<key>hash2</key>
+			<data>
+			zNYU2D/BKumbue7VnqkzQmfuNfi59ZI1cG3oFj3MJas=
+			</data>
+		</dict>
 		<key>Headers/PushManager.h</key>
-		<data>
-		d95Fh/vTDm2MkfSPt5nD0zMZWn0=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			d95Fh/vTDm2MkfSPt5nD0zMZWn0=
+			</data>
+			<key>hash2</key>
+			<data>
+			Ni5kEdaJCdgDagOzL/jRkKsRPxIBgCuPQyRTGdDXJiI=
+			</data>
+		</dict>
 		<key>Headers/PushPlugin.h</key>
-		<data>
-		LySoYEsAzpK2asnf2zLlenP8k0U=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			LySoYEsAzpK2asnf2zLlenP8k0U=
+			</data>
+			<key>hash2</key>
+			<data>
+			HLtxzGVrefqS3qbia+iJFO6fH7VF6WJ3Ll5lkVdX/vg=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		q4trkXWUceyVi1oTw69Ea7/hOw8=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			q4trkXWUceyVi1oTw69Ea7/hOw8=
+			</data>
+			<key>hash2</key>
+			<data>
+			/3XrGSQGbFipA1nShtA52gQCgaffGNP1egLU620nmIs=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
