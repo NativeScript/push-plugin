@@ -24,6 +24,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         id<UIApplicationDelegate> appDelegate = app.delegate;
         
         // didBecomeActive swizzle
+        /*
         Method didBecomeActiveMethod = class_getInstanceMethod([PushManager class], @selector(my_applicationDidBecomeActive:));
         IMP didBecomeActiveImp = method_getImplementation(didBecomeActiveMethod);
         const char* didBecomeActiveTypes = method_getTypeEncoding(didBecomeActiveMethod);
@@ -35,6 +36,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         } else {
             class_addMethod(appDelegate.class, @selector(applicationDidBecomeActive:), didBecomeActiveImp, didBecomeActiveTypes);
         }
+        */
         
         // didRegisterForRemoteNotificationsWithDeviceToken swizzle
         Method didRegisterMethod = class_getInstanceMethod([PushManager class], @selector(my_application:didRegisterForRemoteNotificationsWithDeviceToken:));
@@ -97,6 +99,11 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNotificationChecker:)
                                                  name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                           selector:@selector(my_applicationDidBecomeActive:)
+                                             name:@"UIApplicationDidBecomeActiveNotification" object:nil];
+     
     return self;
 }
 
@@ -112,11 +119,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 
 - (void)my_applicationDidBecomeActive:(UIApplication *)application
 {
-    if (didBecomeActiveOriginalMethod) {
-        void (*originalImp)(id, SEL, UIApplication *) = didBecomeActiveOriginalMethod;
-        originalImp(self, @selector(applicationDidBecomeActive:), application);
-    }
-    application.applicationIconBadgeNumber = 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if ([Push sharedInstance].launchNotification) {
         [Push sharedInstance].notificationMessage  = [Push sharedInstance].launchNotification;
         [Push sharedInstance].launchNotification = nil;
