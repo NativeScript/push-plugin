@@ -91,6 +91,7 @@ public class PushPlugin extends GcmListenerService {
                     //Handle exception here
                 }
             }
+            Log.d(TAG, "Sending data to client: " + dataAsJson.toString());
             onMessageReceivedCallback.success(data.getString("message"), dataAsJson.toString());
         } else {
             Log.d(TAG, "No callback function - caching the data for later retrieval.");
@@ -104,13 +105,18 @@ public class PushPlugin extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         Log.d(TAG, "New Push Message: " + data);
+        String message = data.getString("message");
         // If the application has the callback registered and it must be active
-        // execute the callback. Otherwise, create new notification in the notification bar of the user.
+        // execute the callback. Otherwise, create new notification in the notification bar of the user if the message property is set.
         if (onMessageReceivedCallback != null && isActive) {
+            // callback registered and app is active
             executeOnMessageReceivedCallback(data);
-        } else {
+        } else if (message != null && message.trim().length() > 0) {
+            // callback not registered or app isn't active, but message is sent along
             Context context = getApplicationContext();
             NotificationBuilder.createNotification(context, data);
+        } else {
+            // do nothing, because no message is sent along
         }
     }
 
