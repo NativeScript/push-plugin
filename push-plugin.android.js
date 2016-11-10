@@ -1,7 +1,6 @@
 module.exports = (function () {
     var app = require('application');
-    var context = app.android.context;
-
+ 
     (function() {
         //debugger;
         // Hook on the application events
@@ -10,7 +9,7 @@ module.exports = (function () {
 
     var pluginObject = {
         register: function (options, successCallback, errorCallback) {
-            com.telerik.pushplugin.PushPlugin.register(context, options.senderID,
+            com.telerik.pushplugin.PushPlugin.register(app.android.context, options.senderID,
                 //Success
                 new com.telerik.pushplugin.PushPluginListener(
                     {
@@ -20,7 +19,7 @@ module.exports = (function () {
             );
         },
         unregister: function (onSuccessCallback, onErrorCallback, options) {
-            com.telerik.pushplugin.PushPlugin.unregister(context, options.senderID, new com.telerik.pushplugin.PushPluginListener(
+            com.telerik.pushplugin.PushPlugin.unregister(app.android.context, options.senderID, new com.telerik.pushplugin.PushPluginListener(
                 {
                     success: onSuccessCallback
                 }
