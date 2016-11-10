@@ -1,3 +1,5 @@
+var utils = require("utils/utils");
+
 module.exports = (function() {
 
     var pushHandler;
@@ -5,8 +7,8 @@ module.exports = (function() {
 
     (function() {
         if (!pushHandler) {
-            pushHandler = Push.alloc().init();
-            pushManager = PushManager.alloc().init();
+            pushHandler = Push.new();
+            pushManager = PushManager.new();
         }
     })();
 
@@ -21,7 +23,7 @@ module.exports = (function() {
             this.settings = settings;
             this.notificationCallbackIOS = settings.notificationCallbackIOS;
 
-            this.notificationCenter = NSNotificationCenter.defaultCenter();
+            this.notificationCenter = utils.ios.getter(NSNotificationCenter, NSNotificationCenter.defaultCenter);
 
             // subscribe to the notification received event.
             this._addObserver("notificationReceived", function(context) {
@@ -37,7 +39,7 @@ module.exports = (function() {
             var self = this;
             if (!this.didRegisterObserver) { // make sure that the events are not attached more than once
                 this.didRegisterObserver = this._addObserver("didRegisterForRemoteNotificationsWithDeviceToken", function(result) {
-                    NSNotificationCenter.defaultCenter().removeObserver(self.didRegisterObserver);
+                    this.notificationCenter.removeObserver(self.didRegisterObserver);
                     self.didRegisterObserver = undefined;
                     var token = result.userInfo.objectForKey('message');
                     success(token);
@@ -46,7 +48,7 @@ module.exports = (function() {
 
             if (!this.didFailToRegisterObserver) {
                 this.didFailToRegisterObserver = this._addObserver("didFailToRegisterForRemoteNotificationsWithError", function(e) {
-                    NSNotificationCenter.defaultCenter().removeObserver(self.didFailToRegisterObserver);
+                    this.notificationCenter.removeObserver(self.didFailToRegisterObserver);
                     self.didFailToRegisterObserver = undefined;
                     //var err = JSON.parse(e.userInfo.objectForKey('error'));
                     error(e);
@@ -155,7 +157,8 @@ module.exports = (function() {
         },
 
         _addObserver: function(eventName, callback) {
-            return NSNotificationCenter.defaultCenter().addObserverForNameObjectQueueUsingBlock(eventName, null, NSOperationQueue.mainQueue(), callback);
+            var queue = utils.ios.getter(NSOperationQueue, NSOperationQueue.mainQueue);
+            return this.notificationCenter.addObserverForNameObjectQueueUsingBlock(eventName, null, queue, callback);
         }
 
     };
