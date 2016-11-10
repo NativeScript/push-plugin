@@ -1,5 +1,6 @@
 module.exports = (function() {
 
+    var iosApp = require('application').ios;
     var pushHandler;
     var pushManager
 
@@ -21,8 +22,6 @@ module.exports = (function() {
             this.settings = settings;
             this.notificationCallbackIOS = settings.notificationCallbackIOS;
 
-            this.notificationCenter = NSNotificationCenter.defaultCenter();
-
             // subscribe to the notification received event.
             this._addObserver("notificationReceived", function(context) {
                 var userInfo = JSON.parse(context.userInfo.objectForKey('message'));
@@ -37,7 +36,7 @@ module.exports = (function() {
             var self = this;
             if (!this.didRegisterObserver) { // make sure that the events are not attached more than once
                 this.didRegisterObserver = this._addObserver("didRegisterForRemoteNotificationsWithDeviceToken", function(result) {
-                    NSNotificationCenter.defaultCenter().removeObserver(self.didRegisterObserver);
+                    self._removeObserver(self.didRegisterObserver, "didRegisterForRemoteNotificationsWithDeviceToken");
                     self.didRegisterObserver = undefined;
                     var token = result.userInfo.objectForKey('message');
                     success(token);
@@ -46,9 +45,8 @@ module.exports = (function() {
 
             if (!this.didFailToRegisterObserver) {
                 this.didFailToRegisterObserver = this._addObserver("didFailToRegisterForRemoteNotificationsWithError", function(e) {
-                    NSNotificationCenter.defaultCenter().removeObserver(self.didFailToRegisterObserver);
+                    self._removeObserver(self.didFailToRegisterObserver, "didFailToRegisterForRemoteNotificationsWithError");
                     self.didFailToRegisterObserver = undefined;
-                    //var err = JSON.parse(e.userInfo.objectForKey('error'));
                     error(e);
                 });
             }
@@ -73,7 +71,8 @@ module.exports = (function() {
 
                 if (!this.registerUserSettingsObserver) {
                     this.registerUserSettingsObserver = this._addObserver("didRegisterUserNotificationSettings", function() {
-                        NSNotificationCenter.defaultCenter().removeObserver(self.registerUserSettingsObserver);
+                        this._removeObserver(self.registerUserSettingsObserver, "didRegisterUserNotificationSettings");
+
                         self.registerUserSettingsObserver = undefined;
                         success();
                     });
@@ -81,7 +80,8 @@ module.exports = (function() {
 
                 if (!this.failToRegisterUserSettingsObserver) {
                     this.failToRegisterUserSettingsObserver = this._addObserver("failToRegisterUserNotificationSettings", function(error) {
-                        NSNotificationCenter.defaultCenter().removeObserver(self.failToRegisterUserSettingsObserver);
+                        self._removeObserver(self.didFailToRegisterObserver, "failToRegisterUserNotificationSettings");
+                        
                         self.failToRegisterUserSettingsObserver = undefined;
                         error(error);
                     });
@@ -100,7 +100,8 @@ module.exports = (function() {
             var self = this;
             if (!this.didUnregisterObserver) {
                 this.didUnregisterObserver = this._addObserver("didUnregister", function(context) {
-                    NSNotificationCenter.defaultCenter().removeObserver(self.didUnregisterObserver);
+                    self._removeObserver(self.didUnregisterObserver, "didUnregister");
+
                     self.didUnregisterObserver = undefined;
                     done(context);
                 });
@@ -118,7 +119,9 @@ module.exports = (function() {
                     if(areEnabledStr === "true"){
                         areEnabled = true;
                     }
-                    NSNotificationCenter.defaultCenter().removeObserver(self.areNotificationsEnabledObserver);
+
+                    this._removeObserver(self.areNotificationsEnabledObserver, "areNotificationsEnabled");
+
                     self.areNotificationsEnabledObserver = undefined;
                     done(areEnabled);
                 });
@@ -155,7 +158,11 @@ module.exports = (function() {
         },
 
         _addObserver: function(eventName, callback) {
-            return NSNotificationCenter.defaultCenter().addObserverForNameObjectQueueUsingBlock(eventName, null, NSOperationQueue.mainQueue(), callback);
+            return iosApp.addNotificationObserver(eventName, callback);
+        },
+
+        _removeObserver: function(observer, eventName) {
+            iosApp.removeNotificationObserver(observer, eventName);
         }
 
     };
