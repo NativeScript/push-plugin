@@ -71,7 +71,7 @@ module.exports = (function() {
 
                 if (!this.registerUserSettingsObserver) {
                     this.registerUserSettingsObserver = this._addObserver("didRegisterUserNotificationSettings", function() {
-                        this._removeObserver(self.registerUserSettingsObserver, "didRegisterUserNotificationSettings");
+                        self._removeObserver(self.registerUserSettingsObserver, "didRegisterUserNotificationSettings");
 
                         self.registerUserSettingsObserver = undefined;
                         success();
@@ -120,7 +120,7 @@ module.exports = (function() {
                         areEnabled = true;
                     }
 
-                    this._removeObserver(self.areNotificationsEnabledObserver, "areNotificationsEnabled");
+                    self._removeObserver(self.areNotificationsEnabledObserver, "areNotificationsEnabled");
 
                     self.areNotificationsEnabledObserver = undefined;
                     done(areEnabled);
