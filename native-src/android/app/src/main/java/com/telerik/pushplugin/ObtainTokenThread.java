@@ -1,9 +1,7 @@
 package com.telerik.pushplugin;
 
-import android.content.Context;
 import android.util.Log;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
@@ -17,34 +15,28 @@ public class ObtainTokenThread extends Thread {
 
     private String token;
     private final String projectId;
-    private final Context appContext;
 
-    public ObtainTokenThread(String projectID, Context appContext, PushPluginListener callbacks) {
-        this.projectId = projectID;
-        this.appContext = appContext;
+    public ObtainTokenThread(String projectId, PushPluginListener callbacks) {
+        this.projectId = projectId;
         this.callbacks = callbacks;
     }
 
     @Override
     public void run() {
         try {
-            token = getTokenFromGCM();
+            this.token = getTokenFromGCM();
         } catch (IOException e) {
-            callbacks.error("Error while retrieving a token: " + e.getMessage());
+            this.callbacks.error("Error while retrieving a token: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private String getTokenFromGCM() throws IOException {
-        InstanceID instanceID = InstanceID.getInstance(this.appContext);
-        this.token = instanceID.getToken(this.projectId,
-                GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+        this.token = FirebaseInstanceId.getInstance().getToken(this.projectId, "FCM");
 
-        Log.d(TAG, this.token.toString());
-
-        if(callbacks != null) {
-            Log.d(TAG, "Calling listener callback with token: " + token);
-            callbacks.success(token);
+        if(this.callbacks != null) {
+            Log.d(TAG, "Calling listener callback with token: " + this.token);
+            this.callbacks.success(this.token);
         } else {
             Log.d(TAG, "Token call returned, but no callback provided.");
         }
@@ -53,6 +45,4 @@ public class ObtainTokenThread extends Thread {
         PushPlugin.isActive = true;
         return this.token;
     }
-
-
 }

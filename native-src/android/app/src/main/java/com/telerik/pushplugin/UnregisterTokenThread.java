@@ -1,9 +1,7 @@
 package com.telerik.pushplugin;
 
-import android.content.Context;
 import android.util.Log;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
@@ -15,12 +13,10 @@ public class UnregisterTokenThread extends Thread {
     private static final String TAG = "UnregisterTokenThread";
 
     private final String projectId;
-    private final Context appContext;
     private final PushPluginListener callbacks;
 
-    public UnregisterTokenThread(String projectID, Context appContext, PushPluginListener callbacks) {
-        this.projectId = projectID;
-        this.appContext = appContext;
+    public UnregisterTokenThread(String projectId, PushPluginListener callbacks) {
+        this.projectId = projectId;
         this.callbacks = callbacks;
     }
 
@@ -34,9 +30,14 @@ public class UnregisterTokenThread extends Thread {
     }
 
     private void deleteTokenFromGCM() throws IOException {
-        InstanceID instanceID = InstanceID.getInstance(this.appContext);
-        instanceID.deleteToken(this.projectId,
-                GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+        try {
+            FirebaseInstanceId.getInstance().deleteToken(this.projectId, "FCM");
+        } catch (IOException e) {
+            if (callbacks != null) {
+                callbacks.error("Invalid project ID.");
+            }
+            return;
+        }
 
         Log.d(TAG, "Token deleted!");
 

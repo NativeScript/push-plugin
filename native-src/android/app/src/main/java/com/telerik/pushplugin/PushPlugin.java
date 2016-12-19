@@ -3,15 +3,19 @@ package com.telerik.pushplugin;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import com.google.android.gms.gcm.GcmListenerService;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
 import org.json.JSONException;
+
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Push plugin extends the GCM Listener Service and has to be registered in the AndroidManifest
  * in order to receive Notification Messages.
  */
-public class PushPlugin extends GcmListenerService {
+public class PushPlugin extends FirebaseMessagingService {
     static final String TAG = "PushPlugin";
 
     static boolean isActive = false;
@@ -31,12 +35,7 @@ public class PushPlugin extends GcmListenerService {
             Log.d(TAG, "Registering without providing a callback!");
         }
 
-        try {
-            ObtainTokenThread t = new ObtainTokenThread(projectId, appContext, callbacks);
-            t.start();
-        } catch (Exception ex) {
-            callbacks.error("Thread failed to start: " + ex.getMessage());
-        }
+        PushPlugin.getRegisterTokenInThread(projectId, callbacks);
     }
 
     /**
@@ -51,7 +50,7 @@ public class PushPlugin extends GcmListenerService {
             Log.d(TAG, "Unregister without providing a callback!");
         }
         try {
-            UnregisterTokenThread t = new UnregisterTokenThread(projectId, appContext, callbacks);
+            UnregisterTokenThread t = new UnregisterTokenThread(projectId, callbacks);
             t.start();
         } catch (Exception ex) {
             callbacks.error("Thread failed to start: " + ex.getMessage());
@@ -101,16 +100,31 @@ public class PushPlugin extends GcmListenerService {
     /**
      * Handles the push messages receive event.
      */
+//    @Override
+//    public void onMessageReceived(String from, Bundle data) {
+//        Log.d(TAG, "New Push Message: " + data);
+//        // If the application has the callback registered and it must be active
+//        // execute the callback. Otherwise, create new notification in the notification bar of the user.
+//        if (onMessageReceivedCallback != null && isActive) {
+//            executeOnMessageReceivedCallback(data);
+//        } else {
+//            Context context = getApplicationContext();
+//            NotificationBuilder.createNotification(context, data);
+//        }
+//    }
     @Override
-    public void onMessageReceived(String from, Bundle data) {
+    public void onMessageReceived(RemoteMessage message) {
+        String from = message.getFrom();
+        Map data = message.getData();
         Log.d(TAG, "New Push Message: " + data);
+
         // If the application has the callback registered and it must be active
         // execute the callback. Otherwise, create new notification in the notification bar of the user.
         if (onMessageReceivedCallback != null && isActive) {
-            executeOnMessageReceivedCallback(data);
+            executeOnMessageReceivedCallback(null);
         } else {
             Context context = getApplicationContext();
-            NotificationBuilder.createNotification(context, data);
+            NotificationBuilder.createNotification(context, null);
         }
     }
 
@@ -143,10 +157,12 @@ public class PushPlugin extends GcmListenerService {
         return true;
     }
 
-    ;
-
-
+    private static void getRegisterTokenInThread(String projectId, PushPluginListener callbacks) {
+        try {
+            ObtainTokenThread t = new ObtainTokenThread(projectId, callbacks);
+            t.start();
+        } catch (Exception ex) {
+            callbacks.error("Thread failed to start: " + ex.getMessage());
+        }
+    }
 }
-
-
-
