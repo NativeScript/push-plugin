@@ -2,3 +2,4 @@ out/
 .idea/
 .gradle/
 local.properties
+build/
