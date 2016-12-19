@@ -1,13 +1,13 @@
 package com.telerik.pushplugin;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,7 +19,7 @@ public class PushPlugin extends FirebaseMessagingService {
     static final String TAG = "PushPlugin";
 
     static boolean isActive = false;
-    private static Bundle cachedData;
+    private static Map cachedData;
     private static PushPluginListener onMessageReceivedCallback;
     private static PushPluginListener onTokenRefreshCallback;
 
@@ -77,9 +77,9 @@ public class PushPlugin extends FirebaseMessagingService {
      *
      * @param data
      */
-    public static void executeOnMessageReceivedCallback(Bundle data) {
+    public static void executeOnMessageReceivedCallback(Map<String, Object> data) {
         if (onMessageReceivedCallback != null) {
-            Log.d(TAG, "Sending message to client: " + data.getString("message"));
+            Log.d(TAG, "Sending message to client: " + data.get("message"));
             JsonObjectExtended dataAsJson = new JsonObjectExtended();
             Set<String> keys = data.keySet();
             for (String key : keys) {
@@ -90,7 +90,7 @@ public class PushPlugin extends FirebaseMessagingService {
                     //Handle exception here
                 }
             }
-            onMessageReceivedCallback.success(data.getString("message"), dataAsJson.toString());
+            onMessageReceivedCallback.success(data.get("message"), dataAsJson.toString());
         } else {
             Log.d(TAG, "No callback function - caching the data for later retrieval.");
             cachedData = data;
@@ -100,31 +100,18 @@ public class PushPlugin extends FirebaseMessagingService {
     /**
      * Handles the push messages receive event.
      */
-//    @Override
-//    public void onMessageReceived(String from, Bundle data) {
-//        Log.d(TAG, "New Push Message: " + data);
-//        // If the application has the callback registered and it must be active
-//        // execute the callback. Otherwise, create new notification in the notification bar of the user.
-//        if (onMessageReceivedCallback != null && isActive) {
-//            executeOnMessageReceivedCallback(data);
-//        } else {
-//            Context context = getApplicationContext();
-//            NotificationBuilder.createNotification(context, data);
-//        }
-//    }
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        String from = message.getFrom();
-        Map data = message.getData();
+        Map<String, String> data = message.getData();
         Log.d(TAG, "New Push Message: " + data);
 
         // If the application has the callback registered and it must be active
         // execute the callback. Otherwise, create new notification in the notification bar of the user.
         if (onMessageReceivedCallback != null && isActive) {
-            executeOnMessageReceivedCallback(null);
+            executeOnMessageReceivedCallback(new HashMap<String, Object>(data));
         } else {
             Context context = getApplicationContext();
-            NotificationBuilder.createNotification(context, null);
+            NotificationBuilder.createNotification(context, data);
         }
     }
 

@@ -8,12 +8,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,11 +24,11 @@ import java.util.Random;
 public class NotificationBuilder {
     private static final String TAG = "NotificationBuilder";
 
-    public static void createNotification(Context context, Bundle extras) {
+    public static void createNotification(Context context, Map<String, String> msgData) {
         int notId = 0;
 
         try {
-            notId = Integer.parseInt(extras.getString("notId"));
+            notId = Integer.parseInt(msgData.get("notId"));
         } catch (NumberFormatException e) {
             Log.e(TAG, "Number format exception - Error parsing Notification ID: " + e.getMessage());
         } catch (Exception e) {
@@ -53,15 +54,15 @@ public class NotificationBuilder {
 
             Intent notificationIntent = new Intent(context, PushHandlerActivity.class);
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            notificationIntent.putExtra("pushBundle", extras);
+            notificationIntent.putExtra("pushData", new HashMap<>(msgData));
 
             PendingIntent contentIntent = PendingIntent.getActivity(context, notId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             int defaults = Notification.DEFAULT_ALL;
 
-            if (extras.getString("defaults") != null) {
+            if (msgData.get("defaults") != null) {
                 try {
-                    defaults = Integer.parseInt(extras.getString("defaults"));
+                    defaults = Integer.parseInt(msgData.get("defaults"));
                 } catch (NumberFormatException ignore) {
                 }
             }
@@ -69,27 +70,27 @@ public class NotificationBuilder {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setDefaults(defaults)
-                            .setSmallIcon(getSmallIcon(context, extras))
+                            .setSmallIcon(getSmallIcon(context, msgData))
                             .setWhen(System.currentTimeMillis())
-                            .setContentTitle(extras.getString("title"))
-                            .setTicker(extras.getString("title"))
+                            .setContentTitle(msgData.get("title"))
+                            .setTicker(msgData.get("title"))
                             .setContentIntent(contentIntent)
-                            .setColor(getColor(extras))
+                            .setColor(getColor(msgData))
                             .setAutoCancel(true);
 
-            String message = extras.getString("message");
+            String message = msgData.get("message");
             if (message != null) {
                 mBuilder.setContentText(message);
             } else {
                 mBuilder.setContentText("<missing message content>");
             }
 
-            String msgcnt = extras.getString("msgcnt");
+            String msgcnt = msgData.get("msgcnt");
             if (msgcnt != null) {
                 mBuilder.setNumber(Integer.parseInt(msgcnt));
             }
 
-            String soundName = extras.getString("sound");
+            String soundName = msgData.get("sound");
             if (soundName != null) {
                 Resources r = context.getResources();
                 int resourceId = r.getIdentifier(soundName, "raw", context.getPackageName());
@@ -100,7 +101,7 @@ public class NotificationBuilder {
             }
 
             final Notification notification = mBuilder.build();
-            final int largeIcon = getLargeIcon(context, extras);
+            final int largeIcon = getLargeIcon(context, msgData);
             if (largeIcon > -1) {
                 notification.contentView.setImageViewResource(android.R.id.icon, largeIcon);
             }
@@ -123,9 +124,9 @@ public class NotificationBuilder {
         return (String) appName;
     }
 
-    private static int getColor(Bundle extras) {
+    private static int getColor(Map<String, String> extras) {
         int theColor = 0; // default, transparent
-        final String passedColor = extras.getString("color"); // something like "#FFFF0000", or "red"
+        final String passedColor = extras.get("color"); // something like "#FFFF0000", or "red"
         if (passedColor != null) {
             try {
                 theColor = Color.parseColor(passedColor);
@@ -135,12 +136,12 @@ public class NotificationBuilder {
         return theColor;
     }
 
-    private static int getSmallIcon(Context context, Bundle extras) {
+    private static int getSmallIcon(Context context, Map<String, String> extras) {
 
         int icon = -1;
 
         // first try an iconname possible passed in the server payload
-        final String iconNameFromServer = extras.getString("smallIcon");
+        final String iconNameFromServer = extras.get("smallIcon");
         if (iconNameFromServer != null) {
             icon = getIconValue(context.getPackageName(), iconNameFromServer);
         }
@@ -158,12 +159,12 @@ public class NotificationBuilder {
         return icon;
     }
 
-    private static int getLargeIcon(Context context, Bundle extras) {
+    private static int getLargeIcon(Context context, Map<String, String> extras) {
 
         int icon = -1;
 
         // first try an iconname possible passed in the server payload
-        final String iconNameFromServer = extras.getString("largeIcon");
+        final String iconNameFromServer = extras.get("largeIcon");
         if (iconNameFromServer != null) {
             icon = getIconValue(context.getPackageName(), iconNameFromServer);
         }

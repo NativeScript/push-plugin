@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.HashMap;
+
 /**
  * Activity which is an entry point, whenever a notification from the bar is tapped and executed.
  * The activity fires, notifies the callback.
@@ -50,12 +52,20 @@ public class PushHandlerActivity extends Activity {
 
         if (extras != null) {
             Log.d(TAG, "Has extras.");
-            Bundle originalExtras = extras.getBundle("pushBundle");
+            HashMap<String, Object> msgData = null;
 
-            originalExtras.putBoolean("foreground", false);
-            originalExtras.putBoolean("coldstart", !isPushPluginActive);
+            try {
+                msgData = (HashMap<String, Object>) extras.getSerializable("pushData");
+            } catch (ClassCastException ex) {
+                ex.printStackTrace();
+                return;
+            }
 
-            PushPlugin.executeOnMessageReceivedCallback(originalExtras);
+            if (msgData != null) {
+                PushPlugin.executeOnMessageReceivedCallback(msgData);
+            } else {
+                Log.d(TAG, "Could not get serialized message data from intent.");
+            }
         }
     }
 
