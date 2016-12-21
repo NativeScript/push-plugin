@@ -1,6 +1,8 @@
 package com.telerik.pushplugin;
 
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.Collection;
@@ -36,8 +38,15 @@ public class JsonObjectExtended extends JSONObject{
         try {
             if (o instanceof Collection) {
                 return new JSONArray((Collection) o);
-            } else if (o.getClass().isArray()) {
-                return new JSONArray(o);
+            } else if (o instanceof Object[]) {
+                Log.d("jsonconverter", "is converting array");
+                Object[] arr = (Object[]) o;
+                JSONArray jsonArr = new JSONArray();
+                for (Object elem: arr) {
+                    jsonArr.put(elem);
+                }
+                Log.d("jsonconverter", jsonArr.toString());
+                return jsonArr;
             }
             if (o instanceof Map) {
                 return new JSONObject((Map) o);

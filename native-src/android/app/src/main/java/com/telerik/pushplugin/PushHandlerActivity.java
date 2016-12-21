@@ -9,13 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Activity which is an entry point, whenever a notification from the bar is tapped and executed.
  * The activity fires, notifies the callback.
  */
 public class PushHandlerActivity extends Activity {
-    private static String TAG = "PushPlugin.PushHandlerActivity";
+    private static String TAG = "PushHandlerActivity";
 
     /*
      * this activity will be started if the user touches a notification that we own.
@@ -30,8 +31,9 @@ public class PushHandlerActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.v(TAG, "onCreate");
 
+        Bundle extras = getIntent().getExtras();
         boolean isPushPluginActive = PushPlugin.isActive;
-        processPushBundle(isPushPluginActive);
+        processPushBundle(isPushPluginActive, extras);
 
         // remove this activity from the top of the stack
         finish();
@@ -46,26 +48,27 @@ public class PushHandlerActivity extends Activity {
      * Takes the pushBundle extras from the intent,
      * and sends it through to the PushPlugin for processing.
      */
-    private void processPushBundle(boolean isPushPluginActive) {
-        Bundle extras = getIntent().getExtras();
+    public static void processPushBundle(boolean isPushPluginActive, Bundle extras) {
         Log.d(TAG, "Processing push extras: IsPushPluginActive = " + isPushPluginActive);
 
-        if (extras != null) {
-            Log.d(TAG, "Has extras.");
-            HashMap<String, Object> msgData = null;
+        if (extras == null) {
+            Log.d(TAG, "No extras to process");
+            return;
+        }
 
-            try {
-                msgData = (HashMap<String, Object>) extras.getSerializable("pushData");
-            } catch (ClassCastException ex) {
-                ex.printStackTrace();
-                return;
-            }
+        Log.d(TAG, "Has extras.");
+        HashMap<String, String> map = null;
+        try {
+            map = (HashMap<String, String>) extras.getSerializable("pushData");
+        } catch (ClassCastException ex) {
+            Log.d(TAG, "Error getting message data from extras." + ex.getMessage());
+            ex.printStackTrace();
+        }
 
-            if (msgData != null) {
-                PushPlugin.executeOnMessageReceivedCallback(msgData);
-            } else {
-                Log.d(TAG, "Could not get serialized message data from intent.");
-            }
+        if (map == null) {
+            PushPlugin.executeOnMessageReceivedCallback(extras);
+        } else {
+            PushPlugin.executeOnMessageReceivedCallback(map);
         }
     }
 
@@ -87,5 +90,4 @@ public class PushHandlerActivity extends Activity {
         final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
-
 }
