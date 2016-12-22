@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -100,12 +102,14 @@ public class NotificationBuilder {
                 mBuilder.setDefaults(defaults);
             }
 
-            final Notification notification = mBuilder.build();
             final int largeIcon = getLargeIcon(context, msgData);
             if (largeIcon > -1) {
-                notification.contentView.setImageViewResource(android.R.id.icon, largeIcon);
+                Log.d(TAG, "Setting large icon... ");
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), largeIcon);
+                mBuilder.setLargeIcon(bitmap);
             }
 
+            final Notification notification = mBuilder.build();
             mNotificationManager.notify(appName, notId, notification);
         } catch (Exception e) {
             StringWriter stackTraceWriter = new StringWriter();
@@ -167,16 +171,6 @@ public class NotificationBuilder {
         final String iconNameFromServer = extras.get("largeIcon");
         if (iconNameFromServer != null) {
             icon = getIconValue(context.getPackageName(), iconNameFromServer);
-        }
-
-        // try a custom included icon in our bundle named ic_stat_notify(.png)
-        if (icon == -1) {
-            icon = getIconValue(context.getPackageName(), "ic_notify");
-        }
-
-        // fall back to the regular app icon
-        if (icon == -1) {
-            icon = context.getApplicationInfo().icon;
         }
 
         return icon;
