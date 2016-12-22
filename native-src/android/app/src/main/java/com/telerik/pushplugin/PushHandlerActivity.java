@@ -51,24 +51,20 @@ public class PushHandlerActivity extends Activity {
     public static void processPushBundle(boolean isPushPluginActive, Bundle extras) {
         Log.d(TAG, "Processing push extras: IsPushPluginActive = " + isPushPluginActive);
 
-        if (extras == null) {
-            Log.d(TAG, "No extras to process");
-            return;
-        }
+        if (extras != null) {
+            Log.d(TAG, "Has extras.");
+            HashMap<String, String> map = null;
 
-        Log.d(TAG, "Has extras.");
-        HashMap<String, String> map = null;
-        try {
-            map = (HashMap<String, String>) extras.getSerializable("pushData");
-        } catch (ClassCastException ex) {
-            Log.d(TAG, "Error getting message data from extras." + ex.getMessage());
-            ex.printStackTrace();
-        }
+            try {
+                map = (HashMap<String, String>) extras.getSerializable("pushData");
+            } catch (ClassCastException ex) {
+                Log.d(TAG, "Error getting message data from extras." + ex.getMessage());
+                ex.printStackTrace();
+            }
 
-        if (map == null) {
-            PushPlugin.executeOnMessageReceivedCallback(extras);
-        } else {
-            PushPlugin.executeOnMessageReceivedCallback(map);
+            if (map != null) {
+                PushPlugin.executeOnMessageReceivedCallback(map);
+            }
         }
     }
 
@@ -90,4 +86,5 @@ public class PushHandlerActivity extends Activity {
         final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
+
 }

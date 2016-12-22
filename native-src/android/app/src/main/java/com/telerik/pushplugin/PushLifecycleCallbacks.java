@@ -46,14 +46,6 @@ public class PushLifecycleCallbacks implements Application.ActivityLifecycleCall
 
         // the application has been resumed-> the push plugin is now in active/foreground state
         PushPlugin.isActive = true;
-
-        Bundle extras = activity.getIntent().getExtras();
-        if (extras != null && extras.get("from") != null) {
-            Log.d(PushPlugin.TAG, "Calling processPushBundle from onResume...");
-            PushHandlerActivity.processPushBundle(PushPlugin.isActive, extras);
-        } else {
-            Log.d(PushPlugin.TAG, "Skipping processPushBundle from onResume");
-        }
     }
 
     public void onActivityCreated(Activity activity, Bundle bundle) {

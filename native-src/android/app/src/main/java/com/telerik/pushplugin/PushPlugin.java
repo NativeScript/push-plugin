@@ -1,14 +1,12 @@
 package com.telerik.pushplugin;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -77,38 +75,22 @@ public class PushPlugin extends FirebaseMessagingService {
      *
      * @param data
      */
-    public static void executeOnMessageReceivedCallback(Bundle data) {
-        Map<String, Object> map = new HashMap<>();
-        for (String key: data.keySet()) {
-            map.put(key, data.get(key));
-        }
-        JsonObjectExtended json = convertToJson(map);
-        executeOnMessageReceivedCallback(json);
-    }
-
     public static void executeOnMessageReceivedCallback(Map<String, String> data) {
-        Map<String, Object> map = new HashMap<>();
-        for (String key: data.keySet()) {
-            map.put(key, data.get(key));
-        }
-        JsonObjectExtended json = convertToJson(map);
+        JsonObjectExtended json = convertMapToJson(data);
         executeOnMessageReceivedCallback(json);
     }
 
-    private static JsonObjectExtended convertToJson(Map<String, Object> data) {
-        if (data == null) {
-            return null;
-        }
-
+    private static JsonObjectExtended convertMapToJson(Map<String, String> data) {
         JsonObjectExtended json = new JsonObjectExtended();
 
-        try {
-            for (String key: data.keySet()) {
-                json.put(key, JsonObjectExtended.wrap(data.get(key)));
+        if (data != null) {
+            try {
+                for (String key: data.keySet()) {
+                    json.put(key, JsonObjectExtended.wrap(data.get(key)));
+                }
+            } catch (JSONException ex) {
+                Log.d(TAG, "Error thrown while parsing push notification data bundle to json: " + ex.getMessage());
             }
-        } catch (JSONException ex) {
-            Log.d(TAG, "Error thrown while parsing push notification data bundle to json: " + ex.getMessage());
-            return null;
         }
 
         return json;
