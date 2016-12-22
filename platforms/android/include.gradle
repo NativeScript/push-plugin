@@ -15,3 +15,16 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.android.support:multidex:1.0.1'
 }
+
+task copyGoogleServicesJson {
+    description "Copies the mandatory google-services.json rom App_Resources/Android folder."
+
+    def path = "$projectDir/../../app/App_Resources/Android/google-services.json" 
+    def servicesFile = file(path)
+    if(servicesFile.exists()) {
+        copy {
+            from path
+            into "$projectDir"
+        }
+    }
+}
