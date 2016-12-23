@@ -384,4 +384,16 @@ In order to use the plugin with Telerik Backend Services take a look at the offi
 	- the app is in foreground, the onMessageReceived callback is invoked with params (message, dataAsJson)
 	- the app is in background, the onMessageReceived callback is not invoked
 	- the app is in background, and the notification in the tray is tapped, the "data" part of the mixed message is available in the extras of the intent of the launched activity - these can be accessed with through nativescript, like they would in Java
+- we have removed the default large icon because it forced you to have a large icon and this wasnt the behaviour of FCM notifications
+- default color and icon for FCM messages can be set in the AndroidManifest.xml of the project using this XML, inside the <application> tag:
 
+```xml
+	<meta-data
+		android:name="com.google.firebase.messaging.default_notification_icon"
+		android:resource="@drawable/ic_stat_ic_notification" />
+	<meta-data
+		android:name="com.google.firebase.messaging.default_notification_color"
+		android:resource="@color/colorAccent" />
+```
+
+For more info: https://firebase.google.com/docs/cloud-messaging/android/topic-messaging#edit-the-app-manifest
