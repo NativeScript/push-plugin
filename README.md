@@ -370,4 +370,18 @@ In order to use the plugin with Telerik Backend Services take a look at the offi
 
 ### Things that have changed
 
-- 
+- When you send a notification through Backend Services, the value of the "Android" key can now have both "data" and "notification" keys.
+- Notification messages are Data, Notification or Mixed
+- The "data" key should function just like before:
+	- its "message", "title", "color", "smallIcon", "largeIcon" (etc..) keys should be respected
+	- the onMessageReceived callback is called each time a "data" notification is received with the same arguments
+	- when in background mode, a notification is created in the tray (otherwise, it is not). tapping that notification launches the app and invokes the onMessageReceived callback with the same arguments
+- The "notification" key is new. It functions like the native FCM implementation... more or less :)
+	- notification messages support all FCM key/values
+	- if the app is in foreground, it invokes the onMessageReceived callback with arguments (message, dataAsJson) - this may change, according to what you and Dobrev figure out, ask him
+	- if the app is in background, a notification is put in the tray. When tapped, it launches the app, but does not invoke the onMessageReceived callback
+- mixed messages are supported. when a mixed message is received and....
+	- the app is in foreground, the onMessageReceived callback is invoked with params (message, dataAsJson)
+	- the app is in background, the onMessageReceived callback is not invoked
+	- the app is in background, and the notification in the tray is tapped, the "data" part of the mixed message is available in the extras of the intent of the launched activity - these can be accessed with through nativescript, like they would in Java
+
