@@ -313,3 +313,61 @@ In case the application doesn't work as expected. Here are some things you can v
 In order to use the plugin with Telerik Backend Services take a look at the official sample:
 
 [Telerik Backend Services NativeScript Push Sample](https://github.com/NativeScript/sample-push-plugin)
+
+
+## FCM migration changes testing cheatsheet
+
+0. Run "tns doctor" and make sure everything is up to date
+
+1. Install the plugin
+	- go into package.json at the root of the project (most probably push sample) and set the dir to "absolute/path/to/pushpluginrepo"
+
+2. Amend build.gradle to include the google-services gradle plugin and apply it
+	- open projectRoot/platforms/android/build.gradle
+	- find the following piece of code (it's at the top)
+
+	```groovy
+		buildscript {
+			repositories {
+				jcenter()
+			}
+
+			dependencies {
+				classpath "com.android.tools.build:gradle:2.1.2"
+				classpath "com.google.gms:google-services:3.0.0" // <<==   This line will not be there. Add it.
+			}
+		}
+	```
+
+	- add | classpath "com.google.gms:google-services:3.0.0" | as a dependency (as shown above)
+	- add | apply plugin: "com.google.gms.google-services" | at the very bottom of the file
+
+3. google-services.json
+	To use FCM, you need this file. It contains configurations and credentials for your Google/Firebase project. To get one...
+
+	- visit http://firebase.google.com.
+	- create a Firebase project or migrate an existing Google project
+	- in the project "overview" page click "Add Firebase to your Android app" in the top middle of the page.
+	- type in package name (for the push sample project "com.telerik.PushNotificationApp")
+	- leave the other fields empty (it's just a test app) and click "Add app" - this will download your google-services.json
+	- place the google-services.json file into projectroot/App_Resources/Android
+
+	If something goes wrong, try this - https://firebase.google.com/docs/android/setup
+
+4. The Firebase Server key
+	You need a Server key to send messages.
+
+	- go to the project you created/migrated in 3) "overview" page
+	- in the top left of the page (under the Firebase logo), click the gear icon and select "project settings"
+	- from the tabs at the top of the newly opened page, click "cloud messaging"
+	- copy the "Server key" into the "Push Settings" page of Backend Services as "Google API Key"
+	- copy the Sender ID and use it to register with the push plugin (for the push sample app, paste it where it asks for google project number)
+
+5. tns run android
+
+	- test the push plugin
+
+
+### Things that have changed
+
+- 
