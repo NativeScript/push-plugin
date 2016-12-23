@@ -17,7 +17,7 @@ dependencies {
 }
 
 task copyGoogleServicesJson {
-    description "Copies the mandatory google-services.json rom App_Resources/Android folder."
+    description "Copies the mandatory google-services.json from App_Resources/Android folder."
 
     def path = "$projectDir/../../app/App_Resources/Android/google-services.json" 
     def servicesFile = file(path)

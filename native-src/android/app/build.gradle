@@ -23,3 +23,19 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
 }
+
+gradle.buildFinished {
+    description "Copies the .aar file to the plugin folder after build."
+
+    def path = "$projectDir/build/outputs/aar/app-debug.aar" // might break if you build it for other than debug
+    def servicesFile = file(path)
+    if(servicesFile.exists()) {
+        copy {
+            from path
+            into "$projectDir/../../../platforms/android"
+            rename "app-debug.aar", "pushplugin.aar"
+        }
+
+        println "\nPlugin copied to platforms/android folder."
+    }
+}
