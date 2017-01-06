@@ -1,5 +1,7 @@
 package com.telerik.pushplugin;
 
+import com.google.firebase.messaging.RemoteMessage;
+
 /**
  * Defines methods for Success and Error callbacks
  */
@@ -11,6 +13,7 @@ public interface PushPluginListener {
      * @param message
      * @param data
      */
+    void success(Object message, Object data, RemoteMessage.Notification notificationObj);
     void success(Object message, Object data);
     void success(Object message); // method overload to mimic optional argument
 

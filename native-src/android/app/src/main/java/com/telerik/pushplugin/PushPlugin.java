@@ -62,9 +62,10 @@ public class PushPlugin extends FirebaseMessagingService {
      */
     public static void setOnMessageReceivedCallback(PushPluginListener callbacks) {
         onMessageReceivedCallback = callbacks;
+        RemoteMessage.Notification whatever = null;
 
         if (cachedData != null) {
-            executeOnMessageReceivedCallback(cachedData);
+            executeOnMessageReceivedCallback(cachedData, whatever);
             cachedData = null;
         }
     }
@@ -75,9 +76,9 @@ public class PushPlugin extends FirebaseMessagingService {
      *
      * @param data
      */
-    public static void executeOnMessageReceivedCallback(Map<String, String> data) {
-        JsonObjectExtended json = convertMapToJson(data);
-        executeOnMessageReceivedCallback(json);
+    public static void executeOnMessageReceivedCallback(Map<String, String> data, RemoteMessage.Notification notif) {
+        JsonObjectExtended jsonData = convertMapToJson(data);
+        executeOnMessageReceivedCallback(jsonData, notif);
     }
 
     private static JsonObjectExtended convertMapToJson(Map<String, String> data) {
@@ -96,20 +97,17 @@ public class PushPlugin extends FirebaseMessagingService {
         return json;
     }
 
-    private static void executeOnMessageReceivedCallback(JsonObjectExtended dataAsJson) {
+    private static void executeOnMessageReceivedCallback(JsonObjectExtended dataAsJson, RemoteMessage.Notification notif) {
         if (onMessageReceivedCallback != null) {
-            String msg;
+            String msg = null;
             try {
                 msg = dataAsJson.getString("message");
             } catch (JSONException ex) {
                 ex.printStackTrace();
-                return;
             }
 
-            if (msg != null) {
-                Log.d(TAG, "Sending message to client: " + msg);
-                onMessageReceivedCallback.success(msg, dataAsJson.toString());
-            }
+            Log.d(TAG, "Sending message to client: " + msg);
+            onMessageReceivedCallback.success(msg, dataAsJson.toString(), notif);
         } else {
             Log.d(TAG, "No callback function - caching the data for later retrieval.");
             cachedData = dataAsJson;
@@ -122,13 +120,14 @@ public class PushPlugin extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         Map<String, String> data = message.getData();
+        RemoteMessage.Notification notif = message.getNotification();
         Log.d(TAG, "New Push Message: " + data);
-        Log.d(TAG, "Msg notification: " + message.getNotification());
+        Log.d(TAG, "Msg notification: " + notif);
 
         // If the application has the callback registered and Plugin is active
         // execute the callback. Otherwise, create new notification in the notification bar of the user.
         if (onMessageReceivedCallback != null && isActive) {
-            executeOnMessageReceivedCallback(data);
+            executeOnMessageReceivedCallback(data, notif);
         } else {
             Log.d(TAG, "Creating our own notification in tray...");
             Context context = getApplicationContext();

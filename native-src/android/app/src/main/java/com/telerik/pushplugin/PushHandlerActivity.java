@@ -63,7 +63,7 @@ public class PushHandlerActivity extends Activity {
             }
 
             if (map != null) {
-                PushPlugin.executeOnMessageReceivedCallback(map);
+                PushPlugin.executeOnMessageReceivedCallback(map, null);
             }
         }
     }
