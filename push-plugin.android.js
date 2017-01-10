@@ -2,7 +2,6 @@ module.exports = (function () {
     var app = require('application');
  
     (function() {
-        //debugger;
         // Hook on the application events
         com.telerik.pushplugin.PushLifecycleCallbacks.registerCallbacks(app.android.nativeApp);
     })();
@@ -21,7 +20,8 @@ module.exports = (function () {
         unregister: function (onSuccessCallback, onErrorCallback, options) {
             com.telerik.pushplugin.PushPlugin.unregister(app.android.context, options.senderID, new com.telerik.pushplugin.PushPluginListener(
                 {
-                    success: onSuccessCallback
+                    success: onSuccessCallback,
+                    error: onErrorCallback
                 }
             ));
         },
