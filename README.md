@@ -403,9 +403,9 @@ application.on(application.resumeEvent, function(args) {
 
 Depending on the notification event and payload, the `onMessageReceived` callback is invoked with up to three arguments.
 
-	* `message` - *String*. A string representation of the `data.message` value in the notification payload.
-	* `data` - *Object*. A JSON representation of the `data` value in the notification payload.
-	* `notification` - `RemoteMessage.Notification`. A representation of the `RemoteMessage.Notification` class which can be accessed according to its public methods. This parameter is available in case the callback was called from a message with a `notification` key in the payload. 
+* `message` - *String*. A string representation of the `data.message` value in the notification payload.
+* `data` - *Object*. A JSON representation of the `data` value in the notification payload.
+* `notification` - `RemoteMessage.Notification`. A representation of the `RemoteMessage.Notification` class which can be accessed according to its public methods. This parameter is available in case the callback was called from a message with a `notification` key in the payload.
 
 #### Setting Notification Icon and Color
 
