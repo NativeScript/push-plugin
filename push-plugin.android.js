@@ -1,6 +1,7 @@
 module.exports = (function () {
     var app = require('application');
- 
+    var utils = require("utils/types");
+
     (function() {
         // Hook on the application events
         com.telerik.pushplugin.PushLifecycleCallbacks.registerCallbacks(app.android.nativeApp);
@@ -8,11 +9,20 @@ module.exports = (function () {
 
     var pluginObject = {
         register: function (options, successCallback, errorCallback) {
+            var that = this;
+
             com.telerik.pushplugin.PushPlugin.register(app.android.context, options.senderID,
                 //Success
                 new com.telerik.pushplugin.PushPluginListener(
                     {
-                        success: successCallback,
+                        success: function (data) {
+                            if (utils.isFunction(options.notificationCallbackAndroid)) {
+                                that.onMessageReceived(options.notificationCallbackAndroid);
+                            }
+                            if (utils.isFunction(successCallback)) {
+                                successCallback(data);
+                            }
+                        },
                         error: errorCallback
                     })
             );
