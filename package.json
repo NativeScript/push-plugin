@@ -12,5 +12,6 @@
       "ios": "2.4.0",
       "android": "2.4.1"
     }
-  }
+  },
+  "typings": "./definitions.d.ts"
 }
