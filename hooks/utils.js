@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 
-var PLUGIN_VERSION = '3.0.0';
+var PLUGIN_VERSION = '+';
 var _log = console.log.bind(console);
 
 function targetsAndroid (projectDir) {
@@ -27,28 +27,39 @@ function checkForGoogleServicesJson (projectDir, resourcesDir) {
     }
 }
 
-function parseAndAdd (platformsDir) {
+function addOnPluginInstall (platformsDir) {
     var path = _getBuildGradlePath(platformsDir);
-    
-    if (!fs.existsSync(path)) {
-        return _log('build.gradle file not found');
+    if (buildGradleExists(platformsDir)) {
+        addIfNecessary(platformsDir);
     }
+}
 
-    var fileContents = fs.readFileSync(path, 'utf8');
-    var pluginImported = _checkForImport(fileContents);
-    var pluginApplied = _checkForApplication(fileContents);
-    
-    var newContents = fileContents;
+function addIfNecessary (platformsDir) {
+    _amendBuildGradle(platformsDir, function (pluginImported, pluginApplied, fileContents) {
+        var newContents = fileContents;
+        if (!pluginImported) {
+            newContents = _addPluginImport(newContents);
+        }
 
-    if (!pluginImported) {
-        newContents = _addPluginImport(fileContents);
-    }
+        if (!pluginApplied) {
+            newContents = _addPluginApplication(newContents);
+        }
+        return newContents;
+    });
+}
 
-    if (!pluginApplied) {
-        newContents = _addPluginApplication(newContents);
-    }
+function removeIfPresent (platformsDir) {
+    _amendBuildGradle(platformsDir, function (pluginImported, pluginApplied, fileContents) {
+        var newFileContents = fileContents;
+        if (pluginImported) {
+            newFileContents = _removePluginImport(newFileContents);
+        }
 
-    fs.writeFileSync(path, newContents, 'utf8');
+        if (pluginApplied) {
+            newFileContents = _removePluginApplication(newFileContents);
+        }
+        return newFileContents;
+    });
 }
 
 function setLogger (logFunc) {
@@ -57,12 +68,46 @@ function setLogger (logFunc) {
 
 // ============= private
 
-function _addPluginImport (buildGradleContents) {
-    var importStatement = 'classpath "com.android.tools.build:gradle';
+var _quotesRegExp = '["\']';
+var _versionRegExp = '[^\'"]+';
+var _pluginImportName = 'com.google.gms:google-services';
+var _pluginApplicationName = 'com.google.gms.google-services';
+
+function _amendBuildGradle (platformsDir, applyAmendment) {
+    var path = _getBuildGradlePath(platformsDir);
+
+    if (!buildGradleExists(platformsDir)) {
+        return _log('build.gradle file not found');
+    }
+
+    var fileContents = fs.readFileSync(path, 'utf8');
+    var pluginImported = _checkForImport(fileContents);
+    var pluginApplied = _checkForApplication(fileContents);
+    var newContents = applyAmendment(pluginImported, pluginApplied, fileContents);
     
-    var ind = buildGradleContents.indexOf(importStatement);
+    fs.writeFileSync(path, newContents, 'utf8');
+}
+
+function _removePluginImport (buildGradleContents) {
+    var regExpStr = '\\s*classpath +' + _formNamePartOfRegExp(true) + '{0,0}:' + _versionRegExp + _quotesRegExp;
+    var regExp = new RegExp(regExpStr, 'i');
+    return buildGradleContents.replace(regExp, '');
+}
+
+function _removePluginApplication (buildGradleContents) {
+    var regExpStr = '\\s*apply plugin: +' + _formNamePartOfRegExp(false);
+    var regExp = new RegExp(regExpStr, 'i');
+    return buildGradleContents.replace(regExp, '');
+}
+
+function _addPluginImport (buildGradleContents) {
+    var androidGradle = 'com.android.tools.build:gradle';
+    var insertBeforeDoubleQuotes = 'classpath "' + androidGradle;
+    var insertBeforeSingleQoutes = 'classpath \'' + androidGradle;
+    
+    var ind = buildGradleContents.indexOf(insertBeforeDoubleQuotes);
     if (ind === -1) {
-        ind = buildGradleContents.indexOf('classpath \'com.android.tools.build:gradle'); // with single quote
+        ind = buildGradleContents.indexOf(insertBeforeSingleQoutes);
     }
 
     if (ind === -1) {
@@ -71,29 +116,29 @@ function _addPluginImport (buildGradleContents) {
     }
 
     var result = buildGradleContents.substring(0, ind);
-    result += 'classpath "com.google.gms:google-services:' + PLUGIN_VERSION + '"' + os.EOL;
-    result += '\t\t' + importStatement;
-    result += buildGradleContents.substring(ind + 'classpath "com.android.tools.build:gradle'.length);
+    result += 'classpath "' + _pluginImportName + ':' + PLUGIN_VERSION + '"' + os.EOL;
+    result += '\t\t' + insertBeforeDoubleQuotes;
+    result += buildGradleContents.substring(ind + ('classpath "' + androidGradle).length);
     return result;
 }
 
 function _addPluginApplication (buildGradleContents) {
-    buildGradleContents += os.EOL + 'apply plugin: "com.google.gms.google-services"' + os.EOL;   
+    buildGradleContents += os.EOL + 'apply plugin: "' + _pluginApplicationName + '"' + os.EOL;
     return buildGradleContents;
 }
 
-function _formNamePartOfRegExp () {
-    var pluginName = 'com.google.gms.google-services';
-    return '[\'"]' + pluginName;
+function _formNamePartOfRegExp (useImportName) {
+    var name = useImportName ? _pluginImportName : _pluginApplicationName;
+    return _quotesRegExp + name + _quotesRegExp;
 }
 
 function _checkForImport (buildGradleContents) {
-    var re = new RegExp('classpath +' + _formNamePartOfRegExp(), 'i');
+    var re = new RegExp('classpath +' + _formNamePartOfRegExp(true) + '{0,0}', 'i');
     return re.test(buildGradleContents);
 }
 
 function _checkForApplication (buildGradleContents) {
-    var re = new RegExp('apply plugin: +' + _formNamePartOfRegExp(), 'i');
+    var re = new RegExp('apply plugin: +' + _formNamePartOfRegExp(false), 'i');
     return re.test(buildGradleContents);
 }
 
@@ -104,29 +149,11 @@ function _getBuildGradlePath (platformsDir) {
 // ============= end private
 
 module.exports = {
+    removeIfPresent: removeIfPresent,
     setLogger: setLogger,
-    parseAndAdd: parseAndAdd,
+    addIfNecessary: addIfNecessary,
     targetsAndroid: targetsAndroid,
     buildGradleExists: buildGradleExists,
+    addOnPluginInstall: addOnPluginInstall,
     checkForGoogleServicesJson: checkForGoogleServicesJson
 };
-
-
-
-// TODO: remove
-
-// function _printObj (obj) {
-//     var str;
-//     try {
-//         str = JSON.str(obj);
-//     } catch (ex) {
-//         str = JSON.stringify(Object.keys(obj));
-//     }
-
-//     return str;
-// }
-
-
-
-// parseAndAdd('./', function (str) {console.log(str)});
-
