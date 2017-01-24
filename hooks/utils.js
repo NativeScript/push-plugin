@@ -29,12 +29,14 @@ function checkForGoogleServicesJson (projectDir, resourcesDir) {
 
 function parseAndAdd (platformsDir) {
     var path = _getBuildGradlePath(platformsDir);
-    var fileContents = fs.readFileSync(path, 'utf8');
+    
+    if (!fs.existsSync(path)) {
+        return _log('build.gradle file not found');
+    }
 
+    var fileContents = fs.readFileSync(path, 'utf8');
     var pluginImported = _checkForImport(fileContents);
     var pluginApplied = _checkForApplication(fileContents);
-    _log('imp: ' + pluginImported);
-    _log('app: ' + pluginApplied);
     
     var newContents = fileContents;
 
