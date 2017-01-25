@@ -1,15 +1,14 @@
 module.exports = (function () {
     var app = require('application');
- 
-    (function() {
-        // Hook on the application events
+
+    // Hook on the application events
+    app.on(app.launchEvent, function () {
         com.telerik.pushplugin.PushLifecycleCallbacks.registerCallbacks(app.android.nativeApp);
-    })();
+    });
 
     var pluginObject = {
         register: function (options, successCallback, errorCallback) {
             com.telerik.pushplugin.PushPlugin.register(app.android.context, options.senderID,
-                //Success
                 new com.telerik.pushplugin.PushPluginListener(
                     {
                         success: successCallback,
