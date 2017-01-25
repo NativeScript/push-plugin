@@ -1,7 +1,7 @@
 { 
   "name" : "nativescript-push-notifications",
   "version": "0.1.0",
-  "main" : "push-plugin.js",
+  "main" : "push-plugin",
   "repository": {
     "type": "git",
     "url": "https://github.com/NativeScript/push-plugin.git"
