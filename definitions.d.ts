@@ -46,15 +46,15 @@ export declare interface FcmNotificaion {
 }
 
 // Common
-export declare function register(options: IosRegistrationOptions, successCallback: (token: string) => void, errorCallback: (error: NSError) => void);
-export declare function register(options: { senderID: string }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void);
-export declare function unregister(successCallback: (successMessage: string) => void); // iOS
-export declare function unregister(successCallback: (successMessage: string) => void, errorCallback: (errorMessage: string) => void, options: { senderID: string });
-export declare function areNotificationsEnabled(callback: (boolean) => void);
+export declare function register(options: IosRegistrationOptions, successCallback: (token: string) => void, errorCallback: (error: NSError) => void): void;
+export declare function register(options: { senderID: string }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void): void;
+export declare function unregister(successCallback: (successMessage: string) => void): void; // iOS
+export declare function unregister(successCallback: (successMessage: string) => void, errorCallback: (errorMessage: string) => void, options: { senderID: string }): void;
+export declare function areNotificationsEnabled(callback: (boolean) => void): void;
 
 // Android only
-export declare function onMessageReceived(callback: (message: string, stringifiedData: string, fcmNotification: FcmNotificaion) => void);
-export declare function onTokenRefresh(callback: () => void);
+export declare function onMessageReceived(callback: (message: string, stringifiedData: string, fcmNotification: FcmNotificaion) => void): void;
+export declare function onTokenRefresh(callback: () => void): void;
 
 // iOS only
-export declare function registerUserNotificationSettings(successCallback: () => void, errorCallback: (error: NSError) => void);
+export declare function registerUserNotificationSettings(successCallback: () => void, errorCallback: (error: NSError) => void): void;
