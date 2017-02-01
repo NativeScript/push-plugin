@@ -11,7 +11,21 @@
     "platforms": {
       "ios": "2.4.0",
       "android": "2.4.1"
-    }
+    },
+    "hooks": [
+      {
+        "type": "before-prepare",
+        "script": "hooks/before-prepare.js",
+        "inject": true
+      }
+    ]
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js",
+    "preuninstall": "node preuninstall.js"
+  },
+  "dependencies": {
+    "nativescript-hook": "0.2.1"
   },
   "typings": "./definitions.d.ts"
 }
