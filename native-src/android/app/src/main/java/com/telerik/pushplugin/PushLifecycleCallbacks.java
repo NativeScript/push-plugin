@@ -42,7 +42,7 @@ public class PushLifecycleCallbacks implements Application.ActivityLifecycleCall
     }
 
     public void onActivityResumed(Activity activity) {
-        Log.d(PushPlugin.TAG, "onActivityPaused: Application has been started");
+        Log.d(PushPlugin.TAG, "onActivityResumed: Application has been started");
 
         // the application has been resumed-> the push plugin is now in active/foreground state
         PushPlugin.isActive = true;
