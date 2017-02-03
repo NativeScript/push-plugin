@@ -324,8 +324,12 @@ From version **0.1.0** the `nativescript-push-notifications` module for Android 
 
 1. Add the FCM SDK
 
+> Since version 0.1.1 thе `google-services` plugin is added via a hook. You can skip this step for versions 0.1.1 and above.  
+
+
 	- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
 	- Add the `google-services` plugin to the list of other dependencies in your app's `build.gradle` file
+	
 
 	```Groovy
 	dependencies {
@@ -346,7 +350,6 @@ From version **0.1.0** the `nativescript-push-notifications` module for Android 
 	To use FCM, you need this file. It contains configurations and credentials for your Firebase project. To obtain this follow the instructions for adding Firebase to your project from the official [documentation](https://firebase.google.com/docs/android/setup). Scroll down to the **Manually add Firebase** section.  
 
 	Place the file in your app's `App_Resources/Android` folder
-
 
 1. Obtain the FCM Server Key
 
