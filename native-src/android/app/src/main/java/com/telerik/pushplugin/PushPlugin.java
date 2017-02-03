@@ -89,6 +89,7 @@ public class PushPlugin extends FirebaseMessagingService {
                 for (String key: data.keySet()) {
                     json.put(key, JsonObjectExtended.wrap(data.get(key)));
                 }
+                json.put("foreground", PushPlugin.isActive);
             } catch (JSONException ex) {
                 Log.d(TAG, "Error thrown while parsing push notification data bundle to json: " + ex.getMessage());
             }
