@@ -126,10 +126,11 @@ public class PushPlugin extends FirebaseMessagingService {
         Log.d(TAG, "Msg notification: " + notif);
 
         // If the application has the callback registered and Plugin is active
-        // execute the callback. Otherwise, create new notification in the notification bar of the user.
+        // execute the callback. Otherwise, create new notification in the notification bar of the user 
+        // (only when notification property is set accordingly).
         if (onMessageReceivedCallback != null && isActive) {
             executeOnMessageReceivedCallback(data, notif);
-        } else {
+        } else if (notif != null) {
             Log.d(TAG, "Creating our own notification in tray...");
             Context context = getApplicationContext();
             NotificationBuilder.createNotification(context, data);
