@@ -104,7 +104,7 @@ public class PushPlugin extends FirebaseMessagingService {
             try {
                 msg = dataAsJson.getString("message");
             } catch (JSONException ex) {
-                ex.printStackTrace();
+                //ex.printStackTrace();
             }
 
             Log.d(TAG, "Sending message to client: " + msg);
@@ -123,17 +123,21 @@ public class PushPlugin extends FirebaseMessagingService {
         Map<String, String> data = message.getData();
         RemoteMessage.Notification notif = message.getNotification();
         Log.d(TAG, "New Push Message: " + data);
+        Log.d(TAG, "isActive: " + isActive);
         Log.d(TAG, "Msg notification: " + notif);
 
+
         // If the application has the callback registered and Plugin is active
-        // execute the callback. Otherwise, create new notification in the notification bar of the user.
-        if (onMessageReceivedCallback != null && isActive) {
+        // execute the callback. Otherwise, create new notification in the notification bar of the user 
+        // (only when notification property is set accordingly).
+        if (onMessageReceivedCallback != null /*&& isActive*/) {
+            data.put("foreground", isActive);
             executeOnMessageReceivedCallback(data, notif);
-        } else {
+        } /*else if (notif != null) {
             Log.d(TAG, "Creating our own notification in tray...");
             Context context = getApplicationContext();
             NotificationBuilder.createNotification(context, data);
-        }
+        }*/
     }
 
     /**
