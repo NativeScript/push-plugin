@@ -1,7 +1,10 @@
-{ 
-  "name" : "nativescript-push-notifications",
-  "version": "0.1.2",
-  "main" : "push-plugin",
+{
+  "name": "nativescript-push-notifications",
+  "version": "0.1.3",
+  "main": "push-plugin",
+  "author": {
+    "name": "NativeScript Team"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/NativeScript/push-plugin.git"
@@ -9,8 +12,8 @@
   "license": "Apache-2.0",
   "nativescript": {
     "platforms": {
-      "ios": "2.4.0",
-      "android": "2.4.1"
+      "ios": "3.0.0",
+      "android": "3.0.0"
     },
     "hooks": [
       {
