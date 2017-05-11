@@ -272,6 +272,25 @@ The code for the Push Plugin for NativeScript.
 
 ```
 
+## Message API
+
+You can set several properties on the notification through the message sent to the device. They might differ depending on platform.
+
+```javascript
+	
+     {
+        "to": "fF9-oHSVJnr5UKe1fdRcyEz ...",
+        "data" : {
+            "title" : "The notification title", 
+            "message" : "Message content lorem ipsum ...",
+            "largeIcon" : "logo", // Android: icon for the notification dropdown
+            "smallIcon" : "ic_notification", // Android: The small notification in status field 
+            "color" : "#FF4081"
+        }
+    }
+
+```
+
 ## Troubleshooting
 
 In case the application doesn't work as expected. Here are some things you can verify
