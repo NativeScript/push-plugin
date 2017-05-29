@@ -278,7 +278,7 @@ In case the application doesn't work as expected. Here are some things you can v
 
 ### Android
 
-- Ensure that the AndroidManifest.xml located at platforms\android\build\... (do not add it in your "App_Resources\AndroidManifest.xml" file, it's automatically done) contains the following snippets for registering the GCM listener:
+- Ensure that the AndroidManifest.xml located at platforms\android\build\... (**do not add it in your "App_Resources\AndroidManifest.xml" file**, it's automatically done) contains the following snippets for registering the GCM listener:
 
 ```XML
 	<activity android:name="com.telerik.pushplugin.PushHandlerActivity"/>
