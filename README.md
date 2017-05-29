@@ -278,7 +278,7 @@ In case the application doesn't work as expected. Here are some things you can v
 
 ### Android
 
-- Ensure that the AndroindManifest.xml located at platforms\android contains the following snippets for registering the GCM listener:
+- Ensure that the AndroidManifest.xml located at platforms\android\build\... (do not add it in your "App_Resources\AndroidManifest.xml" file, it's automatically done) contains the following snippets for registering the GCM listener:
 
 ```XML
 	<activity android:name="com.telerik.pushplugin.PushHandlerActivity"/>
@@ -300,7 +300,7 @@ In case the application doesn't work as expected. Here are some things you can v
 	</service>
 ```
 
-- Ensure that the AndroindManifest.xml located at platforms\android contains the following permissions for push notifications:
+- Ensure that the AndroidManifest.xml located at platforms\android\build\... contains the following permissions for push notifications:
 
 ```xml
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
