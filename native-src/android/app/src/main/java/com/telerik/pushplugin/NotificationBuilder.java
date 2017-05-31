@@ -13,6 +13,9 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -69,18 +72,21 @@ public class NotificationBuilder {
                 }
             }
 
+            String msgParams = msgData.get("params");
+            JSONObject msgParamsObj = new JSONObject(msgParams);
+
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setDefaults(defaults)
-                            .setSmallIcon(getSmallIcon(context, msgData))
+                            .setSmallIcon(getSmallIcon(context, msgParamsObj))
                             .setWhen(System.currentTimeMillis())
-                            .setContentTitle(msgData.get("title"))
-                            .setTicker(msgData.get("title"))
+                            .setContentTitle(msgParamsObj.optString("title"))
+                            .setTicker(msgParamsObj.optString("title"))
                             .setContentIntent(contentIntent)
-                            .setColor(getColor(msgData))
+                            .setColor(getColor(msgParamsObj))
                             .setAutoCancel(true);
 
-            String message = msgData.get("message");
+            String message = msgData.get("body");
             if (message != null) {
                 mBuilder.setContentText(message);
             } else {
@@ -92,8 +98,8 @@ public class NotificationBuilder {
                 mBuilder.setNumber(Integer.parseInt(msgcnt));
             }
 
-            String soundName = msgData.get("sound");
-            if (soundName != null) {
+            String soundName = msgParamsObj.optString("sound");
+            if (soundName != null && !soundName.isEmpty()) {
                 Resources r = context.getResources();
                 int resourceId = r.getIdentifier(soundName, "raw", context.getPackageName());
                 Uri soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + resourceId);
@@ -128,10 +134,10 @@ public class NotificationBuilder {
         return (String) appName;
     }
 
-    private static int getColor(Map<String, String> extras) {
+    private static int getColor(JSONObject extras) {
         int theColor = 0; // default, transparent
-        final String passedColor = extras.get("color"); // something like "#FFFF0000", or "red"
-        if (passedColor != null) {
+        final String passedColor = extras.optString("color"); // something like "#FFFF0000", or "red"
+        if (passedColor != null && !passedColor.isEmpty()) {
             try {
                 theColor = Color.parseColor(passedColor);
             } catch (IllegalArgumentException ignore) {
@@ -140,13 +146,14 @@ public class NotificationBuilder {
         return theColor;
     }
 
-    private static int getSmallIcon(Context context, Map<String, String> extras) {
+    private static int getSmallIcon(Context context, JSONObject extras) {
 
         int icon = -1;
 
         // first try an iconname possible passed in the server payload
-        final String iconNameFromServer = extras.get("smallIcon");
-        if (iconNameFromServer != null) {
+        final String iconNameFromServer;
+        iconNameFromServer = extras.optString("smallIcon");
+        if (iconNameFromServer != null && !iconNameFromServer.isEmpty()) {
             icon = getIconValue(context.getPackageName(), iconNameFromServer);
         }
 
@@ -171,6 +178,11 @@ public class NotificationBuilder {
         final String iconNameFromServer = extras.get("largeIcon");
         if (iconNameFromServer != null) {
             icon = getIconValue(context.getPackageName(), iconNameFromServer);
+        }
+
+        // fall back to the regular app icon
+        if (icon == -1) {
+            icon = context.getApplicationInfo().icon;
         }
 
         return icon;
