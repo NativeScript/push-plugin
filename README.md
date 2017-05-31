@@ -1,5 +1,8 @@
 # Push Plugin for NativeScript
 
+**This plugin is a fork of  "[Nativescript push-plugin](https://github.com/NativeScript/push-plugin)" with some modifications on the notification params.**
+
+
 The code for the Push Plugin for NativeScript.
 
 - [Getting started](#getting-started)
@@ -51,10 +54,10 @@ The code for the Push Plugin for NativeScript.
 - The access token is written in the console and in the message area, after subscribing (Look for ObtainTokenThread log record). When sending a notification, the message below the TAP button should be changed with the message received.
 
 The plugin will default to version 10.0.1 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion` like so:
-	
+
 	```
 	// in the root level of /app/App_Resources/Android/app.gradle:
-	
+
 	project.ext {
 	    firebaseMessagingVersion = "+" // OR the version you wish
 	}
@@ -423,7 +426,23 @@ Depending on the notification event and payload, the `onMessageReceived` callbac
 
 > From version 0.1.0 the module no longer adds as default a large icon of the notification because this was forcing developers to always use a large icon which is not the native behavior.
 
-The plugin automatically handles some keys in the `data` object like `message`, `title`, `color`, `smallIcon`, `largeIcon` and uses them to construct a notification entry in the tray. More information on these keys is available in the documentation of the Telerik Platform Notifications service documentation [article](http://docs.telerik.com/platform/backend-services/javascript/push-notifications/send-and-target/push-send-target-examples).
+The plugin automatically handles some keys in the `data` object like ~~`message`, `title`, `color`, `smallIcon`, `largeIcon`~~ `params` object with `message`, `title`, `color`, `smallIcon`, `largeIcon` and uses them to construct a notification entry in the tray. More information on these keys is available in the documentation of the Telerik Platform Notifications service documentation [article](http://docs.telerik.com/platform/backend-services/javascript/push-notifications/send-and-target/push-send-target-examples).
+
+```JSON
+{	"data":
+	{
+		"body": "This is the message",
+		"params": {
+			"title": "Notification title",
+			"color": "#ff0000",
+			"smallIcon": "ic_stat_notify_friends",
+			"largeIcon": "ic_notify_friends",
+			"sound": "mysound"
+		}
+	}
+}
+```
+
 
 Custom default color and icon for **notification** messages can be set in the `AndroidManifest.xml` inside the `application` directive:
 
