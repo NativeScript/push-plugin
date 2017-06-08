@@ -128,8 +128,8 @@ The code for the Push Plugin for NativeScript.
 	var settings = {
 		// Android settings
 		senderID: '<ENTER_YOUR_PROJECT_NUMBER>', // Android: Required setting with the sender/project number
-		notificationCallbackAndroid: function(message, pushNotificationObject) { // Android: Callback to invoke when a new push is received.
-        	alert(JSON.stringify(message));
+		notificationCallbackAndroid: function(data, notification) { // Android: Callback to invoke when a new push is received.
+        	alert(JSON.stringify(data));
         },
 
 		// iOS settings
@@ -324,7 +324,7 @@ From version **0.1.0** the `nativescript-push-notifications` module for Android 
 
 1. Add the FCM SDK
 
-> Since version 0.1.1 thе `google-services` plugin is added via a hook. You can skip this step for versions 0.1.1 and above.  
+> Since version 0.1.1 th?? `google-services` plugin is added via a hook. You can skip this step for versions 0.1.1 and above.  
 
 
 	- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
@@ -359,9 +359,9 @@ From version **0.1.0** the `nativescript-push-notifications` module for Android 
 
 ### Receive and Handle Messages from FCM on Android
 
-The plugin allows for handling **data**, **notification**, and messages that contain **both** payload keys which  for the purposes of this article are reffered to as **mixed**. More specifics on these messages are explained [here](https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages).
+The plugin allows for handling **data**, **notification**, and messages that contain **both** payload keys which  for the purposes of this article are referred to as **mixed**. More specifics on these messages are explained [here](https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages).
 
-The plugin extends the `FirebaseMessagingService` and overrides its `onMessageReceived` callback. In your app you need to use the `onMessageReceived(message, data, notification)` method of the NativeScript module.
+The plugin extends the `FirebaseMessagingService` and overrides its `onMessageReceived` callback. In your app you need to use the `onMessageReceived(data, notification)` method of the NativeScript module.
 
 The behavior of the `onMessageReceived` callback in the module follows the behavior of the FCM service.
 
@@ -373,7 +373,7 @@ When in background mode, a notification is constructed according to the values o
 
 #### Handling **Notification** Messages
 
-If the app is in foreground, it invokes the `onMessageReceived` callback with three arguments (message, data, notification).
+If the app is in foreground, it invokes the `onMessageReceived` callback with two arguments (data, notification).
 
 If the app is in background, a notification is put in the tray. When tapped, it launches the app, but does not invoke the `onMessageReceived` callback.
 
@@ -381,7 +381,7 @@ If the app is in background, a notification is put in the tray. When tapped, it 
 
 Mixed messages are messages that contain in their load both **data** and **notification** keys. When such message is received:
 
-- The app is in foreground, the `onMessageReceived` callback is invoked with parameters (message, data)
+- The app is in foreground, the `onMessageReceived` callback is invoked with parameters (data)
 - The app is in background, the `onMessageReceived` callback is not invoked. A notification is placed in the system tray. If the notification in the tray is tapped, the `data` part of the mixed message is available in the extras of the intent of the activity and are available in the respective [application event](https://docs.nativescript.org/core-concepts/application-lifecycle) of NativeScript.  
 
 Example of handling the `data` part in the application *resume* event (e.g. the app was brought to the foreground from the notification):
@@ -404,9 +404,8 @@ application.on(application.resumeEvent, function(args) {
 
 #### Parameters of the onMessageReceived Callback
 
-Depending on the notification event and payload, the `onMessageReceived` callback is invoked with up to three arguments.
+Depending on the notification event and payload, the `onMessageReceived` callback is invoked with up to two arguments.
 
-* `message` - *String*. A string representation of the `data.message` value in the notification payload.
 * `data` - *Object*. A JSON representation of the `data` value in the notification payload.
 * `notification` - `RemoteMessage.Notification`. A representation of the `RemoteMessage.Notification` class which can be accessed according to its public methods. This parameter is available in case the callback was called from a message with a `notification` key in the payload.
 
