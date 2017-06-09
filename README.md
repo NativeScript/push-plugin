@@ -324,7 +324,7 @@ From version **0.1.0** the `nativescript-push-notifications` module for Android 
 
 1. Add the FCM SDK
 
-> Since version 0.1.1 th?? `google-services` plugin is added via a hook. You can skip this step for versions 0.1.1 and above.  
+> Since version 0.1.1 the `google-services` plugin is added via a hook. You can skip this step for versions 0.1.1 and above.
 
 
 	- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
