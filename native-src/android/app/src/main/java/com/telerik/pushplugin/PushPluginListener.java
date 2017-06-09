@@ -10,13 +10,12 @@ public interface PushPluginListener {
      * Defines a success callback method, which is used to pass success function reference
      * from the nativescript to the Java plugin
      *
-     * @param message
      * @param data
+     * @param notification
      */
-    void success(Object message, Object data, RemoteMessage.Notification notificationObj);
-    void success(Object message, Object data);
-    void success(Object message); // method overload to mimic optional argument
-
+    void success(Object data, RemoteMessage.Notification notification);
+    void success(Object data);
+    // method overload to mimic optional argument
 
     /**
      * Defines a error callback method, which is used to pass success function reference

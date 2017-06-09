@@ -6,7 +6,7 @@ This is the native java code for push notifications for the Android platform, wh
 
 The project contains an intellij project file. It must be configured to use the Android SDK by specifying the local location of the SDK.
 
-The build's output is in the /out folder, containing the .jar file ready to be used in an Android Application.
+The build's output is in the /out folder, containing the .aar file ready to be used in an Android Application.
 
 # API
 
