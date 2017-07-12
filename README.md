@@ -50,6 +50,15 @@ The code for the Push Plugin for NativeScript.
 
 - The access token is written in the console and in the message area, after subscribing (Look for ObtainTokenThread log record). When sending a notification, the message below the TAP button should be changed with the message received.
 
+The plugin will default to version 10.0.1 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion` like so:
+	
+	```
+	// in the root level of /app/App_Resources/Android/app.gradle:
+	
+	project.ext {
+	    firebaseMessagingVersion = "+" // OR the version you wish
+	}
+	```
 ### iOS
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:

@@ -11,9 +11,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
-    compile 'com.android.support:multidex:1.0.1'
+    def firebaseMessagingVersion = project.hasProperty('firebaseMessagingVersion') ? project.firebaseMessagingVersion : '10.0.1'
+
+    compile "com.android.support:appcompat-v7:25.1.0"
+    compile "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+    compile "com.android.support:multidex:1.0.1"
 }
 
 task copyGoogleServicesJson {
