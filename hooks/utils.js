@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 
-var PLUGIN_VERSION = '+';
+var PLUGIN_VERSION = '3.1.1';
 var _log = console.log.bind(console);
 
 function targetsAndroid (projectDir) {
