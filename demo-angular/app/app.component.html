@@ -1,0 +1,13 @@
+<ActionBar>
+    <ActionBar title="Push Notifictions"></ActionBar>
+</ActionBar>
+
+<StackLayout class="p-20">
+    <Button text="Are notifications enabled?" (tap)="onCheckButtonTap()" android:visibility="collapsed" class="btn"></Button>
+    <Button text="Register device" (tap)="onRegisterButtonTap()" class="btn"></Button>
+    <Button text="Unregister device" (tap)="onUnregisterButtonTap()" class="btn"></Button>
+    <Label text="Log:" class="h1"></Label>
+    <ScrollView orientation="vertical">
+        <Label [text]="message" class="h2" textWrap="true"></Label>
+    </ScrollView>
+</StackLayout>
