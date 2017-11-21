@@ -22,7 +22,7 @@ export declare interface IosRegistrationOptions {
         actions: IosInteractiveNotificationAction[],
         categories: IosInteractiveNotificationCategory[]
     },
-    notificationCallbackIOS: (message: string) => void;
+    notificationCallbackIOS: (message: any) => void;
 }
 
 export declare interface NSError {

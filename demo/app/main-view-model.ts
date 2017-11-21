@@ -15,8 +15,8 @@ export class HelloWorldModel extends Observable {
         badge: true, // Enable setting badge through Push Notification
         sound: true, // Enable playing a sound
         alert: true, // Enable creating a alert
-        notificationCallbackIOS: (message: String) => {
-            this.updateMessage("Message received!\n" + message);
+        notificationCallbackIOS: (message: any) => {
+            this.updateMessage("Message received!\n" + JSON.stringify(message));
         }
     };
 
