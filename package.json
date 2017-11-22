@@ -27,8 +27,11 @@
     "postinstall": "node postinstall.js",
     "preuninstall": "node preuninstall.js"
   },
+  "typings": "./definitions.d.ts",
   "dependencies": {
     "nativescript-hook": "0.2.1"
   },
-  "typings": "./definitions.d.ts"
+  "devDependencies": {
+    "tslint": "^5.8.0"
+  }
 }
