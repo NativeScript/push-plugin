@@ -21,14 +21,14 @@ export declare interface IosRegistrationOptions {
     interactiveSettings: {
         actions: IosInteractiveNotificationAction[],
         categories: IosInteractiveNotificationCategory[]
-    },
+    };
     notificationCallbackIOS: (message: any) => void;
 }
 
 export declare interface NSError {
     code: number;
     domain: string;
-    userInfo: any
+    userInfo: any;
 }
 
 export declare interface FcmNotificaion {
@@ -50,7 +50,7 @@ export declare function register(options: IosRegistrationOptions, successCallbac
 export declare function register(options: { senderID: string }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void): void;
 export declare function unregister(successCallback: (successMessage: string) => void): void; // iOS
 export declare function unregister(successCallback: (successMessage: string) => void, errorCallback: (errorMessage: string) => void, options: { senderID: string }): void;
-export declare function areNotificationsEnabled(callback: (boolean) => void): void;
+export declare function areNotificationsEnabled(successCallback: (areEnabled: boolean) => void): void;
 
 // Android only
 export declare function onMessageReceived(callback: (message: string, stringifiedData: string, fcmNotification: FcmNotificaion) => void): void;

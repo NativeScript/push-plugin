@@ -6,7 +6,12 @@ var PLUGIN_VERSION = '3.1.1';
 var _log = console.log.bind(console);
 
 function targetsAndroid (projectDir) {
-    var pkg = require(path.join(projectDir, 'package.json'));
+    var pkgFile = path.join(projectDir, 'package.json');
+    if (!fs.existsSync(pkgFile)) {
+        return false;
+    }
+
+    var pkg = require(pkgFile);
     if (!pkg.nativescript) {
         throw new Error('Not a NativeScript project');
     }
