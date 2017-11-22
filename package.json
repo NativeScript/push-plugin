@@ -2,14 +2,18 @@
   "name": "nativescript-push-notifications",
   "version": "0.1.5",
   "main": "push-plugin",
-  "author": {
-    "name": "NativeScript Team"
+  "typings": "./definitions.d.ts",
+  "author": "NativeScript Team",
+  "bugs": {
+    "url": "https://github.com/NativeScript/push-plugin/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/NativeScript/push-plugin.git"
   },
   "license": "Apache-2.0",
+  "homepage": "https://github.com/NativeScript/nativescript-imagepicker",
+  "readmeFilename": "README.md",
   "nativescript": {
     "platforms": {
       "ios": "3.0.0",
@@ -28,7 +32,6 @@
     "postinstall": "node postinstall.js",
     "preuninstall": "node preuninstall.js"
   },
-  "typings": "./definitions.d.ts",
   "dependencies": {
     "nativescript-hook": "0.2.1"
   },
