@@ -14,7 +14,7 @@ The code for the Push Plugin for NativeScript.
 ## Installation
 In the Command prompt / Terminal navigate to your application root folder and run:
 
-		tns plugin add nativescript-push-notifications
+	tns plugin add nativescript-push-notifications
 
 
 ## Configuration
@@ -30,17 +30,19 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 The plugin will default to version 10.0.1 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion` like so:
 
-	```Groovy
+```Groovy
 	// in the root level of /app/App_Resources/Android/app.gradle:
 	project.ext {
 	    firebaseMessagingVersion = "+" // OR the version you wish
 	}
-	```
+```
 
 ### iOS
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
+    ```
         "id": "org.NativeScript.PushNotificationApp"
+    ```
 
 - Go to the application folder and add the iOS platform to the application
 
@@ -184,7 +186,7 @@ Add code in your view model or compoent to subscribe and receive messages:
 
 - Run the app on the phone or simulator:
 
-	tns run ios
+	    tns run ios
 
 ## API Reference 
 
@@ -420,11 +422,8 @@ The `nativescript-push-notifications` module for Android relies on the Firebase 
 
 > Thе `google-services` plugin is added automatically. If this fails, you can try adding it manually:
 
-
-	- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
-	- Add the `google-services` plugin to the list of other dependencies in your app's `build.gradle` file
-	
-
+- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
+- Add the `google-services` plugin to the list of other dependencies in your app's `build.gradle` file
 	```Groovy
 	dependencies {
 		// ...
@@ -432,9 +431,7 @@ The `nativescript-push-notifications` module for Android relies on the Firebase 
 		// ...
 	}
 	```
-
-	- Add the following line be at the bottom of your `build.gradle` file to enable the Gradle plugin
-
+- Add the following line be at the bottom of your `build.gradle` file to enable the Gradle plugin
 	```Groovy
 	apply plugin: 'com.google.gms.google-services'
 	```
