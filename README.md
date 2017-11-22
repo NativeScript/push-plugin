@@ -32,7 +32,6 @@ The plugin will default to version 10.0.1 of the `firebase-messaging` SDK.  If y
 
 	```Groovy
 	// in the root level of /app/App_Resources/Android/app.gradle:
-	
 	project.ext {
 	    firebaseMessagingVersion = "+" // OR the version you wish
 	}
@@ -53,6 +52,7 @@ The plugin will default to version 10.0.1 of the `firebase-messaging` SDK.  If y
 
 Add code in your view model or compoent to subscribe and receive messages (don't forget to enter your Firebase Cloud Messaging **Sender ID** in the options of the register method):
 
+*TypeScript*
 ```TypeScript
 	import * as pushPlugin from "nativescript-push-notifications";
     pushPlugin.register({ senderID: '<ENTER_YOUR_PROJECT_NUMBER>' }, (token: String) => {
@@ -65,6 +65,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
     });
 ```
 
+*Javascript*
 ```Javascript
 	var pushPlugin = require("nativescript-push-notifications");
 	pushPlugin.register({ senderID: '<ENTER_YOUR_PROJECT_NUMBER>' }, function (data){
@@ -87,6 +88,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
 
 Add code in your view model or compoent to subscribe and receive messages:
 
+*TypeScript*
 ```TypeScript
 	import * as pushPlugin from "nativescript-push-notifications";
 	const iosSettings = {
@@ -134,6 +136,7 @@ Add code in your view model or compoent to subscribe and receive messages:
 	});
 ```
 
+*Javascript*
 ```Javascript
 	var pushPlugin = require("nativescript-push-notifications");
 	var iosSettings = {
@@ -223,8 +226,8 @@ The `categories` array from the iOS interactive settings contains:
 | actionsForDefaultContext | Array | Required. Array of string identifiers of actions. |
 | actionsForMinimalContext | Array | Required. Array of string identifiers of actions. |
 
+*Javascript*
 ```Javascript
-
 	var settings = {
 		badge: true,
 		sound: true,
@@ -290,8 +293,8 @@ The `categories` array from the iOS interactive settings contains:
 | errorCallback | Android | Function | Called when app is NOT successfully unsubscribed. Has one parameter containing the error. |
 | options | Android | Function | Called when app is NOT successfully unsubscribed. Has one parameter containing the error. |
 
+*Javascript*
 ```Javascript
-
 	pushPlugin.unregister(
 		// Success callback
 		function(result) {
@@ -312,8 +315,8 @@ The `categories` array from the iOS interactive settings contains:
 | --- |  --- | --- | --- |
 | successCallback | iOS/Android | Function | Called with one boolean parameter containing the result from the notifications enabled check. |
 
+*Javascript*
 ```Javascript
-
 	pushPlugin.areNotificationsEnabled(function(areEnabled) {
 		alert('Are Notifications enabled: ' + areEnabled);
     });
@@ -351,6 +354,7 @@ The fcmNotification object contains the following methods:
 | --- |  --- | --- |
 | callback | Function | Called with a single string parameter containing the FCM new token. |
 
+*Javascript*
 ```Javascript
 
 	pushPlugin.onTokenRefresh(function(token) {
@@ -474,6 +478,7 @@ Mixed messages are messages that contain in their load both **data** and **notif
 
 Example of handling the `data` part in the application *resume* event (e.g. the app was brought to the foreground from the notification):
 
+*Javascript*
 ```Javascript
 application.on(application.resumeEvent, function(args) {
     if (args.android) {
