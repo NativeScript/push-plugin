@@ -5,7 +5,7 @@ purpose of the file is to pass control to the app’s first module.
 */
 
 import "./bundle-config";
-import * as app from 'application';
+import * as app from 'tns-core-modules/application';
 
 app.start({ moduleName: 'main-page' });
 

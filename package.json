@@ -28,6 +28,7 @@
     ]
   },
   "scripts": {
+    "tsc": "tsc -skipLibCheck",
     "ci.tslint": "npm i --ignore-scripts && tslint '**/*.ts' --config tslint.json --exclude '**/node_modules/**'",
     "postinstall": "node postinstall.js",
     "preuninstall": "node preuninstall.js"
@@ -36,6 +37,8 @@
     "nativescript-hook": "0.2.1"
   },
   "devDependencies": {
+    "tns-core-modules": "^3.3.0",
+    "tns-platform-declarations": "^3.3.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1"
   }
