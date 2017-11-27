@@ -1,4 +1,6 @@
 {
+  "name": "demo",
+  "version": "1.0.0",
   "nativescript": {
     "id": "org.nativescript.ppTest",
     "tns-ios": {
@@ -9,7 +11,7 @@
     }
   },
   "dependencies": {
-    "nativescript-push-notifications": "../",
+    "nativescript-push-notifications": "../src",
     "nativescript-theme-core": "^1.0.4",
     "tns-core-modules": "^3.3.0"
   },

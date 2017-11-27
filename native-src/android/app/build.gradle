@@ -32,10 +32,10 @@ gradle.buildFinished {
     if(servicesFile.exists()) {
         copy {
             from path
-            into "$projectDir/../../../platforms/android"
+            into "$projectDir/../../../src/platforms/android"
             rename "app-debug.aar", "pushplugin.aar"
         }
 
-        println "\nPlugin copied to platforms/android folder."
+        println "\nPlugin copied to src/platforms/android folder."
     }
 }
