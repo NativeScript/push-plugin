@@ -6,6 +6,7 @@
 *.js.map
 *.log
 !src/scripts/*.js
+!src/hooks/*.js
 !seed-tests/*.js
 seed-tests/seed-copy/**/*.*
 seed-tests/seed-copy-new-git-repo/**/*.*

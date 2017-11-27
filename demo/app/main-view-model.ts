@@ -54,6 +54,8 @@ export class HelloWorldModel extends Observable {
         let self = this;
         pushPlugin.register(this.pushSettings, (token: String) => {
             self.updateMessage("Device registered. Access token: " + token);
+            // token displayed in console for easier copying and debugging durng development
+            console.log("Device registered. Access token: " + token);
 
             if (pushPlugin.onMessageReceived) {
                 pushPlugin.onMessageReceived(this.pushSettings.notificationCallbackAndroid);

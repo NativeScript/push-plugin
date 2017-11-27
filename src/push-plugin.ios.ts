@@ -1,7 +1,8 @@
 import * as app from 'tns-core-modules/application';
+const iosApp = app.ios;
+
 declare var Push: any;
 declare var PushManager: any;
-declare var iosApp: any;
 
 export declare interface IosInteractiveNotificationAction {
     identifier: string;
@@ -38,8 +39,11 @@ export declare interface NSError {
 
 let pushHandler;
 let pushManager;
+let pushSettings;
 (() => {
-
+    if (!pushSettings) {
+        pushSettings = {};
+    }
 
     if (!pushHandler) {
         pushHandler = Push.alloc().init();
@@ -52,20 +56,19 @@ let pushManager;
 
 
 const _init = (settings: IosRegistrationOptions) => {
-    if (!!this.isInitialized) return;
+    if (!!pushSettings.isInitialized) return;
 
-    const self = this;
     // initialize the native push plugin
-    this.settings = settings;
-    this.notificationCallbackIOS = settings.notificationCallbackIOS;
+    pushSettings.settings = settings;
+    pushSettings.notificationCallbackIOS = settings.notificationCallbackIOS;
 
     // subscribe to the notification received event.
-    this._addObserver("notificationReceived", (context: any) => {
+    _addObserver("notificationReceived", (context: any) => {
         const userInfo = JSON.parse(context.userInfo.objectForKey('message'));
-        self.notificationCallbackIOS(userInfo);
+        pushSettings.notificationCallbackIOS(userInfo);
     });
 
-    this.isInitialized = true;
+    pushSettings.isInitialized = true;
 };
 
 const _mapCategories = (interactiveSettings: any) => {
@@ -96,74 +99,71 @@ const _mapCategories = (interactiveSettings: any) => {
     return categories;
 };
 
-const _addObserver = (eventName: String, callback: (context: any) => void) => {
+let _addObserver = (eventName: string, callback: (context: any) => void) => {
     return iosApp.addNotificationObserver(eventName, callback);
 };
 
-const _removeObserver = function (observer: () => void, eventName: String) {
+let _removeObserver = function (observer: () => void, eventName: string) {
     iosApp.removeNotificationObserver(observer, eventName);
 };
 
 export function register(settings: IosRegistrationOptions, success: (token: String) => void, error: (error: NSError) => void) {
-    const self = this;
-
-    this._init(settings);
-    if (!this.didRegisterObserver) { // make sure that the events are not attached more than once
-        this.didRegisterObserver = this._addObserver("didRegisterForRemoteNotificationsWithDeviceToken", (result: any) => {
-            self._removeObserver(self.didRegisterObserver, "didRegisterForRemoteNotificationsWithDeviceToken");
-            self.didRegisterObserver = undefined;
+    _init(settings);
+    if (!pushSettings.didRegisterObserver) { // make sure that the events are not attached more than once
+        pushSettings.didRegisterObserver = _addObserver("didRegisterForRemoteNotificationsWithDeviceToken", (result: any) => {
+            _removeObserver(pushSettings.didRegisterObserver, "didRegisterForRemoteNotificationsWithDeviceToken");
+            pushSettings.didRegisterObserver = undefined;
             const token = result.userInfo.objectForKey('message');
             success(token);
         });
     }
 
-    if (!this.didFailToRegisterObserver) {
-        this.didFailToRegisterObserver = this._addObserver("didFailToRegisterForRemoteNotificationsWithError", (e: NSError) => {
-            self._removeObserver(self.didFailToRegisterObserver, "didFailToRegisterForRemoteNotificationsWithError");
-            self.didFailToRegisterObserver = undefined;
+    if (!pushSettings.didFailToRegisterObserver) {
+        pushSettings.didFailToRegisterObserver = _addObserver("didFailToRegisterForRemoteNotificationsWithError", (e: NSError) => {
+            _removeObserver(pushSettings.didFailToRegisterObserver, "didFailToRegisterForRemoteNotificationsWithError");
+            pushSettings.didFailToRegisterObserver = undefined;
             error(e);
         });
     }
 
-    pushHandler.register(self.settings);
+    pushHandler.register(pushSettings.settings);
 }
 
 export function registerUserNotificationSettings(success: () => void, error: (error: NSError) => void) {
-    const self = this;
-    if (self.settings && self.settings.interactiveSettings) {
-        const interactiveSettings = self.settings.interactiveSettings;
+    if (pushSettings.settings && pushSettings.settings.interactiveSettings) {
+        const interactiveSettings = pushSettings.settings.interactiveSettings;
         let notificationTypes = [];
-        if (self.settings.alert) {
+        if (pushSettings.settings.alert) {
             notificationTypes.push("alert");
         }
-        if (self.settings.badge) {
+        if (pushSettings.settings.badge) {
             notificationTypes.push("badge");
         }
-        if (self.settings.sound) {
+        if (pushSettings.settings.sound) {
             notificationTypes.push("sound");
         }
 
-        if (!this.registerUserSettingsObserver) {
-            this.registerUserSettingsObserver = this._addObserver("didRegisterUserNotificationSettings", () => {
-                self._removeObserver(self.registerUserSettingsObserver, "didRegisterUserNotificationSettings");
+        if (!pushSettings.registerUserSettingsObserver) {
+            pushSettings.registerUserSettingsObserver = _addObserver("didRegisterUserNotificationSettings", () => {
+                _removeObserver(pushSettings.registerUserSettingsObserver, "didRegisterUserNotificationSettings");
 
-                self.registerUserSettingsObserver = undefined;
+                pushSettings.registerUserSettingsObserver = undefined;
                 success();
             });
         }
 
-        if (!this.failToRegisterUserSettingsObserver) {
-            this.failToRegisterUserSettingsObserver = this._addObserver("failToRegisterUserNotificationSettings", (e: NSError) => {
-                self._removeObserver(self.didFailToRegisterObserver, "failToRegisterUserNotificationSettings");
+        if (!pushSettings.failToRegisterUserSettingsObserver) {
+            pushSettings.failToRegisterUserSettingsObserver = _addObserver("failToRegisterUserNotificationSettings", (e: NSError) => {
+                _removeObserver(pushSettings.didFailToRegisterObserver, "failToRegisterUserNotificationSettings");
 
-                self.failToRegisterUserSettingsObserver = undefined;
+                pushSettings.failToRegisterUserSettingsObserver = undefined;
                 error(e);
             });
         }
 
         pushHandler.registerUserNotificationSettings({
             types: notificationTypes,
-            categories: self._mapCategories(interactiveSettings)
+            categories: _mapCategories(interactiveSettings)
         });
     } else {
         success();
@@ -171,12 +171,11 @@ export function registerUserNotificationSettings(success: () => void, error: (er
 }
 
 export function unregister(done: (context: any) => void) {
-    const self = this;
-    if (!this.didUnregisterObserver) {
-        this.didUnregisterObserver = this._addObserver("didUnregister", (context: any) => {
-            self._removeObserver(self.didUnregisterObserver, "didUnregister");
+    if (!pushSettings.didUnregisterObserver) {
+        pushSettings.didUnregisterObserver = _addObserver("didUnregister", (context: any) => {
+            _removeObserver(pushSettings.didUnregisterObserver, "didUnregister");
 
-            self.didUnregisterObserver = undefined;
+            pushSettings.didUnregisterObserver = undefined;
             done(context);
         });
     }
@@ -185,14 +184,13 @@ export function unregister(done: (context: any) => void) {
 }
 
 export function areNotificationsEnabled(done: (areEnabled: Boolean) => void) {
-    const self = this;
-    if (!this.areNotificationsEnabledObserver) {
-        this.areNotificationsEnabledObserver = this._addObserver("areNotificationsEnabled", function (result) {
+    if (!pushSettings.areNotificationsEnabledObserver) {
+        pushSettings.areNotificationsEnabledObserver = _addObserver("areNotificationsEnabled", function (result) {
             const areEnabledStr = result.userInfo.objectForKey('message');
             const areEnabled = areEnabledStr === "true";
 
-            self._removeObserver(self.areNotificationsEnabledObserver, "areNotificationsEnabled");
-            self.areNotificationsEnabledObserver = undefined;
+            _removeObserver(pushSettings.areNotificationsEnabledObserver, "areNotificationsEnabled");
+            pushSettings.areNotificationsEnabledObserver = undefined;
             done(areEnabled);
         });
     }
