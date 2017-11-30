@@ -1,2 +1,6 @@
 # Exclude the native source code. The native libraries are included in the push-plugin as compiled resources (i.e. jar & framework)
 native-src/
+*.map
+*.ts
+!*.d.ts
+tsconfig.json

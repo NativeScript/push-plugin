@@ -1,4 +1,3 @@
-debugger;
 var path = require('path');
 var utils = require('../hooks/utils');
 var projDir = path.resolve(__dirname, '../../../');
