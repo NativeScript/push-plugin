@@ -6,7 +6,7 @@ export class HelloWorldModel extends Observable {
     private pushSettings = {
         // Android settings
         senderID: "<ENTER_YOUR_PROJECT_NUMBER>", // Android: Required setting with the sender/project number
-        notificationCallbackAndroid: (message: String, stringifiedData: String, fcmNotification: any) => {
+        notificationCallbackAndroid: (stringifiedData: String, fcmNotification: any) => {
             const notificationBody = fcmNotification && fcmNotification.getBody();
             this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
         },

@@ -61,7 +61,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
 		alert("Device registered. Access token: " + token);;
 	}, function() { });
 
-	pushPlugin.onMessageReceived((message: String, stringifiedData: String, fcmNotification: any) => {
+	pushPlugin.onMessageReceived((stringifiedData: String, fcmNotification: any) => {
         const notificationBody = fcmNotification && fcmNotification.getBody();
         alert("Message received!\n" + notificationBody + "\n" + stringifiedData);
     });
@@ -74,7 +74,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
 		alert("message", "" + data);
 	}, function() { });
 
-	pushPlugin.onMessageReceived(function callback(message, stringifiedData, fcmNotification) {
+	pushPlugin.onMessageReceived(function callback(stringifiedData, fcmNotification) {
 		var notificationBody = fcmNotification && fcmNotification.getBody();
         alert("Message received!\n" + notificationBody + "\n" + stringifiedData);
 	});
@@ -450,7 +450,7 @@ The `nativescript-push-notifications` module for Android relies on the Firebase 
 
 The plugin allows for handling **data**, **notification**, and messages that contain **both** payload keys which  for the purposes of this article are reffered to as **mixed**. More specifics on these messages are explained [here](https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages).
 
-The plugin extends the `FirebaseMessagingService` and overrides its `onMessageReceived` callback. In your app you need to use the `onMessageReceived(message, stringifiedData, fcmNotification)` method of the NativeScript module.
+The plugin extends the `FirebaseMessagingService` and overrides its `onMessageReceived` callback. In your app you need to use the `onMessageReceived(stringifiedData, fcmNotification)` method of the NativeScript module.
 
 The behavior of the `onMessageReceived` callback in the module follows the behavior of the FCM service.
 
@@ -462,7 +462,7 @@ When in background mode, a notification is constructed according to the values o
 
 #### Handling **Notification** Messages
 
-If the app is in foreground, it invokes the `onMessageReceived` callback with three arguments (message, stringifiedData, fcmNotification).
+If the app is in foreground, it invokes the `onMessageReceived` callback with three arguments (stringifiedData, fcmNotification).
 
 If the app is in background, a notification is put in the tray. When tapped, it launches the app, but does not invoke the `onMessageReceived` callback.
 
@@ -470,7 +470,7 @@ If the app is in background, a notification is put in the tray. When tapped, it 
 
 Mixed messages are messages that contain in their load both **data** and **notification** keys. When such message is received:
 
-- The app is in foreground, the `onMessageReceived` callback is invoked with parameters (message, stringifiedData, fcmNotification)
+- The app is in foreground, the `onMessageReceived` callback is invoked with parameters (stringifiedData, fcmNotification)
 - The app is in background, the `onMessageReceived` callback is not invoked. A notification is placed in the system tray. If the notification in the tray is tapped, the `data` part of the mixed message is available in the extras of the intent of the activity and are available in the respective [application event](https://docs.nativescript.org/core-concepts/application-lifecycle) of NativeScript.  
 
 Example of handling the `data` part in the application *resume* event (e.g. the app was brought to the foreground from the notification):

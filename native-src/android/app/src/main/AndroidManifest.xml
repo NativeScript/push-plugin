@@ -2,7 +2,6 @@
     package="__PACKAGE__">
 
     <application>
-        <activity android:name="com.telerik.pushplugin.PushHandlerActivity"/>
         <service
             android:name="com.telerik.pushplugin.PushPlugin" >
             <intent-filter>

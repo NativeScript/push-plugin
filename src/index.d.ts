@@ -53,7 +53,7 @@ export declare function unregister(successCallback: (successMessage: string) => 
 export declare function areNotificationsEnabled(successCallback: (areEnabled: boolean) => void): void;
 
 // Android only
-export declare function onMessageReceived(callback: (message: string, stringifiedData: string, fcmNotification: FcmNotificaion) => void): void;
+export declare function onMessageReceived(callback: (stringifiedData: string, fcmNotification: FcmNotificaion) => void): void;
 export declare function onTokenRefresh(callback: () => void): void;
 
 // iOS only

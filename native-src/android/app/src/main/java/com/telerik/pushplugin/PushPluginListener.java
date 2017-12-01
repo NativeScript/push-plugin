@@ -13,9 +13,8 @@ public interface PushPluginListener {
      * @param message
      * @param data
      */
-    void success(Object message, Object data, RemoteMessage.Notification notificationObj);
-    void success(Object message, Object data);
-    void success(Object message); // method overload to mimic optional argument
+    void success(Object data, RemoteMessage.Notification notificationObj);
+    void success(Object data); // method overload to mimic optional argument
 
 
     /**
