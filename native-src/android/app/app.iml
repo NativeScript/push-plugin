@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="android" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -81,20 +81,22 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/10.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/10.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-common/10.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/10.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/10.0.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-compat/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-fragment/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/25.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement-license/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks-license/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-common-license/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-common/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-iid-license/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging-license/11.4.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/11.4.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -107,22 +109,24 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="com.google.firebase:firebase-common-10.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-10.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-10.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.google.firebase:firebase-iid-10.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-compat-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-10.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.1.0@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-vector-drawable-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-v4-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-iid-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-common-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-common-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-compat-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.2.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-iid-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-v4-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.2.0" level="project" />
   </component>
 </module>

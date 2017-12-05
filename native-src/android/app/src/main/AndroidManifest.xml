@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="__PACKAGE__">
+    package="com.telerik.pushplugin">
 
     <application>
         <service
