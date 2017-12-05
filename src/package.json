@@ -30,11 +30,11 @@
   },
   "scripts": {
     "tsc": "tsc -skipLibCheck",
-    "build": "npm i && tsc",
+    "build": "npm i --ignore-scripts && tsc && cd ../publish && ./pack.sh",
     "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
     "plugin.link": "npm link && cd ../demo && npm link nativescript-push-notifications && cd ../src",
     "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
-    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
+    "ci.tslint": "npm i --ignore-scripts && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
     "postinstall": "node scripts/postinstall.js",
     "preuninstall": "node scripts/preuninstall.js"
   },
