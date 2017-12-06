@@ -40,7 +40,7 @@ matrix:
       language: node_js 
       node_js: "6"
       jdk: oraclejdk8
-      script: cd demo && npm run ci.android.ios
+      script: cd demo && npm run ci.ios.build
 
 android:
   components:

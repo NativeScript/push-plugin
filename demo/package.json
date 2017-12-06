@@ -41,7 +41,7 @@
   },
   "scripts": {
     "build.plugin": "cd ../src && npm run build",
-    "ci.tslint": "npm i && tslint --config ../tslint.json 'app/**/*.ts' --exclude '**/node_modules/**'",
+    "ci.tslint": "npm run build.plugin && npm i && tslint --config ../tslint.json 'app/**/*.ts' --exclude '**/node_modules/**'",
     "ci.android.build": "npm run build.plugin && tns build android",
     "ci.ios.build": "npm run build.plugin && tns build ios",
     "ns-bundle": "ns-bundle",
