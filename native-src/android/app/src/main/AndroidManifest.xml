@@ -3,7 +3,7 @@
 
     <application>
         <service
-            android:name="com.telerik.pushplugin.PushPlugin" >
+            android:name="com.telerik.pushplugin.PushPlugin">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
