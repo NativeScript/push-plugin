@@ -18,7 +18,7 @@ dependencies {
        supportVer = supportVersion
     }
 
-    println 'Push Plugin is using $supportVer of the Android support library'
+    println 'Push Plugin is using ' + supportVer + ' of the Android support library'
 
     compile "com.android.support:appcompat-v7:$supportVer"
     compile "com.android.support:appcompat-v7:25.1.0"
