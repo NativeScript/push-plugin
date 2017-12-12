@@ -1,7 +1,7 @@
 import { Observable } from "tns-core-modules/data/observable";
 import * as pushPlugin from "nativescript-push-notifications";
 
-export class HelloWorldModel extends Observable {
+export class PushTestModel extends Observable {
 
     private pushSettings = {
         // Android settings

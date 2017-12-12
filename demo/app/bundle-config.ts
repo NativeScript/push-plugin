@@ -4,4 +4,6 @@ if ((<any>global).TNS_WEBPACK) {
 
     // register application modules
     global.registerModule("main-page", () => require("./main-page"));
+
+    global.registerModule("nativescript-push-notifications", () => require("nativescript-push-notifications"));
 }

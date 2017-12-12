@@ -13,7 +13,7 @@
     "url": "https://github.com/NativeScript/push-plugin.git"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/NativeScript/nativescript-imagepicker",
+  "homepage": "https://github.com/NativeScript/push-plugin",
   "readmeFilename": "README.md",
   "nativescript": {
     "platforms": {

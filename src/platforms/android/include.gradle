@@ -12,13 +12,7 @@ android {
 
 dependencies {
     def firebaseMessagingVersion = project.hasProperty('firebaseMessagingVersion') ? project.firebaseMessagingVersion : '11.4.2'
-    def supportVer = "25.1.0";
-
-    if(project.hasProperty("supportVersion")) {
-       supportVer = supportVersion
-    }
-
-    println 'Push Plugin is using ' + supportVer + ' of the Android support library'
+    def supportVer = project.hasProperty("supportVersion") ? supportVersion : "25.1.0";
 
     compile "com.android.support:appcompat-v7:$supportVer"
     compile "com.android.support:appcompat-v7:25.1.0"
