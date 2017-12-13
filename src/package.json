@@ -1,0 +1,51 @@
+{
+  "name": "nativescript-push-notifications",
+  "version": "0.2.0",
+  "description": "Receive push notifications in your NativeScript app on Android and iOS.",
+  "main": "push-plugin",
+  "typings": "index.d.ts",
+  "author": "NativeScript Team",
+  "bugs": {
+    "url": "https://github.com/NativeScript/push-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NativeScript/push-plugin.git"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/NativeScript/push-plugin",
+  "readmeFilename": "README.md",
+  "nativescript": {
+    "platforms": {
+      "ios": "3.0.0",
+      "android": "3.0.0"
+    },
+    "hooks": [
+      {
+        "type": "before-prepare",
+        "script": "hooks/before-prepare.js",
+        "inject": true
+      }
+    ]
+  },
+  "scripts": {
+    "tsc": "tsc -skipLibCheck",
+    "build": "npm i --ignore-scripts && tsc && cd ../publish && ./pack.sh",
+    "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
+    "plugin.link": "npm link && cd ../demo && npm link nativescript-push-notifications && cd ../src",
+    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
+    "ci.tslint": "npm i --ignore-scripts && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
+    "postinstall": "node scripts/postinstall.js",
+    "preuninstall": "node scripts/preuninstall.js"
+  },
+  "dependencies": {
+    "nativescript-hook": "0.2.2"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "tns-core-modules": "^3.3.0",
+    "tns-platform-declarations": "^3.3.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1"
+  }
+}
