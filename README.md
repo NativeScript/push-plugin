@@ -228,6 +228,8 @@ The `categories` array from the iOS interactive settings contains:
 | actionsForDefaultContext | Array | Required. Array of string identifiers of actions. |
 | actionsForMinimalContext | Array | Required. Array of string identifiers of actions. |
 
+For more information about iOS interactive notifications, please visit the [Apple Developer site](https://developer.apple.com/notifications/)
+
 *Javascript*
 ```Javascript
 	var settings = {
@@ -379,7 +381,7 @@ In case the application doesn't work as expected. Here are some things you can v
 
 ### Android
 
-- Ensure that the AndroidManifest.xml located at platforms\android\build\... (**do not add it in your "App_Resources\AndroidManifest.xml" file**) contains the following snippets for registering the GCM listener:
+- Ensure that the AndroidManifest.xml located at platforms/android/build/... (**do not add it in your "App_Resources/Android/AndroidManifest.xml" file**) contains the following snippets for registering the GCM listener:
 
 ```XML
 	<activity android:name="com.telerik.pushplugin.PushHandlerActivity"/>
@@ -401,17 +403,17 @@ In case the application doesn't work as expected. Here are some things you can v
 	</service>
 ```
 
-- Ensure that the AndroidManifest.xml located at platforms\android\build\... contains the following permissions for push notifications:
+- Ensure that the AndroidManifest.xml located at platforms/android/build/... contains the following permissions for push notifications:
 
 ```xml
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 ```
 
 ### iOS
 
-- Error "Error registering: no valid 'aps-environment' entitlement string found for application" - this means that the certificates are not correctly set in the xcodeproject. Open the xcodeproject, fix them and you can even run the application from xcode to verify it's setup correctly. The bundle identifier in xcode should be the same as the "id" in the package.json file in the root of the project.
+- Error "Error registering: no valid 'aps-environment' entitlement string found for application" - this means that the certificates are not correctly set in the xcodeproject. Open the xcodeproject, fix them and you can even run the application from xcode to verify it's setup correctly. The bundle identifier in xcode should be the same as the "id" in the package.json file in the root of the project. Also make sure that "Push Notifications" is switched ON in the "Capabilities" page of the project settings.  
+
 
 ## Android Configuration for using Firebase Cloud Messaging
 
