@@ -26,7 +26,7 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 		tns platform add android
 
-- Add the `google-settings.json` file with the FCM configuration to the `app/App_Resources/Android folder` in your app
+- Add the `google-settings.json` file with the FCM configuration to the `app/App_Resources/Android folder` in your app. If this file is not added, building the app for android will fail.
 
 The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion` like so:
 
@@ -84,7 +84,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
 
 		tns run android
 
-- The access token is written in the console and displayed on the device after the plugin sucessfully subscribes to receive notifications. When notification comes, the message will be displayed in the notification area if the app is closed or on screen if the app is open.
+- The access token is written in the console and displayed on the device after the plugin sucessfully subscribes to receive notifications. When a notification comes, the message will be displayed in the notification area if the app is closed or handled directly in the onMessageReceived callback if the app is open.
 
 ### iOS
 
@@ -330,7 +330,6 @@ The `categories` array from the iOS interactive settings contains:
 
 | Parameter | Type | Description |
 | --- |  --- | --- |
-| message | String | The notification message (if available). |
 | stringifiedData | String | A string containing JSON data from the notification |
 | fcmNotification | Object | iOS/Android | Function | The FCMNotification object. |
 
@@ -462,7 +461,7 @@ When in background mode, a notification is constructed according to the values o
 
 #### Handling **Notification** Messages
 
-If the app is in foreground, it invokes the `onMessageReceived` callback with three arguments (stringifiedData, fcmNotification).
+If the app is in foreground, it invokes the `onMessageReceived` callback with two arguments (stringifiedData, fcmNotification).
 
 If the app is in background, a notification is put in the tray. When tapped, it launches the app, but does not invoke the `onMessageReceived` callback.
 
@@ -494,9 +493,8 @@ application.on(application.resumeEvent, function(args) {
 
 #### Parameters of the onMessageReceived Callback
 
-Depending on the notification event and payload, the `onMessageReceived` callback is invoked with up to three arguments.
+Depending on the notification event and payload, the `onMessageReceived` callback is invoked with two arguments.
 
-* `message` - *String*. A string representation of the `data.message` value in the notification payload.
 * `stringifiedData` - *String*. A stringified JSON representation of the `data` value in the notification payload.
 * `fcmNotification` - `RemoteMessage.Notification`. A representation of the `RemoteMessage.Notification` class which can be accessed according to its public methods. This parameter is available in case the callback was called from a message with a `notification` key in the payload.
 
