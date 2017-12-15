@@ -159,7 +159,7 @@ public class PushPlugin extends FirebaseMessagingService {
     /**
      * This method always returns true. It is here only for legacy purposes.
      */
-    public static Boolean areNotificationsEnabled() {
+    public static boolean areNotificationsEnabled() {
         return true;
     }
 
