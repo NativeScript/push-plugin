@@ -143,7 +143,7 @@ function _checkForApplication (buildGradleContents) {
 }
 
 function _getBuildGradlePath (platformsDir) {
-    return path.join(platformsDir, 'android', 'build.gradle');
+    return path.join(platformsDir, 'android', 'app', 'build.gradle');
 }
 
 // ============= end private
