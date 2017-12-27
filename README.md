@@ -351,17 +351,17 @@ The fcmNotification object contains the following methods:
 | getTitleLocalizationArgs() | String[] |
 | getTitleLocalizationKey() | String |
 
-#### onTokenRefresh(callback) - register a callback function to execute when the old token is revoked and a new token is obtained. 
+#### onTokenRefresh(callback) - register a callback function to execute when the old token is revoked and a new token is obtained. Note that the token is _not_ passed to the callback as an argument. If you need the new token value, you'll need to call `register` again or add some native code to obtain the token from FCM.
 
 | Parameter | Type | Description |
 | --- |  --- | --- |
-| callback | Function | Called with a single string parameter containing the FCM new token. |
+| callback | Function | Called with no arguments. |
 
 *Javascript*
 ```Javascript
 
-	pushPlugin.onTokenRefresh(function(token) {
-			alert(token);
+	pushPlugin.onTokenRefresh(function() {
+			alert("new token obtained");
 	});
 
 ```
