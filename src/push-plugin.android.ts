@@ -56,7 +56,7 @@ export function onMessageReceived(onSuccessCallback: (message: string, stringifi
     );
 }
 
-export function onTokenRefresh(onSuccessCallback: (token: string) => void) {
+export function onTokenRefresh(onSuccessCallback: () => void) {
     com.telerik.pushplugin.PushPlugin.setOnTokenRefreshCallback(
         new com.telerik.pushplugin.PushPluginListener(
             {
