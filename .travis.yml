@@ -8,12 +8,12 @@ matrix:
       os: linux
       node_js: "6"
       script: cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
-    - stage: "WebPack"
+    - stage: "WebPack and Build"
       os: osx
       env:
         - Platform="iOS"
-        - Xcode="9.1"
-      osx_image: xcode9.1
+        - Xcode="9.2"
+      osx_image: xcode9.2
       language: node_js 
       node_js: "6"
       jdk: oraclejdk8
@@ -28,11 +28,10 @@ matrix:
       script: >
         echo { \"project_info\": { \"project_number\": \"424050927453\", \"firebase_url\": \"https://pptest-53916.firebaseio.com\", \"project_id\": \"pptest-53916\", \"storage_bucket\": \"pptest-53916.appspot.com\" }, \"client\": [ { \"client_info\": { \"mobilesdk_app_id\": \"1:424050927453:android:21d2dd8987e1e3d1\", \"android_client_info\": { \"package_name\": \"org.nativescript.ppTest\" } }, \"oauth_client\": [ { \"client_id\": \"424050927453-o7gv6bcmknujjoaaoa5r4d452cutb9jf.apps.googleusercontent.com\", \"client_type\": 3 } ], \"api_key\": [ { \"current_key\": \"AIzaSyDr3fqH7Z8-vhBNpAges_KFTA7oOoylGvU\" } ], \"services\": { \"analytics_service\": { \"status\": 1 }, \"appinvite_service\": { \"status\": 1, \"other_platform_oauth_client\": [] }, \"ads_service\": { \"status\": 2 } } } ], \"configuration_version\": \"1\"} > demo/app/App_Resources/Android/google-services.json &&
         cd demo && npm run build.plugin && npm i && npm run build-android-bundle
-    - stage: "Build"
+    - language: android
       env: 
         - Platform="Android"
         - AndroidSDK="26"
-      language: android
       os: linux
       jdk: oraclejdk8
       before_install: nvm install stable
@@ -42,8 +41,8 @@ matrix:
     - os: osx
       env: 
         - Platform="iOS"
-        - Xcode="9.1"
-      osx_image: xcode9.1
+        - Xcode="9.2"
+      osx_image: xcode9.2
       language: node_js 
       node_js: "6"
       jdk: oraclejdk8
