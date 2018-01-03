@@ -68,7 +68,7 @@ android:
     - extra-android-m2repository
 
 install:
-    - echo no | npm install -g nativescript
+    - echo no | npm install -g nativescript@next
     - tns usage-reporting disable
     - tns error-reporting disable
     - cd src
