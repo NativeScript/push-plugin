@@ -118,7 +118,7 @@ function _addPluginImport (buildGradleContents) {
     var result = buildGradleContents.substring(0, ind);
     result += 'classpath "' + _pluginImportName + ':' + PLUGIN_VERSION + '"' + os.EOL;
     result += '\t\t' + insertBeforeDoubleQuotes;
-    result += buildGradleContents.substring(ind + ('classpath "' + androidGradle).length);
+    result += buildGradleContents.substring(ind + ('classpath \'' + androidGradle).length);
     return result;
 }
 
