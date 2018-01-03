@@ -85,7 +85,7 @@ function _copyGoogleServices(platformsDir) {
     var dstServicesFile = path.join(platformsDir, 'android', 'app', 'google-services.json');
     if (fs.existsSync(srcServicesFile) && !fs.existsSync(dstServicesFile) && fs.existsSync(path.join(platformsDir, 'android', 'app'))) {
         // try to copy google-services config file to platform app directory
-        fs.writeFileSync(dest, fs.readFileSync(src, 'utf-8'));
+        fs.writeFileSync(dstServicesFile, fs.readFileSync(srcServicesFile, 'utf-8'));
     }
 }
 
