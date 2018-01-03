@@ -40,7 +40,9 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
 
 ### iOS
 
-- Edit the package.json file in the root of application, by changing the bundle identifier to match the one from your Push Certificate. For example:
+- Ensure you have set up an App in your Apple Developer account, with Push Notifications enabled and configured. More on this [here](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html)
+
+- Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```
         "id": "org.NativeScript.PushNotificationApp"
     ```
@@ -48,6 +50,8 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
 - Go to the application folder and add the iOS platform to the application
 
         tns platform add ios
+
+- Go to (application folder)/platforms/ios and open the XCode project. Enable Push Notifications in the project Capabilities options.
 
 
 ## Usage 
@@ -188,6 +192,8 @@ Add code in your view model or compoent to subscribe and receive messages:
 - Run the app on the phone or simulator:
 
 	    tns run ios
+
+- [HINT] Install the [pusher app](https://github.com/noodlewerk/NWPusher) to send notifications to the device being debugged on. In the 'device push token' field paste the device access token generated in the {N} CLI / XCode debug console after launching the app.
 
 ## API Reference 
 
