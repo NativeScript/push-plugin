@@ -15,7 +15,7 @@ function targetsAndroid(projectDir) {
 }
 
 function buildGradleExists(platformsDir) {
-    return fs.existsSync(_getProjectBuildGradlePath(platformsDir)) && fs.existsSync(_getAppBuildGradlePath(platformsDir));
+    return fs.existsSync(_getProjectBuildGradlePath(platformsDir));
 }
 
 function checkForGoogleServicesJson(projectDir, resourcesDir) {
@@ -40,7 +40,11 @@ function addIfNecessary(platformsDir) {
         }
 
         if (!pluginApplied) {
-            fileContents.appFileContents = _addPluginApplication(fileContents.appFileContents);
+            if (fileContents.appFileContents) {
+                fileContents.appFileContents = _addPluginApplication(fileContents.appFileContents);
+            } else {
+                fileContents.projectFileContents = _addPluginApplication(fileContents.projectFileContents);
+            }
         }
         return fileContents;
     });
@@ -55,7 +59,11 @@ function removeIfPresent(platformsDir) {
         }
 
         if (pluginApplied) {
-            fileContents.appFileContents = _removePluginApplication(fileContents.appFileContents);
+            if (fileContents.appFileContents) {
+                fileContents.appFileContents = _removePluginApplication(fileContents.appFileContents);
+            } else {
+                fileContents.projectFileContents = _removePluginApplication(fileContents.projectFileContents);
+            }
         }
         return fileContents;
     });
@@ -64,7 +72,7 @@ function removeIfPresent(platformsDir) {
 function setLogger(logFunc) {
     _log = logFunc;
 }
-
+ 
 // ============= private
 
 var _quotesRegExp = '["\']';
@@ -73,11 +81,11 @@ var _pluginImportName = 'com.google.gms:google-services';
 var _pluginApplicationName = 'com.google.gms.google-services';
 
 function _copyGoogleServices(platformsDir) {
-    var servicesFile = path.join(platformsDir, 'android', 'app', 'google-services.json');
-    if (!fs.existsSync(servicesFile)) {
-        var srcServicesFile = path.join(platformsDir, '..', 'app', 'App_Resources', 'Android', 'google-services.json');
+    var srcServicesFile = path.join(platformsDir, '..', 'app', 'App_Resources', 'Android', 'google-services.json');
+    var dstServicesFile = path.join(platformsDir, 'android', 'app', 'google-services.json');
+    if (fs.existsSync(srcServicesFile) && !fs.existsSync(dstServicesFile) && fs.existsSync(path.join(platformsDir, 'android', 'app'))) {
         // try to copy google-services config file to platform app directory
-        fs.copyFileSync(srcServicesFile, servicesFile);
+        fs.writeFileSync(dest, fs.readFileSync(src, 'utf-8'));
     }
 }
 
@@ -88,16 +96,23 @@ function _amendBuildGradle(platformsDir, applyAmendment) {
 
     var projectPath = _getProjectBuildGradlePath(platformsDir);
     var appPath = _getAppBuildGradlePath(platformsDir);
+
+    if (!fs.existsSync(appPath)) {
+        // NativeScript <= 3.3.1
+        appPath = null;
+    }
     var fileContents = {
         projectFileContents: fs.readFileSync(projectPath, 'utf8'),
-        appFileContents: fs.readFileSync(appPath, 'utf8')
+        appFileContents: appPath ? fs.readFileSync(appPath, 'utf8') : null
     };
     var pluginImported = _checkForImport(fileContents.projectFileContents);
-    var pluginApplied = _checkForApplication(fileContents.appFileContents);
+    var pluginApplied = _checkForApplication(fileContents.appFileContents ? fileContents.appFileContents : fileContents.projectFileContents);
     var newContents = applyAmendment(pluginImported, pluginApplied, fileContents);
 
     fs.writeFileSync(projectPath, newContents.projectFileContents, 'utf8');
-    fs.writeFileSync(appPath, newContents.appFileContents, 'utf8');
+    if (appPath) {
+        fs.writeFileSync(appPath, newContents.appFileContents, 'utf8');
+    }
 }
 
 function _removePluginImport(buildGradleContents) {
