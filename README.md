@@ -40,7 +40,7 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
 
 ### iOS
 
-- Ensure you have set up an App in your Apple Developer account, with Push Notifications enabled and configured. More on this [here](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html)
+- Ensure you have set up an App in your Apple Developer account, with Push Notifications enabled and configured. More on this in the Apple's [AddingCapabilities documentation](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html)
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```
