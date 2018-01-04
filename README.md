@@ -1,5 +1,5 @@
 # Push Plugin for NativeScript
-[![Build Status](https://travis-ci.org/NativeScript/push-plugin.svg?branch=master)](https://travis-ci.org/NativeScript/push-plugin)
+[![Build Status](https://travis-ci.org/NativeScript/push-plugin.svg?branch=next)](https://travis-ci.org/NativeScript/push-plugin)
 
 The code for the Push Plugin for NativeScript.
 
