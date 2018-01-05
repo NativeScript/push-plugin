@@ -23,6 +23,22 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 > See the [Android Configuration for using Firebase Cloud Messaging](#android-configuration-for-using-firebase-cloud-messaging) for information about how to add Firebase to your project.
 
+- Edit the `package.json` file in the root of application, by changing the bundle identifier to match the Firebase's project package name. For example:
+    ```
+        "id": "org.NativeScript.PushNotificationApp"
+    ```
+
+- Edit the `app/App_Resources/Android/app.gradle` file of your application, by changing the application ID to match the bundle identifier from the package.json. For example:
+```
+	android {
+	  ...
+  	  defaultConfig {
+	    applicationId = "org.NativeScript.PushNotificationApp"
+	  }
+	  ...
+	}
+```
+
 - Go to the application folder and add the Android platform to the application
 
 		tns platform add android
@@ -40,7 +56,7 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
 
 ### iOS
 
-- Ensure you have set up an App in your Apple Developer account, with Push Notifications enabled and configured. More on this in the Apple's [AddingCapabilities documentation](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html)
+- Ensure you have set up an App in your Apple Developer account, with Push Notifications enabled and configured. More on this in the Apple's [AddingCapabilities documentation](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html) > `Configuring Push Notifications` section.
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```
@@ -48,16 +64,25 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
     ```
 
 - Go to the application folder and add the iOS platform to the application
+	```
+        tns build ios
+	```
 
-        tns platform add ios
-
-- Go to (application folder)/platforms/ios and open the XCode project. Enable Push Notifications in the project Capabilities options.
-
+- Go to (application folder)/platforms/ios and open the XCode project. Enable Push Notifications in the project Capabilities options. In case you don't have XCode,
+go to (application folder)/platforms/ios/(application folder name) , find *.entitlements file and add to it `aps-environment` key and its value as shown below:
+	```
+    	<plist version="1.0">
+		<dict>
+			<key>aps-environment</key>
+			<string>development</string>
+		</dict>
+		</plist>
+    ```
 
 ## Usage 
 ### Android
 
-Add code in your view model or compoent to subscribe and receive messages (don't forget to enter your Firebase Cloud Messaging **Sender ID** in the options of the register method):
+Add code in your view model or component to subscribe and receive messages (don't forget to enter your Firebase Cloud Messaging **Sender ID** in the options of the register method):
 
 *TypeScript*
 ```TypeScript
@@ -93,7 +118,7 @@ Add code in your view model or compoent to subscribe and receive messages (don't
 
 ### iOS
 
-Add code in your view model or compoent to subscribe and receive messages:
+Add code in your view model or component to subscribe and receive messages:
 
 *TypeScript*
 ```TypeScript
