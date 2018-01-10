@@ -413,6 +413,8 @@ In case the application doesn't work as expected. Here are some things you can v
 
 ### Android
 
+- When the application is started using `tns run android` (i.e. in debug mode with livesync) some background notifications might not be received correctly. This happens because the app is not started in a normal way for debugging and the resume from background happens differently. To receive all notifications correctly, stop the app (swipe it away it from the recent apps list) and start it again by tapping the app icon on the device. 
+
 - Ensure that the AndroidManifest.xml located at platforms/android/build/... (**do not add it in your "App_Resources/Android/AndroidManifest.xml" file**) contains the following snippets for registering the GCM listener:
 
 ```XML
@@ -491,11 +493,13 @@ The behavior of the `onMessageReceived` callback in the module follows the behav
 
 The `onMessageReceived` method of the plugin is called each time a `data` notification is received.
 
-When in background mode, a notification is constructed according to the values of the key specified above and placed in the tray. Tapping the notification launches the app and invokes the `onMessageReceived` callback.
+If the app is stopped or suspended, NO notification is constructed and placed in the tray. Tapping the app icon launches the app and invokes the `onMessageReceived` callback where you will receive the notification data.
+
+If the app is active and in foreground, the `onMessageReceived` callback is invoked immediately with the notification data (fcmNotification).
 
 #### Handling **Notification** Messages
 
-If the app is in foreground, it invokes the `onMessageReceived` callback with two arguments (stringifiedData, fcmNotification).
+If the app is active and in foreground, it invokes the `onMessageReceived` callback with two arguments (stringifiedData, fcmNotification).
 
 If the app is in background, a notification is put in the tray. When tapped, it launches the app, but does not invoke the `onMessageReceived` callback.
 
