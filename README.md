@@ -25,7 +25,7 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 - Edit the `package.json` file in the root of application, by changing the bundle identifier to match the Firebase's project package name. For example:
     ```
-        "id": "org.NativeScript.PushNotificationApp"
+        "id": "org.nativescript.PushNotificationApp"
     ```
 
 - Edit the `app/App_Resources/Android/app.gradle` file of your application, by changing the application ID to match the bundle identifier from the package.json. For example:
@@ -33,7 +33,7 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 	android {
 	  ...
   	  defaultConfig {
-	    applicationId = "org.NativeScript.PushNotificationApp"
+	    applicationId = "org.nativescript.PushNotificationApp"
 	  }
 	  ...
 	}
@@ -60,7 +60,7 @@ The plugin will default to version 11.4.2 of the `firebase-messaging` SDK.  If y
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```
-        "id": "org.NativeScript.PushNotificationApp"
+        "id": "org.nativescript.PushNotificationApp"
     ```
 
 - Go to the application folder and add the iOS platform to the application
@@ -477,7 +477,7 @@ The `nativescript-push-notifications` module for Android relies on the Firebase 
 
 	Place the file in your app's `App_Resources/Android` folder
 
-3. Obtain the FCM Server Key
+3. Obtain the FCM Server Key (optional)
 
 	This key is required to be able to send programmatically push notifications to your app. You can obtain this key from your Firebase project.
 
