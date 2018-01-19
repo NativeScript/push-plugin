@@ -14,7 +14,7 @@ export declare interface FcmNotificaion {
 }
 export declare function register(options: {
     senderID: string;
-    notificationCallbackAndroid: (stringifiedData: String, fcmNotification: any) => void;
+    notificationCallbackAndroid?: (stringifiedData: String, fcmNotification: any) => void;
 }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void): void;
 export declare function unregister(onSuccessCallback: (successMessage: string) => void, onErrorCallback: (errorMessage: string) => void, options: {
     senderID: string;
