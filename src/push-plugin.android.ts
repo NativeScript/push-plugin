@@ -28,11 +28,17 @@ export declare interface FcmNotificaion {
     }
 })();
 
-export function register(options: { senderID: string }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void) {
+export function register(options: { senderID: string, notificationCallbackAndroid?: () => any }, successCallback: (fcmRegistrationToken: string) => void, errorCallback: (errorMessage: string) => void) {
     com.telerik.pushplugin.PushPlugin.register(app.android.context, options.senderID,
         new com.telerik.pushplugin.PushPluginListener(
             {
-                success: successCallback,
+                success: (fcmRegistrationToken: string) => {
+                    if  (options && typeof options.notificationCallbackAndroid === 'function') {
+                        onMessageReceived(options.notificationCallbackAndroid);
+                    }
+
+                    successCallback(fcmRegistrationToken);
+                },
                 error: errorCallback
             })
     );
