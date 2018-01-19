@@ -335,21 +335,20 @@ pushPlugin.register(settings,
 | errorCallback | Android | Function | Called when app is NOT successfully unsubscribed. Has one parameter containing the error. |
 | options | Android | Function | Called when app is NOT successfully unsubscribed. Has one parameter containing the error. |
 
-    *Javascript*
-    ```Javascript
-        pushPlugin.unregister(
-            // Success callback
-            function(result) {
-                alert('Device unregistered successfully');
-            },
-            // Error Callback
-            function(errorMessage) {
-                alert(errorMessage);
-            },
-            // The settings from the registration phase
-            settings
-        );
-    ```
+```Javascript
+pushPlugin.unregister(
+    // Success callback
+    function(result) {
+        alert('Device unregistered successfully');
+    },
+    // Error Callback
+    function(errorMessage) {
+        alert(errorMessage);
+    },
+    // The settings from the registration phase
+    settings
+);
+```
 
 #### areNotificationsEnabled(successCallback) - check if push notifications are enabled (iOS only, always returns true on Android)
 
@@ -358,9 +357,9 @@ pushPlugin.register(settings,
 | successCallback | iOS/Android | Function | Called with one boolean parameter containing the result from the notifications enabled check. |
 
 ```Javascript
-    pushPlugin.areNotificationsEnabled(function(areEnabled) {
-            alert('Are Notifications enabled: ' + areEnabled);
-        });
+pushPlugin.areNotificationsEnabled(function(areEnabled) {
+        alert('Are Notifications enabled: ' + areEnabled);
+    });
 ```
 
 ### Android only methods
@@ -395,9 +394,9 @@ The fcmNotification object contains the following methods:
 | callback | Function | Called with no arguments. |
 
 ```Javascript
-    pushPlugin.onTokenRefresh(function() {
-            alert("new token obtained");
-    });
+pushPlugin.onTokenRefresh(function() {
+        alert("new token obtained");
+});
 ```
 
 ### iOS only
