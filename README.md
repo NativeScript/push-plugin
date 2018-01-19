@@ -33,8 +33,8 @@ In the Command prompt / Terminal navigate to your application root folder and ru
     android {
     ...
         defaultConfig {
-        applicationId = "org.nativescript.PushNotificationApp"
-    }
+            applicationId = "org.nativescript.PushNotificationApp"
+        }
     ...
     }
     ```
@@ -47,6 +47,7 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 - Add the `google-settings.json` file with the FCM configuration to the `app/App_Resources/Android folder` in your app. If this file is not added, building the app for android will fail.
 
 The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion`:
+
     ```Groovy
     // in the root level of /app/App_Resources/Android/app.gradle:
     project.ext {
@@ -60,22 +61,22 @@ The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If y
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```json
-	"id": "org.nativescript.PushNotificationApp"
+    "id": "org.nativescript.PushNotificationApp"
     ```
 
 - Go to the application folder and add the iOS platform to the application
     ```bash
-	tns build ios
+    tns build ios
     ```
 
 - Go to (application folder)/platforms/ios and open the XCode project. Enable Push Notifications in the project Capabilities options. In case you don't have XCode, go to (application folder)/platforms/ios/(application folder name) , find *.entitlements file and add to it `aps-environment` key and its value as shown below:
     ```xml
-	<plist version="1.0">
-	<dict>
-		<key>aps-environment</key>
-		<string>development</string>
-	</dict>
-	</plist>
+    <plist version="1.0">
+    <dict>
+        <key>aps-environment</key>
+        <string>development</string>
+    </dict>
+    </plist>
     ```
 
 ## Usage
@@ -84,39 +85,42 @@ The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If y
 
 Add code in your view model or component to subscribe and receive messages (don't forget to enter your Firebase Cloud Messaging **Sender ID** in the options of the register method):
 
-*TypeScript*
-    ```TypeScript
-        import * as pushPlugin from "nativescript-push-notifications";
-        private pushSettings = {
+#### TypeScript
+
+```TypeScript
+    import * as pushPlugin from "nativescript-push-notifications";
+    private pushSettings = {
+        senderID: "<ENTER_YOUR_PROJECT_NUMBER>", // Required: setting with the sender/project number
+        notificationCallbackAndroid: (stringifiedData: String, fcmNotification: any) => {
+            const notificationBody = fcmNotification && fcmNotification.getBody();
+            this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
+        }
+    };
+    pushPlugin.register(pushSettings, (token: String) => {
+        alert("Device registered. Access token: " + token);;
+    }, function() { });
+```
+
+#### Javascript
+
+```Javascript
+    var pushPlugin = require("nativescript-push-notifications");
+    var pushSettings = {
             senderID: "<ENTER_YOUR_PROJECT_NUMBER>", // Required: setting with the sender/project number
-            notificationCallbackAndroid: (stringifiedData: String, fcmNotification: any) => {
-                const notificationBody = fcmNotification && fcmNotification.getBody();
-                this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
+            notificationCallbackAndroid: function (stringifiedData, fcmNotification) {
+                var notificationBody = fcmNotification && fcmNotification.getBody();
+                _this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
             }
         };
-        pushPlugin.register(pushSettings, (token: String) => {
-            alert("Device registered. Access token: " + token);;
-        }, function() { });
-    ```
-
-*Javascript*
-    ```Javascript
-        var pushPlugin = require("nativescript-push-notifications");
-        var pushSettings = {
-                senderID: "<ENTER_YOUR_PROJECT_NUMBER>", // Required: setting with the sender/project number
-                notificationCallbackAndroid: function (stringifiedData, fcmNotification) {
-                    var notificationBody = fcmNotification && fcmNotification.getBody();
-                    _this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
-                }
-            };
-        pushPlugin.register(pushSettings, function (token) {
-            alert("Device registered. Access token: " + token);
-        }, function() { });
-    ```
+    pushPlugin.register(pushSettings, function (token) {
+        alert("Device registered. Access token: " + token);
+    }, function() { });
+```
 
 - Run the app on the phone or emulator:
-
+    ```bash
     tns run android
+    ```
 
 - The access token is written in the console and displayed on the device after the plugin sucessfully subscribes to receive notifications. When a notification comes, the message will be displayed in the notification area if the app is closed or handled directly in the notificationCallbackAndroid callback if the app is open.
 
@@ -124,103 +128,105 @@ Add code in your view model or component to subscribe and receive messages (don'
 
 Add code in your view model or component to subscribe and receive messages:
 
-    *TypeScript*
-    ```TypeScript
-        import * as pushPlugin from "nativescript-push-notifications";
-        const iosSettings = {
-            badge: true,
-            sound: true,
-            alert: true,
-            interactiveSettings: {
-                actions: [{
-                    identifier: 'READ_IDENTIFIER',
-                    title: 'Read',
-                    activationMode: "foreground",
-                    destructive: false,
-                    authenticationRequired: true
-                }, {
-                    identifier: 'CANCEL_IDENTIFIER',
-                    title: 'Cancel',
-                    activationMode: "foreground",
-                    destructive: true,
-                    authenticationRequired: true
-                }],
-                categories: [{
-                    identifier: 'READ_CATEGORY',
-                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-                }]
-            },
-            notificationCallbackIOS: (message: any) => {
-                alert("Message received!\n" + JSON.stringify(message));
-            }
-        };
+#### TypeScript
 
-        pushPlugin.register(iosSettings, (token: String) => {
-            alert("Device registered. Access token: " + token);
+```TypeScript
+    import * as pushPlugin from "nativescript-push-notifications";
+    const iosSettings = {
+        badge: true,
+        sound: true,
+        alert: true,
+        interactiveSettings: {
+            actions: [{
+                identifier: 'READ_IDENTIFIER',
+                title: 'Read',
+                activationMode: "foreground",
+                destructive: false,
+                authenticationRequired: true
+            }, {
+                identifier: 'CANCEL_IDENTIFIER',
+                title: 'Cancel',
+                activationMode: "foreground",
+                destructive: true,
+                authenticationRequired: true
+            }],
+            categories: [{
+                identifier: 'READ_CATEGORY',
+                actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+            }]
+        },
+        notificationCallbackIOS: (message: any) => {
+            alert("Message received!\n" + JSON.stringify(message));
+        }
+    };
 
-            // Register the interactive settings
+    pushPlugin.register(iosSettings, (token: String) => {
+        alert("Device registered. Access token: " + token);
+
+        // Register the interactive settings
+        if(iosSettings.interactiveSettings) {
+            pushPlugin.registerUserNotificationSettings(() => {
+                alert('Successfully registered for interactive push.');
+            }, (err) => {
+                alert('Error registering for interactive push: ' + JSON.stringify(err));
+            });
+        }
+    }, (errorMessage: any) => {
+        alert("Device NOT registered! " + JSON.stringify(errorMessage));
+    });
+```
+
+#### Javascript
+
+```Javascript
+    var pushPlugin = require("nativescript-push-notifications");
+    var iosSettings = {
+        badge: true,
+        sound: true,
+        alert: true,
+        interactiveSettings: {
+            actions: [{
+                identifier: 'READ_IDENTIFIER',
+                title: 'Read',
+                activationMode: "foreground",
+                destructive: false,
+                authenticationRequired: true
+            }, {
+                identifier: 'CANCEL_IDENTIFIER',
+                title: 'Cancel',
+                activationMode: "foreground",
+                destructive: true,
+                authenticationRequired: true
+            }],
+            categories: [{
+                identifier: 'READ_CATEGORY',
+                actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+            }]
+        },
+        notificationCallbackIOS: function (data) {
+            alert("message", "" + JSON.stringify(data));
+        }
+    };
+
+    pushPlugin.register(iosSettings, function (data) {
+        alert("Device registered. Access token" + data);
+
+        // Register the interactive settings
             if(iosSettings.interactiveSettings) {
-                pushPlugin.registerUserNotificationSettings(() => {
+                pushPlugin.registerUserNotificationSettings(function() {
                     alert('Successfully registered for interactive push.');
-                }, (err) => {
+                }, function(err) {
                     alert('Error registering for interactive push: ' + JSON.stringify(err));
                 });
             }
-        }, (errorMessage: any) => {
-            alert("Device NOT registered! " + JSON.stringify(errorMessage));
-        });
-    ```
-
-    *Javascript*
-    ```Javascript
-        var pushPlugin = require("nativescript-push-notifications");
-        var iosSettings = {
-            badge: true,
-            sound: true,
-            alert: true,
-            interactiveSettings: {
-                actions: [{
-                    identifier: 'READ_IDENTIFIER',
-                    title: 'Read',
-                    activationMode: "foreground",
-                    destructive: false,
-                    authenticationRequired: true
-                }, {
-                    identifier: 'CANCEL_IDENTIFIER',
-                    title: 'Cancel',
-                    activationMode: "foreground",
-                    destructive: true,
-                    authenticationRequired: true
-                }],
-                categories: [{
-                    identifier: 'READ_CATEGORY',
-                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-                }]
-            },
-            notificationCallbackIOS: function (data) {
-                alert("message", "" + JSON.stringify(data));
-            }
-        };
-
-        pushPlugin.register(iosSettings, function (data) {
-            alert("Device registered. Access token" + data);
-
-            // Register the interactive settings
-                if(iosSettings.interactiveSettings) {
-                    pushPlugin.registerUserNotificationSettings(function() {
-                        alert('Successfully registered for interactive push.');
-                    }, function(err) {
-                        alert('Error registering for interactive push: ' + JSON.stringify(err));
-                    });
-                }
-        }, function() { });
-    ```
+    }, function() { });
+```
 
 - Run the app on the phone or simulator:
     ```bash
-        tns run ios
+    tns run ios
     ```
 
 - [HINT] Install the [pusher app](https://github.com/noodlewerk/NWPusher) to send notifications to the device being debugged on. In the 'device push token' field paste the device access token generated in the {N} CLI / XCode debug console after launching the app.
@@ -270,56 +276,55 @@ The `categories` array from the iOS interactive settings contains:
 
 For more information about iOS interactive notifications, please visit the [Apple Developer site](https://developer.apple.com/notifications/)
 
-    *Javascript*
-    ```Javascript
-        var settings = {
-            badge: true,
-            sound: true,
-            alert: true,
-            interactiveSettings: {
-                actions: [{
-                    identifier: 'READ_IDENTIFIER',
-                    title: 'Read',
-                    activationMode: "foreground",
-                    destructive: false,
-                    authenticationRequired: true
-                }, {
-                identifier: 'CANCEL_IDENTIFIER',
-                    title: 'Cancel',
-                    activationMode: "foreground",
-                    destructive: true,
-                    authenticationRequired: true
-                }],
-                categories: [{
-                    identifier: 'READ_CATEGORY',
-                    actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
-                    actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
-                }]
-            },
-            notificationCallbackIOS: function(message) {
-                alert(JSON.stringify(message));
-            }
-        };
+```Javascript
+    var settings = {
+        badge: true,
+        sound: true,
+        alert: true,
+        interactiveSettings: {
+            actions: [{
+                identifier: 'READ_IDENTIFIER',
+                title: 'Read',
+                activationMode: "foreground",
+                destructive: false,
+                authenticationRequired: true
+            }, {
+            identifier: 'CANCEL_IDENTIFIER',
+                title: 'Cancel',
+                activationMode: "foreground",
+                destructive: true,
+                authenticationRequired: true
+            }],
+            categories: [{
+                identifier: 'READ_CATEGORY',
+                actionsForDefaultContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER'],
+                actionsForMinimalContext: ['READ_IDENTIFIER', 'CANCEL_IDENTIFIER']
+            }]
+        },
+        notificationCallbackIOS: function(message) {
+            alert(JSON.stringify(message));
+        }
+    };
 
 
-        pushPlugin.register(settings,
-            // Success callback
-            function(token){
-                // Register the interactive settings
-                if(settings.interactiveSettings) {
-                    pushPlugin.registerUserNotificationSettings(function() {
-                        alert('Successfully registered for interactive push.');
-                    }, function(err) {
-                        alert('Error registering for interactive push: ' + JSON.stringify(err));
-                    });
-                }
-            },
-            // Error Callback
-            function(error){
-                alert(error.message);
+    pushPlugin.register(settings,
+        // Success callback
+        function(token){
+            // Register the interactive settings
+            if(settings.interactiveSettings) {
+                pushPlugin.registerUserNotificationSettings(function() {
+                    alert('Successfully registered for interactive push.');
+                }, function(err) {
+                    alert('Error registering for interactive push: ' + JSON.stringify(err));
+                });
             }
-        );
-    ```
+        },
+        // Error Callback
+        function(error){
+            alert(error.message);
+        }
+    );
+```
 
 #### unregister(successCallback, errorCallback, options) - unsubscribe the device so the app stops receiving push notifications. The options object is the same as on the `register` method
 
@@ -507,22 +512,22 @@ Mixed messages are messages that contain in their load both **data** and **notif
 - The app is in background, the `notificationCallbackAndroid` callback is not invoked. A notification is placed in the system tray. If the notification in the tray is tapped, the `data` part of the mixed message is available in the extras of the intent of the activity and are available in the respective [application event](https://docs.nativescript.org/core-concepts/application-lifecycle) of NativeScript.
 
 Example of handling the `data` part in the application *resume* event (e.g. the app was brought to the foreground from the notification):
-    *Javascript*
-    ```Javascript
-    application.on(application.resumeEvent, function(args) {
-        if (args.android) {
-            var act = args.android;
-            var intent = act.getIntent();
-            var extras = intent.getExtras();
-            if (extras) {
-                // for (var key in extras) {
-                //     console.log(key + ' -> ' + extras[key]);
-                // }
-                var msg = extras.get('someKey');
-            }
+
+```Javascript
+application.on(application.resumeEvent, function(args) {
+    if (args.android) {
+        var act = args.android;
+        var intent = act.getIntent();
+        var extras = intent.getExtras();
+        if (extras) {
+            // for (var key in extras) {
+            //     console.log(key + ' -> ' + extras[key]);
+            // }
+            var msg = extras.get('someKey');
         }
-    });
-    ```
+    }
+});
+```
 
 #### Parameters of the notificationCallbackAndroid Callback
 
@@ -537,11 +542,11 @@ The plugin automatically handles some keys in the `data` object like `message`, 
 
 Custom default color and icon for **notification** messages can be set in the `AndroidManifest.xml` inside the `application` directive:
     ```XML
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_stat_ic_notification" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@drawable/ic_stat_ic_notification" />
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_color"
+        android:resource="@color/colorAccent" />
     ```
 > For more info visit the [Edit the app manifest](https://firebase.google.com/docs/cloud-messaging/android/topic-messaging#edit-the-app-manifest) article.
