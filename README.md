@@ -415,6 +415,21 @@ In case the application doesn't work as expected. Here are some things you can v
 
 - When the application is started using `tns run android` (i.e. in debug mode with livesync) some background notifications might not be received correctly. This happens because the app is not started in a normal way for debugging and the resume from background happens differently. To receive all notifications correctly, stop the app (swipe it away it from the recent apps list) and start it again by tapping the app icon on the device. 
 
+- Thе `google-services` plugin is added automatically. If this fails, you can try adding it manually:
+- - Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
+- - Add the `google-services` plugin to the list of other dependencies in your app's `build.gradle` file
+	```Groovy
+	dependencies {
+		// ...
+		classpath "com.google.gms:google-services:3.0.0"
+		// ...
+	}
+	```
+- - Add the following line be at the bottom of your `build.gradle` file to enable the Gradle plugin
+	```Groovy
+	apply plugin: 'com.google.gms.google-services'
+	```
+
 - Ensure that the AndroidManifest.xml located at platforms/android/build/... (**do not add it in your "App_Resources/Android/AndroidManifest.xml" file**) contains the following snippets for registering the GCM listener:
 
 ```XML
@@ -453,31 +468,13 @@ In case the application doesn't work as expected. Here are some things you can v
 
 The `nativescript-push-notifications` module for Android relies on the Firebase Cloud Messaging (FCM) SDK. In the steps below you will be guided to complete a few additional steps to prepare your Android app to receive push notifications from FCM.
 
-1. Add the FCM SDK
-
-> Thе `google-services` plugin is added automatically. If this fails, you can try adding it manually:
-
-- Navigate to the project `platforms/android/` folder and locate the application-level `build.gradle` file
-- Add the `google-services` plugin to the list of other dependencies in your app's `build.gradle` file
-	```Groovy
-	dependencies {
-		// ...
-		classpath "com.google.gms:google-services:3.0.0"
-		// ...
-	}
-	```
-- Add the following line be at the bottom of your `build.gradle` file to enable the Gradle plugin
-	```Groovy
-	apply plugin: 'com.google.gms.google-services'
-	```
-
-2. Add the `google-services.json` file
+1. Add the `google-services.json` file
 
 	To use FCM, you need this file. It contains configurations and credentials for your Firebase project. To obtain this follow the instructions for adding Firebase to your project from the official [documentation](https://firebase.google.com/docs/android/setup). Scroll down to the **Manually add Firebase** section.  
 
 	Place the file in your app's `App_Resources/Android` folder
 
-3. Obtain the FCM Server Key (optional)
+2. Obtain the FCM Server Key (optional)
 
 	This key is required to be able to send programmatically push notifications to your app. You can obtain this key from your Firebase project.
 
