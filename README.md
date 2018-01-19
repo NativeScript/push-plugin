@@ -25,33 +25,33 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 - Edit the `package.json` file in the root of application, by changing the bundle identifier to match the Firebase's project package name. For example:
     ```json
-        "id": "org.nativescript.PushNotificationApp"
+    "id": "org.nativescript.PushNotificationApp"
     ```
 
 - Edit the `app/App_Resources/Android/app.gradle` file of your application, by changing the application ID to match the bundle identifier from the package.json. For example:
     ```Groovy
-        android {
-        ...
-            defaultConfig {
-            applicationId = "org.nativescript.PushNotificationApp"
-        }
-        ...
-        }
+    android {
+    ...
+        defaultConfig {
+        applicationId = "org.nativescript.PushNotificationApp"
+    }
+    ...
+    }
     ```
 
 - Go to the application folder and add the Android platform to the application
     ```bash
-        tns platform add android
+    tns platform add android
     ```
 
 - Add the `google-settings.json` file with the FCM configuration to the `app/App_Resources/Android folder` in your app. If this file is not added, building the app for android will fail.
 
-The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion` like so:
+The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion`:
     ```Groovy
-        // in the root level of /app/App_Resources/Android/app.gradle:
-        project.ext {
-            firebaseMessagingVersion = "+" // OR the version you wish
-        }
+    // in the root level of /app/App_Resources/Android/app.gradle:
+    project.ext {
+        firebaseMessagingVersion = "+" // OR the version you wish
+    }
     ```
 
 ### iOS
@@ -60,22 +60,22 @@ The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If y
 
 - Edit the package.json file in the root of application, by changing the bundle identifier to match the App ID. For example:
     ```json
-        "id": "org.nativescript.PushNotificationApp"
+	"id": "org.nativescript.PushNotificationApp"
     ```
 
 - Go to the application folder and add the iOS platform to the application
     ```bash
-        tns build ios
+	tns build ios
     ```
 
 - Go to (application folder)/platforms/ios and open the XCode project. Enable Push Notifications in the project Capabilities options. In case you don't have XCode, go to (application folder)/platforms/ios/(application folder name) , find *.entitlements file and add to it `aps-environment` key and its value as shown below:
     ```xml
-        <plist version="1.0">
-        <dict>
-            <key>aps-environment</key>
-            <string>development</string>
-        </dict>
-        </plist>
+	<plist version="1.0">
+	<dict>
+		<key>aps-environment</key>
+		<string>development</string>
+	</dict>
+	</plist>
     ```
 
 ## Usage
@@ -84,7 +84,7 @@ The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If y
 
 Add code in your view model or component to subscribe and receive messages (don't forget to enter your Firebase Cloud Messaging **Sender ID** in the options of the register method):
 
-    *TypeScript*
+*TypeScript*
     ```TypeScript
         import * as pushPlugin from "nativescript-push-notifications";
         private pushSettings = {
@@ -99,7 +99,7 @@ Add code in your view model or component to subscribe and receive messages (don'
         }, function() { });
     ```
 
-    *Javascript*
+*Javascript*
     ```Javascript
         var pushPlugin = require("nativescript-push-notifications");
         var pushSettings = {
@@ -116,7 +116,7 @@ Add code in your view model or component to subscribe and receive messages (don'
 
 - Run the app on the phone or emulator:
 
-        tns run android
+    tns run android
 
 - The access token is written in the console and displayed on the device after the plugin sucessfully subscribes to receive notifications. When a notification comes, the message will be displayed in the notification area if the app is closed or handled directly in the notificationCallbackAndroid callback if the app is open.
 
