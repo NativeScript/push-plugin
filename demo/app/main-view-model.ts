@@ -57,10 +57,6 @@ export class PushTestModel extends Observable {
             // token displayed in console for easier copying and debugging durng development
             console.log("Device registered. Access token: " + token);
 
-            if (pushPlugin.onMessageReceived) {
-                pushPlugin.onMessageReceived(this.pushSettings.notificationCallbackAndroid);
-            }
-
             if (pushPlugin.registerUserNotificationSettings) {
                 pushPlugin.registerUserNotificationSettings(() => {
                     self.updateMessage("Successfully registered for interactive push.");
