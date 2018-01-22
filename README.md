@@ -538,12 +538,12 @@ Depending on the notification event and payload, the `notificationCallbackAndroi
 The plugin automatically handles some keys in the `data` object like `message`, `title`, `color`, `smallIcon`, `largeIcon` and uses them to construct a notification entry in the tray.
 
 Custom default color and icon for **notification** messages can be set in the `AndroidManifest.xml` inside the `application` directive:
-    ```XML
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_icon"
-        android:resource="@drawable/ic_stat_ic_notification" />
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_color"
-        android:resource="@color/colorAccent" />
-    ```
+```XML
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@drawable/ic_stat_ic_notification" />
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_color"
+    android:resource="@color/colorAccent" />
+```
 > For more info visit the [Edit the app manifest](https://firebase.google.com/docs/cloud-messaging/android/topic-messaging#edit-the-app-manifest) article.
