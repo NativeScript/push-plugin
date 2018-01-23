@@ -15,6 +15,7 @@ app.on(app.resumeEvent, function(args) {
         const act = args.android;
         const intent = act.getIntent();
         const extras = intent.getExtras();
+        console.log("Resuming activity");
         if (extras) {
             console.log("If your notification has data (key: value) pairs, they will be listed here:");
             const keys = extras.keySet();
@@ -22,13 +23,15 @@ app.on(app.resumeEvent, function(args) {
             while (iterator.hasNext()) {
                 const key = iterator.next();
                 console.log(key + ": " + extras.get(key).toString());
+                // clear the used keys in order to avoid getting them back
+                // when manually switching the application between background and foreground
+                intent.removeExtra(key);
             }
         }
     }
 });
 
 app.start({ moduleName: 'main-page' });
-
 /*
 Do not place any code after the application has been started as it will not
 be executed on iOS.
