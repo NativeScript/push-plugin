@@ -20,6 +20,11 @@
         "type": "before-prepare",
         "script": "hooks/before-prepare.js",
         "inject": true
+      },
+      {
+        "type": "after-prepare",
+        "script": "hooks/entitlements-after-prepare.js",
+        "inject": true
       }
     ]
   },
