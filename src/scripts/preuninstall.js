@@ -1,6 +1,10 @@
 var path = require('path');
 var utils = require('../hooks/utils');
-var platformsDir = path.resolve(__dirname, '../../../platforms');
-require('nativescript-hook')(path.resolve(__dirname, '../')).preuninstall();
+var hook = require('nativescript-hook')(path.resolve(__dirname, '../'));
+var projDir = hook.findProjectDir();
 
-utils.removeIfPresent(platformsDir);
+hook.preuninstall();
+
+if (projDir) {
+    utils.removeIfPresent(path.join(projDir, 'platforms'));
+}
