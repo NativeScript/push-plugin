@@ -4,6 +4,8 @@
 
 - [Prerequisites](#prerequisites)
 - [Develop locally](#develop-locally)
+- [Build the plugin](#build-the-plugin)
+- [Testing the plugin](#testing-the-plugin)
 
 <!-- /TOC -->
 
