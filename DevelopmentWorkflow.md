@@ -23,7 +23,7 @@ To run and develop using TypeScript demo:
 
 ```bash
 # Go to demo directory
-cd nativescript-camera/demo
+cd push-plugin/demo
 # Build the plugin. This compiles all TypeScript files in the plugin directory, which is referenced in the demo's package.json
 npm run build.plugin
 # Install demo dependencies
