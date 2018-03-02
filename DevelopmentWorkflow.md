@@ -39,7 +39,7 @@ Available npm commands from the plugin source directory:
 
 - `build` - builds the plugin so it can be used in the demo app.
 - `tslint` - check plugin's TypeScript sources for linting errors.
-- `clean` - clean the demo and plugin directories and build the plugin.
+- `clean` - clean the demo and plugin directories.
 
 ## Build the plugin
 
