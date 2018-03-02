@@ -29,16 +29,15 @@
     ]
   },
   "scripts": {
-    "tsc": "tsc -skipLibCheck",
-    "build": "npm i --ignore-scripts && tsc && cd ../publish && ./pack.sh",
+    "build": "npm i && tsc",
     "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
-    "ci.tslint": "npm i --ignore-scripts && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
+    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
     "postinstall": "node scripts/postinstall.js",
     "preuninstall": "node scripts/preuninstall.js"
   },
   "dependencies": {
-    "nativescript-hook": "0.2.2"
+    "nativescript-hook": "^0.2.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
