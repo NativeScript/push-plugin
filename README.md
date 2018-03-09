@@ -4,12 +4,28 @@
 
 The code for the Push Plugin for NativeScript.
 
+<!-- TOC depthFrom:2 depthTo:3 -->
+
 - [Installation](#installation)
 - [Configuration](#configuration)
+    - [Android](#android)
+    - [iOS](#ios)
 - [Usage](#usage)
+    - [Using the plugin in Android](#using-the-plugin-in-android)
+    - [Using the plugin in iOS](#using-the-plugin-in-ios)
 - [API Reference](#api-reference)
+    - [Methods](#methods)
+    - [Android only](#android-only)
+    - [iOS only](#ios-only)
 - [Troubleshooting](#troubleshooting)
+    - [Troubleshooting issues in Android](#troubleshooting-issues-in-android)
+    - [Troubleshooting issues in iOS](#troubleshooting-issues-in-ios)
 - [Android Configuration for using Firebase Cloud Messaging](#android-configuration-for-using-firebase-cloud-messaging)
+    - [Receive and Handle Messages from FCM on Android](#receive-and-handle-messages-from-fcm-on-android)
+- [Contribute](#contribute)
+- [Get Help](#get-help)
+
+<!-- /TOC -->
 
 ## Installation
 
@@ -362,7 +378,7 @@ pushPlugin.areNotificationsEnabled(function(areEnabled) {
     });
 ```
 
-### Android only methods
+### Android only
 
 #### onMessageReceived(callback) ***DEPRECATED*** - register a callback function to execute when receiving a notification. You should set this from the `notificationCallbackAndroid` registration option instead
 
@@ -544,3 +560,12 @@ Custom default color and icon for **notification** messages can be set in the `A
     android:resource="@color/colorAccent" />
 ```
 > For more info visit the [Edit the app manifest](https://firebase.google.com/docs/cloud-messaging/android/topic-messaging#edit-the-app-manifest) article.
+
+
+## Contribute
+We love PRs! Check out the [contributing guidelines](CONTRIBUTING.md). If you want to contribute, but you are not sure where to start - look for [issues labeled `help wanted`](https://github.com/NativeScript/push-plugin/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).
+
+## Get Help 
+Please, use [github issues](https://github.com/NativeScript/push-plugin/issues) strictly for [reporting bugs](CONTRIBUTING.md#reporting-bugs) or [requesting features](CONTRIBUTING.md#requesting-new-features). For general questions and support, check out the [NativeScript community forum](https://discourse.nativescript.org/) or ask our experts in [NativeScript community Slack channel](http://developer.telerik.com/wp-login.php?action=slack-invitation).
+
+![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/push-plugin?pixel)
