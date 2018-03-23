@@ -4,6 +4,3 @@ native-src/
 *.ts
 !*.d.ts
 tsconfig.json
-/platforms/android/**/*
-!platforms/android/include.gradle
-!platforms/android/pushplugin.aar

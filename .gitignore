@@ -35,5 +35,3 @@ demo-angular/report/report.html
 demo-angular/report/stats.json
 src/push-plugin.android.d.ts
 src/push-plugin.ios.d.ts
-/src/platforms/android/pushplugin.aar
-/src/*.tgz
