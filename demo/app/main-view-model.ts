@@ -5,7 +5,7 @@ export class PushTestModel extends Observable {
 
     private pushSettings = {
         // Android settings
-        senderID: "424050927453", // Android: Required setting with the sender/project number
+        senderID: "<ENTER_YOUR_PROJECT_NUMBER>", // Android: Required setting with the sender/project number
         notificationCallbackAndroid: (stringifiedData: String, fcmNotification: any) => {
             const notificationBody = fcmNotification && fcmNotification.getBody();
             this.updateMessage("Message received!\n" + notificationBody + "\n" + stringifiedData);
