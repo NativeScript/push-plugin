@@ -62,7 +62,7 @@ In the Command prompt / Terminal navigate to your application root folder and ru
 
 - Add the `google-settings.json` file with the FCM configuration to the `app/App_Resources/Android folder` in your app. If this file is not added, building the app for android will fail.
 
-The plugin will default to version 11.8.0 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion`:
+The plugin will default to version 12.0.1 of the `firebase-messaging` SDK.  If you need to change the version, you can add a project ext property `firebaseMessagingVersion`:
 
 ```Groovy
     // in the root level of /app/App_Resources/Android/app.gradle:
