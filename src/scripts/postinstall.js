@@ -6,6 +6,18 @@ var projDir = hook.findProjectDir();
 hook.postinstall();
 
 if (projDir) {
-    utils.checkForGoogleServicesJson(projDir, path.join(projDir, 'app', 'App_Resources'));
-    utils.addOnPluginInstall(path.join(projDir, 'platforms'));
+    var resourcesDir;
+
+    try {
+        var globalPath = require('child_process').execSync('npm root -g').toString().trim();
+        var tns = require(path.join(globalPath, 'nativescript'));
+        var project = tns.projectDataService.getProjectData(projDir);
+        resourcesDir = project.appResourcesDirectoryPath;
+    } catch (exc) {
+        console.log('Push plugin cannot find project root. Project will be initialized during build.');
+    }
+    if (resourcesDir) {
+        utils.checkForGoogleServicesJson(projDir, resourcesDir);
+        utils.addOnPluginInstall(path.join(projDir, 'platforms'), resourcesDir);
+    }
 }

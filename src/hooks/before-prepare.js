@@ -9,7 +9,7 @@ module.exports = function ($logger, $projectData) {
     utils.setLogger(_log);
 
     if (utils.targetsAndroid($projectData.projectDir)) {
-        utils.addIfNecessary($projectData.platformsDir);
+        utils.addIfNecessary($projectData.platformsDir, $projectData.appResourcesDirectoryPath);
     }
 
     function _log (str) {
