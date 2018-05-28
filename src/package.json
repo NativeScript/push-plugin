@@ -39,13 +39,13 @@
     "preuninstall": "node scripts/preuninstall.js"
   },
   "dependencies": {
-    "nativescript-hook": "0.2.2"
+    "nativescript-hook": "~0.2.4"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
     "tns-core-modules": "^3.3.0",
     "tns-platform-declarations": "^3.3.0",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.7.2"
   }
 }
