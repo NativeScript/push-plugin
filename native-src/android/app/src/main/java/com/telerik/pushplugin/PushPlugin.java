@@ -124,14 +124,7 @@ public class PushPlugin extends FirebaseMessagingService {
             Log.d(TAG, "Notification body: " + notif.getBody());
         }
 
-        boolean isCallbackRegistered = onMessageReceivedCallback != null;
-        Log.d(TAG, "Callback is registered: " + isCallbackRegistered);
-
-        // If the application has the callback registered
-        // execute the callback. Otherwise, let the OS handle the notification.
-        if (isCallbackRegistered) {
-            executeOnMessageReceivedCallback(data, notif);
-        }
+        executeOnMessageReceivedCallback(data, notif);
     }
 
     /**

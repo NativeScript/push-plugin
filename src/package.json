@@ -1,6 +1,6 @@
 {
   "name": "nativescript-push-notifications",
-  "version": "0.3.0",
+  "version": "1.1.4",
   "description": "Receive push notifications in your NativeScript app on Android and iOS.",
   "main": "push-plugin",
   "typings": "index.d.ts",
@@ -29,12 +29,10 @@
     ]
   },
   "scripts": {
-    "tsc": "tsc -skipLibCheck",
-    "build": "npm i --ignore-scripts && tsc && cd ../publish && ./pack.sh",
+    "build": "npm i && tsc",
     "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-    "plugin.link": "npm link && cd ../demo && npm link nativescript-push-notifications && cd ../src",
-    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
-    "ci.tslint": "npm i --ignore-scripts && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
+    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config ../tslint.json --exclude '**/node_modules/**'",
     "postinstall": "node scripts/postinstall.js",
     "preuninstall": "node scripts/preuninstall.js"
   },

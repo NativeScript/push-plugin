@@ -1,13 +1,13 @@
 {
   "name": "demo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "nativescript": {
     "id": "org.nativescript.ppTest",
     "tns-ios": {
-      "version": "4.0.1"
+      "version": "4.1.0"
     },
     "tns-android": {
-      "version": "4.0.1"
+      "version": "4.1.1"
     }
   },
   "repository": {
@@ -16,9 +16,9 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "nativescript-push-notifications": "../publish/package/nativescript-push-notifications-0.3.0.tgz",
+    "nativescript-push-notifications": "../src",
     "nativescript-theme-core": "^1.0.4",
-    "tns-core-modules": "next"
+    "tns-core-modules": "~4.1.0"
   },
   "devDependencies": {
     "awesome-typescript-loader": "~5.0.0",
@@ -31,7 +31,7 @@
     "lazy": "1.0.11",
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-typescript": "~0.6.0",
-    "nativescript-dev-webpack": "next",
+    "nativescript-dev-webpack": "~0.12.0",
     "nativescript-worker-loader": "~0.8.1",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.3.0",
@@ -42,7 +42,8 @@
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-cli": "~2.0.14",
     "webpack-sources": "~1.1.0",
-    "css-loader": "~0.28.7"
+    "css-loader": "~0.28.7",
+    "uglifyjs-webpack-plugin": "~1.1.6"
   },
   "scripts": {
     "build.plugin": "cd ../src && npm run build",

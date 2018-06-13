@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    def firebaseMessagingVersion = project.hasProperty('firebaseMessagingVersion') ? project.firebaseMessagingVersion : '11.4.2'
+    def firebaseMessagingVersion = project.hasProperty('firebaseMessagingVersion') ? project.firebaseMessagingVersion : '12.0.1'
     def supportVer = project.hasProperty("supportVersion") ? supportVersion : "25.1.0";
 
     compile "com.android.support:appcompat-v7:$supportVer"

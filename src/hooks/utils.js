@@ -27,13 +27,13 @@ function checkForGoogleServicesJson(projectDir, resourcesDir) {
     }
 }
 
-function addOnPluginInstall(platformsDir) {
+function addOnPluginInstall(platformsDir, resourcesDir) {
     if (buildGradleExists(platformsDir)) {
-        addIfNecessary(platformsDir);
+        addIfNecessary(platformsDir, resourcesDir);
     }
 }
 
-function addIfNecessary(platformsDir) {
+function addIfNecessary(platformsDir, resourcesDir) {
     _amendBuildGradle(platformsDir, function(pluginImported, pluginApplied, fileContents) {
         if (!pluginImported) {
             fileContents.projectFileContents = _addPluginImport(fileContents.projectFileContents);
@@ -49,7 +49,7 @@ function addIfNecessary(platformsDir) {
         return fileContents;
     });
 
-    _copyGoogleServices(platformsDir);
+    _copyGoogleServices(resourcesDir, platformsDir);
 }
 
 function removeIfPresent(platformsDir) {
@@ -80,8 +80,8 @@ var _versionRegExp = '[^\'"]+';
 var _pluginImportName = 'com.google.gms:google-services';
 var _pluginApplicationName = 'com.google.gms.google-services';
 
-function _copyGoogleServices(platformsDir) {
-    var srcServicesFile = path.join(platformsDir, '..', 'app', 'App_Resources', 'Android', 'google-services.json');
+function _copyGoogleServices(resourcesDir, platformsDir) {
+    var srcServicesFile = path.join(resourcesDir, 'Android', 'google-services.json');
     var dstServicesFile = path.join(platformsDir, 'android', 'app', 'google-services.json');
     if (fs.existsSync(srcServicesFile) && !fs.existsSync(dstServicesFile) && fs.existsSync(path.join(platformsDir, 'android', 'app'))) {
         // try to copy google-services config file to platform app directory
@@ -130,15 +130,15 @@ function _removePluginApplication(buildGradleContents) {
 function _addPluginImport(buildGradleContents) {
     var androidGradle = 'com.android.tools.build:gradle';
     var insertBeforeDoubleQuotes = 'classpath "' + androidGradle;
-    var insertBeforeSingleQoutes = 'classpath \'' + androidGradle;
+    var insertBeforeSingleQuotes = 'classpath \'' + androidGradle;
     var quoteToInsert = '"'
     var matchedString = insertBeforeDoubleQuotes;
     var ind = buildGradleContents.indexOf(insertBeforeDoubleQuotes);
 
     if (ind === -1) {
-        ind = buildGradleContents.indexOf(insertBeforeSingleQoutes);
+        ind = buildGradleContents.indexOf(insertBeforeSingleQuotes);
         quoteToInsert = '\'';
-        matchedString = insertBeforeSingleQoutes;
+        matchedString = insertBeforeSingleQuotes;
     }
 
     if (ind === -1) {

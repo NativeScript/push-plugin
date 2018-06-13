@@ -111,22 +111,25 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.google.firebase:firebase-iid-11.6.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-utils-25.2.0" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-iid-license-11.6.2" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-basement-11.6.2" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-messaging-license-11.6.2" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-common-11.6.2" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-tasks-11.6.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-ui-25.2.0" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-common-license-11.6.2" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-messaging-11.6.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-media-compat-25.2.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-compat-25.2.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-basement-license-11.6.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-annotations:25.2.0@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-v4-25.2.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-tasks-license-11.6.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-fragment-25.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: android.arch.lifecycle:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-iid-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-common-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-core-ui-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-messaging-license-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tasks-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-common-license-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-iid-license-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-core-utils-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-fragment-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: android.arch.core:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement-license-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-annotations:26.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.firebase:firebase-messaging-12.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-compat-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-v4-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tasks-license-12.0.1" level="project" />
   </component>
 </module>
