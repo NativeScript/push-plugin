@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PACK_DIR=package;
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PACK_DIR="$CURRENT_DIR/package"
 
 publish() {
     cd $PACK_DIR
