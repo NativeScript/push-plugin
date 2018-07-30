@@ -1,37 +1,63 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
-SOURCE_DIR=../src;
-TO_SOURCE_DIR=src;
-PACK_DIR=package;
-ROOT_DIR=..;
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SOURCE_DIR="$CURRENT_DIR/../src"
+TO_SOURCE_DIR="$CURRENT_DIR/src"
+PACK_DIR="$CURRENT_DIR/package"
+ROOT_DIR="$CURRENT_DIR/.."
 PUBLISH=--publish
 
+# pass native android or ios as arguments to skip native building
+ARGS={$1""}
+
 install(){
+    cd $CURRENT_DIR
     npm i
 }
 
 pack() {
-    echo 'Building plugin package...'
-    echo '--------------------------'
-    echo 'NOTE: This plugin contains native libraries for Android and iOS, which should be built separately if you have made changes to them!'
-    echo 'If you have updated the ./native-src/android/ or ./native-src/ios/ projects and the binaries, you must run this pack script again.'
-    echo '--------------------------'
-
-    echo 'Clearing "'$TO_SOURCE_DIR'" and "'$PACK_DIR'"...'
+    echo 'Clearing /src and /package...'
     node_modules/.bin/rimraf "$TO_SOURCE_DIR"
     node_modules/.bin/rimraf "$PACK_DIR"
 
+    cd $SOURCE_DIR
+    npm i
+    cd $CURRENT_DIR
+
+    if [[ $ARGS != *"native"* ]]; then
+
+        if [ $ARGS != *"android"* ]; then
+            # compile native android
+            echo 'Building native android...'
+            ./build-android.sh
+        else
+            echo 'Building native android was skipped...'
+        fi
+
+        if [ $ARGS != *"ios"* ]; then
+            # compile native ios
+            echo 'Building native ios...'
+            ./build-ios.sh
+        else
+            echo 'Building native ios was skipped...'
+        fi
+    else
+        echo "Native build was skipped, using existing native binaries..."
+    fi
+
     # copy src
-    echo 'Copying "'$SOURCE_DIR'" to "'$TO_SOURCE_DIR'"...'
+    echo 'Copying src...'
     node_modules/.bin/ncp "$SOURCE_DIR" "$TO_SOURCE_DIR"
 
-    # copy README & LICENSE to src
-    echo 'Copying README and LICENSE to "'$TO_SOURCE_DIR'"...'
+    # copy LICENSE to src
+    echo 'Copying README & LICENSE to /src...'
     node_modules/.bin/ncp "$ROOT_DIR"/LICENSE "$TO_SOURCE_DIR"/LICENSE
     node_modules/.bin/ncp "$ROOT_DIR"/README.md "$TO_SOURCE_DIR"/README.md
 
     # compile package and copy files required by npm
-    echo 'Building "'$TO_SOURCE_DIR'"...'
+    echo 'Building /src...'
     cd "$TO_SOURCE_DIR"
     node_modules/.bin/tsc
     cd ..
@@ -42,7 +68,8 @@ pack() {
 
     # create the package
     cd "$PACK_DIR"
-    npm pack ../"$TO_SOURCE_DIR"
+    npm pack "$TO_SOURCE_DIR"
+    echo "Package created in $PACK_DIR"
 
     # delete source directory used to create the package
     cd ..
