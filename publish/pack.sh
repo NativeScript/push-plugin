@@ -53,7 +53,7 @@ pack() {
 
     # copy LICENSE to src
     echo 'Copying README & LICENSE to /src...'
-    node_modules/.bin/ncp "$ROOT_DIR"/LICENSE.md "$TO_SOURCE_DIR"/LICENSE.md
+    node_modules/.bin/ncp "$ROOT_DIR"/LICENSE "$TO_SOURCE_DIR"/LICENSE
     node_modules/.bin/ncp "$ROOT_DIR"/README.md "$TO_SOURCE_DIR"/README.md
 
     # compile package and copy files required by npm

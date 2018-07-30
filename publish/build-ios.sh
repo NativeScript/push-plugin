@@ -4,7 +4,7 @@ set -o pipefail
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 SOURCE_NAME="PushPlugin"
-IOS_SOURCE_DIR="$CURRENT_DIR/../src-native/ios"
+IOS_SOURCE_DIR="$CURRENT_DIR/../native-src/ios"
 
 PROJECT_NAME="$SOURCE_NAME.xcodeproj"
 TARGET_NAME="$SOURCE_NAME"

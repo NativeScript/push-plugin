@@ -27,7 +27,7 @@ if [ ! -d $PLUGIN_TARGET_SUBDIR ]; then
     mkdir $PLUGIN_TARGET_SUBDIR
 fi
 
-cp -R "$BUILD_OUTPUT_DIR/$PROJECT_NAME-release.aar" $PLUGIN_TARGET_SUBDIR
+cp -R "$BUILD_OUTPUT_DIR/$PROJECT_NAME-release.aar" $PLUGIN_TARGET_SUBDIR/pushplugin.aar
 
 echo "force livesync" > "$PLUGIN_TARGET_SUBDIR/sync"
 
