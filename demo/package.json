@@ -29,7 +29,7 @@
     "nativescript-dev-typescript": "~0.6.0",
     "nativescript-dev-webpack": "~0.14.0",
     "tslint": "^5.8.0",
-    "typescript": "~2.7.2"
+    "typescript": "~2.8.1"
   },
   "scripts": {
     "build.plugin": "cd ../src && npm run build",
