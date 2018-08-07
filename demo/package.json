@@ -4,10 +4,10 @@
   "nativescript": {
     "id": "org.nativescript.ppTest",
     "tns-ios": {
-      "version": "4.1.0"
+      "version": "4.2.0"
     },
     "tns-android": {
-      "version": "4.1.1"
+      "version": "4.2.0"
     }
   },
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "nativescript-push-notifications": "../src",
     "nativescript-theme-core": "^1.0.4",
-    "tns-core-modules": "~4.1.0"
+    "tns-core-modules": "~4.2.0"
   },
   "devDependencies": {
     "babel-traverse": "6.26.0",
@@ -26,8 +26,8 @@
     "babylon": "6.18.0",
     "lazy": "1.0.11",
     "nativescript-css-loader": "~0.26.0",
-    "nativescript-dev-typescript": "~0.6.0",
-    "nativescript-dev-webpack": "~0.14.0",
+    "nativescript-dev-typescript": "~0.7.0",
+    "nativescript-dev-webpack": "~0.15.0",
     "tslint": "^5.8.0",
     "typescript": "~2.8.1"
   },
