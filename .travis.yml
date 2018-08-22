@@ -6,7 +6,7 @@ matrix:
     - stage: "Lint"
       language: node_js
       os: linux
-      node_js: "6"
+      node_js: "8"
       script: cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
     - stage: "WebPack and Build"
       os: osx
@@ -16,7 +16,7 @@ matrix:
         - Webpack="true"
       osx_image: xcode9.2
       language: node_js
-      node_js: "6"
+      node_js: "8"
       jdk: oraclejdk8
       before_script:
         - cd demo && tns platform add ios@next
@@ -28,7 +28,7 @@ matrix:
         - AndroidSDK="26"
         - Webpack="true"
       jdk: oraclejdk8
-      before_install: nvm install 6.10.3
+      before_install: nvm install 8.11.4
       before_script:
         - cd demo && tns platform add android@next
       script: >
@@ -39,7 +39,7 @@ matrix:
         - AndroidSDK="26"
       os: linux
       jdk: oraclejdk8
-      before_install: nvm install 6.10.3
+      before_install: nvm install 8.11.4
       before_script:
         - cd demo && tns platform add android@next
       script: >
@@ -51,7 +51,7 @@ matrix:
         - Xcode="9.2"
       osx_image: xcode9.2
       language: node_js
-      node_js: "6"
+      node_js: "8"
       jdk: oraclejdk8
       before_script:
         - cd demo && tns platform add ios@next
