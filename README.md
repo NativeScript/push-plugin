@@ -1,5 +1,9 @@
 # Push Plugin for NativeScript
 
+`
+This plugin is deprecated, feel free to use the [Firebase Plugin](https://github.com/EddyVerbruggen/nativescript-plugin-firebase) for implementing push notifications in your NativeScript app. If you already have an app that use the Push Plugin, read the [migrate-to-firebase doc](./MIGRATE-TO-FIREBASE.md) for initial guidance.
+`
+
 [![Build Status](https://travis-ci.org/NativeScript/push-plugin.svg?branch=master)](https://travis-ci.org/NativeScript/push-plugin)
 
 The code for the Push Plugin for NativeScript.
